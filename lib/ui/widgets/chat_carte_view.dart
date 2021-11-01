@@ -69,10 +69,10 @@ class ChatCarteView extends StatelessWidget {
             padding: EdgeInsets.only(top: 3.h, bottom: 4.h, left: 25.w),
             child: Text(
               localizations.carte,
+              overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 color: Color(0xFF999999),
                 fontSize: 11.sp,
-                overflow: TextOverflow.ellipsis,
               ),
             ),
           )
