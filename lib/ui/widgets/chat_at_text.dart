@@ -7,14 +7,16 @@ class ChatAtText extends StatelessWidget {
   final String text;
   final String? prefixText;
   final TextStyle? atTextStyle;
+  final TextStyle? urlTextStyle;
   final TextStyle? textStyle;
   final TextStyle? prefixTextStyle;
   final ValueChanged<String>? onClickAt;
+  final ValueChanged<String>? onClickUrl;
 
   /// isReceived ? TextAlign.left : TextAlign.right
   final TextAlign textAlign;
   final TextOverflow overflow;
-  final bool enabled;
+  // final bool enabled;
 
   /// all user info
   /// key:userid
@@ -30,10 +32,12 @@ class ChatAtText extends StatelessWidget {
     this.overflow = TextOverflow.clip,
     this.prefixText,
     this.onClickAt,
-    this.enabled = false,
+    this.onClickUrl,
+    // this.enabled = false,
     // this.textAlign = TextAlign.start,
     this.textStyle,
     this.atTextStyle,
+    this.urlTextStyle,
     this.prefixTextStyle,
   }) : super(key: key);
 
@@ -44,8 +48,18 @@ class ChatAtText extends StatelessWidget {
 
   static var _atTextStyle = TextStyle(
     color: Color(0xFF1B72EC),
-    fontSize: 14,
+    fontSize: 14.sp,
   );
+
+  static var _urlTextStyle = TextStyle(
+    color: Color(0xFF1B72EC),
+    fontSize: 14.sp,
+    decoration: TextDecoration.underline,
+  );
+
+  static var _httpExp = RegExp(
+      r"((https?|ftp|smtp):\/\/)?(www.)?[a-z0-9]+(\.[a-z]+)+(\/[a-zA-Z0-9#]+\/?)*");
+  static var _atExp = RegExp(r"(@[^@\s|\/|:|@]+)");
 
   @override
   Widget build(BuildContext context) {
@@ -53,39 +67,60 @@ class ChatAtText extends StatelessWidget {
     if (prefixText != null && "" != prefixText) {
       children.add(TextSpan(text: prefixText, style: prefixTextStyle));
     }
-    if (enabled) {
-      text.splitMapJoin(
-        RegExp(r"(@[^@]+\s)"),
-        onMatch: (Match m) {
-          late InlineSpan inlineSpan;
-          String uid = m.group(0)!.replaceAll("@", "").trim();
-          if (allAtMap.containsKey(uid)) {
-            var name = allAtMap[uid]!;
-            inlineSpan = WidgetSpan(
+    var style = textStyle ?? _textStyle;
+    var atStyle = atTextStyle ?? _atTextStyle;
+    var urlStyle = urlTextStyle ?? _urlTextStyle;
+
+    text.splitMapJoin(
+      _atExp,
+      onMatch: (Match m) {
+        late InlineSpan inlineSpan;
+        String uid = m.group(0)!.replaceAll("@", "").trim();
+        if (allAtMap.containsKey(uid)) {
+          var name = allAtMap[uid]!;
+          inlineSpan = WidgetSpan(
+            child: GestureDetector(
+              onTap: () {
+                print('click:$uid');
+                if (null != onClickAt) onClickAt!(uid);
+              },
+              behavior: HitTestBehavior.translucent,
+              child: Text('@$name ', style: atStyle),
+            ),
+          );
+        } else {
+          inlineSpan = TextSpan(text: '${m.group(0)}', style: style);
+        }
+        children.add(inlineSpan);
+        return m.group(0)!;
+      },
+      onNonMatch: (text) {
+        text.splitMapJoin(
+          _httpExp,
+          onMatch: (Match m) {
+            String url = m.group(0)!;
+            var inlineSpan = WidgetSpan(
               child: GestureDetector(
                 onTap: () {
-                  print('click:$uid');
-                  if (null != onClickAt) onClickAt!(uid);
+                  print('click:$url');
+                  onClickUrl?.call(url);
                 },
                 behavior: HitTestBehavior.translucent,
-                child: Text('@$name ', style: atTextStyle ?? _atTextStyle),
+                child: Text('$url', style: urlStyle),
               ),
             );
-          } else {
-            inlineSpan =
-                TextSpan(text: '${m.group(0)}', style: textStyle ?? _textStyle);
-          }
-          children.add(inlineSpan);
-          return m.group(0)!;
-        },
-        onNonMatch: (text) {
-          children.add(TextSpan(text: text, style: textStyle ?? _textStyle));
-          return text;
-        },
-      );
-    } else {
-      children.add(TextSpan(text: text, style: textStyle ?? _textStyle));
-    }
+            children.add(inlineSpan);
+            return m.group(0)!;
+          },
+          onNonMatch: (text) {
+            children.add(TextSpan(text: text, style: style));
+            return text;
+          },
+        );
+        // children.add(TextSpan(text: text, style: textStyle ?? _textStyle));
+        return text;
+      },
+    );
     return Container(
       constraints: BoxConstraints(maxWidth: 0.5.sw),
       child: RichText(

@@ -32,7 +32,8 @@ class AtSpecialTextSpanBuilder extends SpecialTextSpanBuilder {
     final List<InlineSpan> children = <InlineSpan>[];
 
     data.splitMapJoin(
-      RegExp(r"(@[^@]+\s)"),
+      RegExp(r"(@[^@\s|\/|:|@]+)"),
+      // RegExp(r"(@[^@]+\s)"),
       onMatch: (Match m) {
         late InlineSpan inlineSpan;
         String value = m.group(0)!;

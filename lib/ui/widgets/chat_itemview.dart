@@ -77,6 +77,9 @@ class ChatItemView extends StatefulWidget {
   final TextStyle? atTextStyle;
 
   ///
+  final TextStyle? urlTextStyle;
+
+  ///
   final TextStyle? timeStyle;
 
   /// hint message style
@@ -96,6 +99,9 @@ class ChatItemView extends StatefulWidget {
 
   /// Click the @ content
   final ValueChanged<String>? onClickAtText;
+
+  ///
+  final ValueChanged<String>? onClickUrlText;
 
   /// Whether the current message item is visible,
   /// used to process whether the message has been read event
@@ -182,12 +188,14 @@ class ChatItemView extends StatefulWidget {
     this.visibilityChange,
     this.allAtMap = const {},
     this.onClickAtText,
+    this.onClickUrlText,
     this.menus,
     this.menuStyle,
     this.padding,
     this.margin,
     this.textStyle,
     this.atTextStyle,
+    this.urlTextStyle,
     this.timeStyle,
     this.hintTextStyle,
     this.avatarSize,
@@ -240,8 +248,12 @@ class _ChatItemViewState extends State<ChatItemView> {
               text: widget.message.content!,
               allAtMap: {},
               // textAlign: _isFromMsg ? TextAlign.left : TextAlign.right,
-              enabled: false,
+              // enabled: false,
               textStyle: widget.textStyle,
+              // atTextStyle: widget.atTextStyle,
+              // onClickAt: widget.onClickAtText,
+              urlTextStyle: widget.urlTextStyle,
+              onClickUrl: widget.onClickUrlText,
             ),
           );
         }
@@ -255,10 +267,12 @@ class _ChatItemViewState extends State<ChatItemView> {
               text: text,
               allAtMap: widget.allAtMap,
               // textAlign: _isFromMsg ? TextAlign.left : TextAlign.right,
-              enabled: true,
+              // enabled: true,
               textStyle: widget.textStyle,
               atTextStyle: widget.atTextStyle,
               onClickAt: widget.onClickAtText,
+              urlTextStyle: widget.urlTextStyle,
+              onClickUrl: widget.onClickUrlText,
             ),
           );
         }
@@ -360,7 +374,7 @@ class _ChatItemViewState extends State<ChatItemView> {
               text: widget.message.quoteElem?.text ?? '',
               allAtMap: {},
               // textAlign: _isFromMsg ? TextAlign.left : TextAlign.right,
-              enabled: false,
+              // enabled: false,
               textStyle: widget.hintTextStyle ?? _hintTextStyle,
             ),
           );
@@ -414,7 +428,7 @@ class _ChatItemViewState extends State<ChatItemView> {
               text: text,
               allAtMap: {},
               textAlign: TextAlign.center,
-              enabled: false,
+              // enabled: false,
               textStyle: widget.hintTextStyle ?? _hintTextStyle,
             ),
           );
