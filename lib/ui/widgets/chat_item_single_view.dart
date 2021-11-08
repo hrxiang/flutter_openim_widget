@@ -31,6 +31,7 @@ class ChatSingleLayout extends StatelessWidget {
   final Widget? timeView;
   final Widget? quoteView;
   final bool isBubbleBg;
+  final bool isHintMsg;
   final bool checked;
   final bool showRadio;
   final Function(bool checked)? onRadioChanged;
@@ -63,6 +64,7 @@ class ChatSingleLayout extends StatelessWidget {
     this.timeView,
     this.quoteView,
     this.isBubbleBg = true,
+    this.isHintMsg = false,
     this.checked = false,
     this.showRadio = false,
     this.onRadioChanged,
@@ -83,13 +85,11 @@ class ChatSingleLayout extends StatelessWidget {
               child: Column(
                 children: [
                   if (timeView != null) timeView!,
-                  isReceivedMsg ? _isFromWidget() : _isToWidget(),
+                  _buildContentView(),
                   if (quoteView != null)
                     Row(
                       mainAxisAlignment: _layoutAlignment(),
-                      children: [
-                        _buildQuoteMsgView(),
-                      ],
+                      children: [_buildQuoteMsgView()],
                     ),
                 ],
               ),
@@ -98,6 +98,13 @@ class ChatSingleLayout extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Widget _buildContentView() {
+    if (isHintMsg) {
+      return child;
+    }
+    return isReceivedMsg ? _isFromWidget() : _isToWidget();
   }
 
   Widget _isFromWidget() => Row(

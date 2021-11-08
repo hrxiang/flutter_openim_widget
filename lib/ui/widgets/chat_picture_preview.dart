@@ -157,19 +157,26 @@ class ChatPicturePreview extends StatelessWidget {
                   // disableGestures: false,
                   // gaplessPlayback: true,
                   // enableRotation: true,
-                  heroAttributes: PhotoViewHeroAttributes(tag: tag),
+                  heroAttributes: PhotoViewHeroAttributes(
+                    tag: tag,
+                    // placeholderBuilder: (context, heroSize, child) => Center(
+                    //   child: CupertinoActivityIndicator(),
+                    // ),
+                  ),
                   // customSize: Size(200.w, 400.h),
-                  loadingBuilder:
-                      (BuildContext context, ImageChunkEvent? event) {
-                    return Container(
-                      height: 20.0,
+                  loadingBuilder: (context, event) => Center(
+                    child: Container(
                       width: 20.0,
-                      child: CupertinoActivityIndicator(),
-                    );
-                  },
-                  errorBuilder: (context, error, stackTrace) {
-                    return _errorView();
-                  },
+                      height: 20.0,
+                      child: CircularProgressIndicator(
+                        value: event == null
+                            ? 0
+                            : event.cumulativeBytesLoaded /
+                                event.expectedTotalBytes!,
+                      ),
+                    ),
+                  ),
+                  errorBuilder: (context, error, stackTrace) => _errorView(),
                 )
               : _errorView(),
           Positioned(

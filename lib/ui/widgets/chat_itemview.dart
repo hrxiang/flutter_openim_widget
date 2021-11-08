@@ -126,7 +126,8 @@ class ChatItemView extends StatefulWidget {
   final UILocalizations localizations;
 
   ///
-  final bool showTime;
+  // final bool showTime;
+  final String? timeStr;
 
   /// Click the copy button event on the menu
   final Function()? onTapCopyMenu;
@@ -190,7 +191,8 @@ class ChatItemView extends StatefulWidget {
     this.timeStyle,
     this.hintTextStyle,
     this.avatarSize,
-    this.showTime = false,
+    // this.showTime = false,
+    this.timeStr,
     this.onTapCopyMenu,
     this.onTapDelMenu,
     this.onTapForwardMenu,
@@ -405,12 +407,16 @@ class _ChatItemViewState extends State<ChatItemView> {
               text = json.encode(widget.message);
             }
           }
-          child = ChatAtText(
-            text: text,
-            allAtMap: {},
-            textAlign: TextAlign.center,
-            enabled: false,
-            textStyle: widget.hintTextStyle ?? _hintTextStyle,
+          child = _buildCommonItemView(
+            isBubbleBg: false,
+            isHintMsg: true,
+            child: ChatAtText(
+              text: text,
+              allAtMap: {},
+              textAlign: TextAlign.center,
+              enabled: false,
+              textStyle: widget.hintTextStyle ?? _hintTextStyle,
+            ),
           );
         }
         break;
@@ -461,6 +467,7 @@ class _ChatItemViewState extends State<ChatItemView> {
   Widget _buildCommonItemView({
     required Widget child,
     bool isBubbleBg = true,
+    bool isHintMsg = false,
   }) =>
       ChatSingleLayout(
         child: child,
@@ -486,8 +493,9 @@ class _ChatItemViewState extends State<ChatItemView> {
         isSendFailed: widget.message.status == MessageStatus.failed,
         isSending: widget.message.status == MessageStatus.sending,
         localizations: widget.localizations,
-        timeView: widget.showTime ? _buildTimeView() : null,
+        timeView: widget.timeStr == null ? null : _buildTimeView(),
         isBubbleBg: isBubbleBg,
+        isHintMsg: isHintMsg,
         quoteView: widget.message.contentType == MessageType.quote
             ? ChatQuoteView(
                 message: widget.message,
@@ -520,11 +528,16 @@ class _ChatItemViewState extends State<ChatItemView> {
           widget.message,
         );
 
-  Widget _buildTimeView() => Text(
-        '${widget.message.sendTime}',
-        style: TextStyle(
-          fontSize: 12.sp,
-          color: Color(0xFF999999),
+  Widget _buildTimeView() => Container(
+        padding: EdgeInsets.symmetric(vertical: 4.h, horizontal: 2.h),
+        // height: 20.h,
+        // decoration: BoxDecoration(
+        //   borderRadius: BorderRadius.circular(4),
+        //   color: Colors.black.withOpacity(0.2),
+        // ),
+        child: Text(
+          widget.timeStr!,
+          style: widget.timeStyle ?? _hintTextStyle,
         ),
       );
 
