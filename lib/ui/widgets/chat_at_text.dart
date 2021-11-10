@@ -16,7 +16,7 @@ class ChatAtText extends StatelessWidget {
   /// isReceived ? TextAlign.left : TextAlign.right
   final TextAlign textAlign;
   final TextOverflow overflow;
-  // final bool enabled;
+  final int? maxLines;
 
   /// all user info
   /// key:userid
@@ -33,12 +33,12 @@ class ChatAtText extends StatelessWidget {
     this.prefixText,
     this.onClickAt,
     this.onClickUrl,
-    // this.enabled = false,
     // this.textAlign = TextAlign.start,
     this.textStyle,
     this.atTextStyle,
     this.urlTextStyle,
     this.prefixTextStyle,
+    this.maxLines,
   }) : super(key: key);
 
   static var _textStyle = TextStyle(
@@ -57,9 +57,14 @@ class ChatAtText extends StatelessWidget {
     decoration: TextDecoration.underline,
   );
 
+  //
+  // static var _httpExp = RegExp(
+  //     r"^((((H|h)(T|t)|(F|f))(T|t)(P|p)((S|s)?))\://)?(www.|[a-zA-Z0-9].)[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,6}(\:[0-9]{1,5})*(/($|[a-zA-Z0-9\.\,\;\?\'\\\+&amp;%\$#\=~_\-]+))*$");
+
   static var _httpExp = RegExp(
       r"((https?|ftp|smtp):\/\/)?(www.)?[a-z0-9]+(\.[a-z]+)+(\/[a-zA-Z0-9#]+\/?)*");
-  static var _atExp = RegExp(r"(@[^@\s|\/|:|@]+)");
+
+  static var _atExp = RegExp(r"(@\S+\s)");
 
   @override
   Widget build(BuildContext context) {
@@ -71,6 +76,7 @@ class ChatAtText extends StatelessWidget {
     var atStyle = atTextStyle ?? _atTextStyle;
     var urlStyle = urlTextStyle ?? _urlTextStyle;
 
+    // match at text
     text.splitMapJoin(
       _atExp,
       onMatch: (Match m) {
@@ -80,10 +86,12 @@ class ChatAtText extends StatelessWidget {
           var name = allAtMap[uid]!;
           inlineSpan = WidgetSpan(
             child: GestureDetector(
-              onTap: () {
-                print('click:$uid');
-                if (null != onClickAt) onClickAt!(uid);
-              },
+              onTap: null != onClickAt
+                  ? () {
+                      print('click:$uid');
+                      onClickAt!(uid);
+                    }
+                  : null,
               behavior: HitTestBehavior.translucent,
               child: Text('@$name ', style: atStyle),
             ),
@@ -95,16 +103,19 @@ class ChatAtText extends StatelessWidget {
         return m.group(0)!;
       },
       onNonMatch: (text) {
+        // match url text
         text.splitMapJoin(
           _httpExp,
           onMatch: (Match m) {
             String url = m.group(0)!;
             var inlineSpan = WidgetSpan(
               child: GestureDetector(
-                onTap: () {
-                  print('click:$url');
-                  onClickUrl?.call(url);
-                },
+                onTap: onClickUrl != null
+                    ? () {
+                        print('click:$url');
+                        onClickUrl?.call(url);
+                      }
+                    : null,
                 behavior: HitTestBehavior.translucent,
                 child: Text('$url', style: urlStyle),
               ),
@@ -117,15 +128,16 @@ class ChatAtText extends StatelessWidget {
             return text;
           },
         );
-        // children.add(TextSpan(text: text, style: textStyle ?? _textStyle));
         return text;
       },
     );
+
     return Container(
       constraints: BoxConstraints(maxWidth: 0.5.sw),
       child: RichText(
         textAlign: textAlign,
         overflow: overflow,
+        maxLines: maxLines,
         text: TextSpan(children: children),
       ),
     );

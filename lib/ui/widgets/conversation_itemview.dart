@@ -30,6 +30,7 @@ class ConversationItemView extends StatelessWidget {
   final int unreadCount;
   final EdgeInsetsGeometry padding;
   final bool underline;
+  final Map<String, String> allAtMap;
 
   // final bool isPinned;
 
@@ -51,6 +52,7 @@ class ConversationItemView extends StatelessWidget {
     this.unreadCount = 0,
     this.padding = const EdgeInsets.symmetric(horizontal: 22),
     this.underline = true,
+    this.allAtMap = const {},
     // this.isPinned = false,
     this.titleStyle = const TextStyle(
       fontSize: 16,
@@ -108,6 +110,7 @@ class ConversationItemView extends StatelessWidget {
                             title,
                             style: titleStyle,
                             overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
                           ),
                         ),
                         Spacer(),
@@ -123,12 +126,15 @@ class ConversationItemView extends StatelessWidget {
                         Container(
                           width: contentWidth,
                           child: ChatAtText(
-                            allAtMap: const {},
+                            allAtMap: allAtMap,
                             text: content,
                             textStyle: contentStyle,
+                            atTextStyle: contentStyle,
+                            urlTextStyle: contentStyle,
                             prefixText: contentPrefix,
                             prefixTextStyle: contentPrefixStyle,
                             overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
                           ),
                           // child: atPrefix == null
                           //     ? Text(

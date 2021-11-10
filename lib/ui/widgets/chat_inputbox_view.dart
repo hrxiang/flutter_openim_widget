@@ -17,6 +17,7 @@ class ChatInputBoxView extends StatefulWidget {
     this.focusNode,
     this.onSubmitted,
     this.style,
+    this.atStyle,
     this.forceCloseToolboxSub,
     this.quoteContent,
     this.onClearQuote,
@@ -31,6 +32,7 @@ class ChatInputBoxView extends StatefulWidget {
   final Widget multiOpToolbox;
   final ChatVoiceRecordBar voiceRecordBar;
   final TextStyle? style;
+  final TextStyle? atStyle;
   final Subject? forceCloseToolboxSub;
   final String? quoteContent;
   final Function()? onClearQuote;
@@ -235,16 +237,17 @@ class _ChatInputBoxViewState extends State<ChatInputBoxView>
   Widget _buildTextFiled() => Container(
         alignment: Alignment.center,
         constraints: BoxConstraints(minHeight: 35.h),
-        padding: EdgeInsets.symmetric(
-          horizontal: 4.w,
-          vertical: 4.h,
-        ),
+        // padding: EdgeInsets.symmetric(
+        //   horizontal: 4.w,
+        //   vertical: 4.h,
+        // ),
         decoration: BoxDecoration(
           color: Color(0xFFFFFFFF),
           borderRadius: BorderRadius.circular(4),
         ),
         child: ChatTextField(
           style: widget.style ?? textStyle,
+          atStyle: widget.atStyle ?? atStyle,
           atCallback: widget.atCallback,
           allAtMap: widget.allAtMap,
           focusNode: widget.focusNode,
@@ -259,6 +262,11 @@ class _ChatInputBoxViewState extends State<ChatInputBoxView>
   static var textStyle = TextStyle(
     fontSize: 14.sp,
     color: Color(0xFF333333),
+    textBaseline: TextBaseline.alphabetic,
+  );
+  static var atStyle = TextStyle(
+    fontSize: 14.sp,
+    color: Colors.blue,
     textBaseline: TextBaseline.alphabetic,
   );
 

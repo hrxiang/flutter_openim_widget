@@ -10,9 +10,11 @@ class AtSpecialTextSpanBuilder extends SpecialTextSpanBuilder {
   /// key:userid
   /// value:username
   final Map<String, String> allAtMap;
+  final TextStyle? atStyle;
 
   AtSpecialTextSpanBuilder({
     this.atCallback,
+    this.atStyle,
     this.allAtMap = const <String, String>{},
   });
 
@@ -32,7 +34,8 @@ class AtSpecialTextSpanBuilder extends SpecialTextSpanBuilder {
     final List<InlineSpan> children = <InlineSpan>[];
 
     data.splitMapJoin(
-      RegExp(r"(@[^@\s|\/|:|@]+)"),
+      // RegExp(r"(@[^@\s|\/|:|@]+)"),
+      RegExp(r"(@\S+\s)"),
       // RegExp(r"(@[^@]+\s)"),
       onMatch: (Match m) {
         late InlineSpan inlineSpan;
@@ -41,11 +44,8 @@ class AtSpecialTextSpanBuilder extends SpecialTextSpanBuilder {
         if (allAtMap.containsKey(id)) {
           var name = allAtMap[id]!;
           inlineSpan = ExtendedWidgetSpan(
-            child: Text(
-              '@$name ',
-              style: TextStyle(color: Colors.blue),
-            ),
-            style: TextStyle(color: Colors.blue),
+            child: Text('@$name ', style: atStyle),
+            style: atStyle,
             actualText: '$value',
             start: m.start,
           );
