@@ -64,6 +64,18 @@ class PermissionUtil {
     }
   }
 
+  static void photos(Function() onGranted) async {
+    if (await p.Permission.photos.request().isGranted) {
+      // Either the permission was already granted before or the user just granted it.
+      onGranted();
+    }
+    if (await p.Permission.photos.isPermanentlyDenied) {
+      // The user opted to never again see the permission request dialog for this
+      // app. The only way to change the permission's status now is to let the
+      // user manually enable it in the system settings.
+    }
+  }
+
   static Future<Map<Permission, PermissionStatus>> request(
       List<Permission> permissions) async {
     // You can request multiple permissions at once.

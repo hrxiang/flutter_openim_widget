@@ -77,7 +77,7 @@ class ChatToolsView extends StatelessWidget {
           style: toolsTextSyle,
           image: _buildBtn(
             icon: ChatIcon.toolsLocation(),
-            onTap: onTapLocation,
+            onTap: () => PermissionUtil.location(() => onTapLocation?.call()),
           ),
         ),
         ToolsItem(
@@ -101,7 +101,9 @@ class ChatToolsView extends StatelessWidget {
           style: toolsTextSyle,
           image: _buildBtn(
             icon: ChatIcon.toolsVoiceInput(),
-            onTap: onTapVoiceInput,
+            onTap: () => PermissionUtil.microphone(
+              () => onTapVoiceInput?.call(),
+            ),
           ),
         ),
       ];
