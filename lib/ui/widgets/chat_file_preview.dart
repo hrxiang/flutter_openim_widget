@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_openim_widget/flutter_openim_widget.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:sprintf/sprintf.dart';
 
@@ -15,7 +15,6 @@ class ChatFilePreview extends StatefulWidget {
     this.url,
     this.subject,
     this.onDownload,
-    this.localizations = const UILocalizations(),
   }) : super(key: key);
   final String msgId;
   final Subject<MsgStreamEv<double>>? subject;
@@ -30,7 +29,6 @@ class ChatFilePreview extends StatefulWidget {
   ///         _isNotNullStr(widget.url);
   final bool available;
   final int size;
-  final UILocalizations localizations;
   final Function(String url)? onDownload;
 
   @override
@@ -72,7 +70,7 @@ class _ChatFilePreviewState extends State<ChatFilePreview> {
             top: 258.h,
             width: 375.w,
             child: Text(
-              sprintf(widget.localizations.fileSize,
+              sprintf(UILocalizations.fileSize,
                   [CommonUtil.formatBytes(widget.size)]),
               textAlign: TextAlign.center,
               style: TextStyle(
@@ -132,7 +130,7 @@ class _ChatFilePreviewState extends State<ChatFilePreview> {
                   top: 510.h,
                   width: 375.w,
                   child: Text(
-                    widget.localizations.fileUnavailable,
+                    UILocalizations.fileUnavailable,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 16.sp,

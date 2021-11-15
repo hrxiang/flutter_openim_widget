@@ -5,12 +5,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class ChatVoiceRecordBar extends StatefulWidget {
   const ChatVoiceRecordBar({
     Key? key,
-    required this.localizations,
     required this.onLongPressStart,
     required this.onLongPressEnd,
     required this.onLongPressMoveUpdate,
   }) : super(key: key);
-  final UILocalizations localizations;
   final Function(LongPressStartDetails details) onLongPressStart;
   final Function(LongPressEndDetails details) onLongPressEnd;
   final Function(LongPressMoveUpdateDetails details) onLongPressMoveUpdate;
@@ -62,8 +60,8 @@ class _ChatVoiceRecordBarState extends State<ChatVoiceRecordBar> {
         ),
         child: Text(
           _pressing
-              ? widget.localizations.releaseSend
-              : widget.localizations.pressSpeak,
+              ? UILocalizations.releaseSend
+              : UILocalizations.pressSpeak,
           style: TextStyle(
             fontSize: 12.sp,
             color: Color(0xFFFFFFFF),

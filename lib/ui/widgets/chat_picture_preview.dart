@@ -128,14 +128,12 @@ class ChatPicturePreview extends StatelessWidget {
     required this.tag,
     this.url,
     this.file,
-    this.localizations = const UILocalizations(),
     this.onDownload,
   }) : super(key: key);
   final String? url;
   final File? file;
   final String tag;
   final Future<bool> Function(String)? onDownload;
-  final UILocalizations localizations;
 
   @override
   Widget build(BuildContext context) {
@@ -220,7 +218,7 @@ class ChatPicturePreview extends StatelessWidget {
                         borderRadius: BorderRadius.circular(16),
                       ),
                       child: Text(
-                        localizations.download,
+                        UILocalizations.download,
                         style: TextStyle(
                           fontSize: 14.sp,
                           color: Colors.white,
@@ -247,7 +245,7 @@ class ChatPicturePreview extends StatelessWidget {
               height: 19.h,
             ),
             Text(
-              localizations.picLoadError,
+              UILocalizations.picLoadError,
               style: TextStyle(color: Colors.white, fontSize: 18.sp),
             )
           ],

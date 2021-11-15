@@ -11,11 +11,9 @@ import 'package:sprintf/sprintf.dart';
 class ChatWebViewMap extends StatefulWidget {
   const ChatWebViewMap({
     Key? key,
-    this.localizations = const UILocalizations(),
     this.mapAppKey = "TMNBZ-3CGC6-C6SSL-EJA3B-E2P5Q-V7F6Q",
   }) : super(key: key);
 
-  final UILocalizations localizations;
   final String mapAppKey;
 
   @override
@@ -86,7 +84,7 @@ class _ChatWebViewMapState extends State<ChatWebViewMap> {
       appBar: TitleBar.back(
         context,
         height: 49.h,
-        title: widget.localizations.location,
+        title: UILocalizations.location,
         textStyle: TextStyle(
           fontSize: 18.sp,
           color: Color(0xFF333333),
@@ -137,7 +135,7 @@ class _ChatWebViewMapState extends State<ChatWebViewMap> {
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 22.w),
             child: Text(
-              widget.localizations.confirm,
+              UILocalizations.confirm,
               style: TextStyle(
                 fontSize: 18.sp,
                 color: Color(0xFF333333),

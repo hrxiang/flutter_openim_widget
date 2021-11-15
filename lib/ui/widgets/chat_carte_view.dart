@@ -7,9 +7,7 @@ class ChatCarteView extends StatelessWidget {
     Key? key,
     required this.name,
     required this.url,
-    required this.localizations,
   }) : super(key: key);
-  final UILocalizations localizations;
   final String name;
   final String url;
 
@@ -68,7 +66,7 @@ class ChatCarteView extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(top: 3.h, bottom: 4.h, left: 25.w),
             child: Text(
-              localizations.carte,
+              UILocalizations.carte,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 color: Color(0xFF999999),

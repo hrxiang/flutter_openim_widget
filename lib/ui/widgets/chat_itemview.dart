@@ -129,9 +129,6 @@ class ChatItemView extends StatefulWidget {
   final double? avatarSize;
 
   ///
-  final UILocalizations localizations;
-
-  ///
   // final bool showTime;
   final String? timeStr;
 
@@ -176,7 +173,6 @@ class ChatItemView extends StatefulWidget {
     required this.msgSendStatusSubject,
     required this.msgSendProgressSubject,
     // required this.downloadProgressSubject,
-    this.localizations = const UILocalizations(),
     this.isBubbleMsg = false,
     // this.width = 100,
     this.leftBubbleColor = const Color(0xFFF0F0F0),
@@ -398,7 +394,6 @@ class _ChatItemViewState extends State<ChatItemView> {
             isBubbleBg: false,
             child: ChatCarteView(
               name: data['name'],
-              localizations: widget.localizations,
               url: data['icon'],
             ),
           );
@@ -411,8 +406,8 @@ class _ChatItemViewState extends State<ChatItemView> {
           if (MessageType.revoke == widget.message.contentType) {
             var who = _isFromMsg
                 ? widget.message.senderNickName
-                : widget.localizations.you;
-            text = '$who${widget.localizations.revokeAMsg}';
+                : UILocalizations.you;
+            text = '$who ${UILocalizations.revokeAMsg}';
           } else {
             try {
               var content = json.decode(widget.message.content!);
@@ -506,7 +501,6 @@ class _ChatItemViewState extends State<ChatItemView> {
         onTapLeftAvatar: widget.onTapLeftAvatar,
         isSendFailed: widget.message.status == MessageStatus.failed,
         isSending: widget.message.status == MessageStatus.sending,
-        localizations: widget.localizations,
         timeView: widget.timeStr == null ? null : _buildTimeView(),
         isBubbleBg: isBubbleBg,
         isHintMsg: isHintMsg,
@@ -558,28 +552,28 @@ class _ChatItemViewState extends State<ChatItemView> {
   List<MenuInfo> _menusItem() => [
         MenuInfo(
           icon: ChatIcon.menuCopy(),
-          text: widget.localizations.copy,
+          text: UILocalizations.copy,
           enabled: widget.message.contentType == MessageType.text,
           textStyle: menuTextStyle,
           onTap: widget.onTapCopyMenu,
         ),
         MenuInfo(
           icon: ChatIcon.menuDel(),
-          text: widget.localizations.delete,
+          text: UILocalizations.delete,
           enabled: true,
           textStyle: menuTextStyle,
           onTap: widget.onTapDelMenu,
         ),
         MenuInfo(
           icon: ChatIcon.menuForward(),
-          text: widget.localizations.forward,
+          text: UILocalizations.forward,
           enabled: widget.message.contentType != MessageType.voice,
           textStyle: menuTextStyle,
           onTap: widget.onTapForwardMenu,
         ),
         MenuInfo(
           icon: ChatIcon.menuReply(),
-          text: widget.localizations.reply,
+          text: UILocalizations.reply,
           enabled: widget.message.contentType == MessageType.text ||
               widget.message.contentType == MessageType.video ||
               widget.message.contentType == MessageType.picture ||
@@ -590,20 +584,20 @@ class _ChatItemViewState extends State<ChatItemView> {
         ),
         MenuInfo(
             icon: ChatIcon.menuRevoke(),
-            text: widget.localizations.revoke,
+            text: UILocalizations.revoke,
             enabled: widget.message.sendID == OpenIM.iMManager.uid,
             textStyle: menuTextStyle,
             onTap: widget.onTapRevokeMenu),
         MenuInfo(
           icon: ChatIcon.menuMultiChoice(),
-          text: widget.localizations.multiChoice,
+          text: UILocalizations.multiChoice,
           enabled: true,
           textStyle: menuTextStyle,
           onTap: widget.onTapMultiMenu,
         ),
         MenuInfo(
           icon: ChatIcon.menuTranslation(),
-          text: widget.localizations.translation,
+          text: UILocalizations.translation,
           enabled: widget.message.contentType == MessageType.text,
           textStyle: menuTextStyle,
           onTap: () {},

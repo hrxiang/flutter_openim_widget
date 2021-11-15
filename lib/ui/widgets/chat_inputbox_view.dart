@@ -193,7 +193,7 @@ class _ChatInputBoxViewState extends State<ChatInputBoxView>
             borderRadius: BorderRadius.circular(4),
           ),
           child: Text(
-            '发送',
+            UILocalizations.send,
             style: TextStyle(
               fontSize: 14.sp,
               color: Color(0xFFFFFFFF),

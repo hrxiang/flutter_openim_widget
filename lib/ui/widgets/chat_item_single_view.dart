@@ -27,7 +27,6 @@ class ChatSingleLayout extends StatelessWidget {
   final Stream<MsgStreamEv<bool>>? sendStatusStream;
   final bool isSendFailed;
   final bool isSending;
-  final UILocalizations localizations;
   final Widget? timeView;
   final Widget? quoteView;
   final bool isBubbleBg;
@@ -42,7 +41,6 @@ class ChatSingleLayout extends StatelessWidget {
     required this.msgId,
     required this.index,
     required this.isSingleChat,
-    required this.localizations,
     required this.menuBuilder,
     required this.clickSink,
     required this.sendStatusStream,
@@ -80,7 +78,7 @@ class ChatSingleLayout extends StatelessWidget {
         child: Row(
           // mainAxisAlignment: _layoutAlignment(),
           children: [
-            ChatRadio(checked: checked, showRadio: showRadio),
+            if (!isHintMsg) ChatRadio(checked: checked, showRadio: showRadio),
             Expanded(
               child: Column(
                 children: [
@@ -281,11 +279,11 @@ class ChatSingleLayout extends StatelessWidget {
       visible: !isReceivedMsg,
       child: read
           ? Text(
-              localizations.haveRead,
+        UILocalizations.haveRead,
               style: haveRead,
             )
           : Text(
-              localizations.unread,
+        UILocalizations.unread,
               style: unread,
             ),
     );

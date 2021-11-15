@@ -7,7 +7,6 @@ typedef IndexedToolsBuilder = Widget Function(
 
 class ChatToolsView extends StatelessWidget {
   final List<ToolsItem>? items;
-  final UILocalizations localizations;
   final ToolsLayoutParams? layoutParams;
   final Function()? onTapAlbum;
   final Function()? onTapCamera;
@@ -20,7 +19,6 @@ class ChatToolsView extends StatelessWidget {
   const ChatToolsView({
     Key? key,
     this.items,
-    this.localizations = const UILocalizations(),
     this.layoutParams,
     this.onTapAlbum,
     this.onTapCamera,
@@ -49,7 +47,7 @@ class ChatToolsView extends StatelessWidget {
 
   List<ToolsItem> _toolsItem(BuildContext context) => [
         ToolsItem(
-          label: localizations.album,
+          label: UILocalizations.album,
           style: toolsTextSyle,
           image: _buildBtn(
             icon: ChatIcon.toolsAlbum(),
@@ -57,7 +55,7 @@ class ChatToolsView extends StatelessWidget {
           ),
         ),
         ToolsItem(
-          label: localizations.camera,
+          label: UILocalizations.camera,
           style: toolsTextSyle,
           image: _buildBtn(
             icon: ChatIcon.toolsCamera(),
@@ -65,7 +63,7 @@ class ChatToolsView extends StatelessWidget {
           ),
         ),
         ToolsItem(
-          label: localizations.videoCall,
+          label: UILocalizations.videoCall,
           style: toolsTextSyle,
           image: _buildBtn(
             icon: ChatIcon.toolsVideoCall(),
@@ -73,7 +71,7 @@ class ChatToolsView extends StatelessWidget {
           ),
         ),
         ToolsItem(
-          label: localizations.location,
+          label: UILocalizations.location,
           style: toolsTextSyle,
           image: _buildBtn(
             icon: ChatIcon.toolsLocation(),
@@ -81,7 +79,7 @@ class ChatToolsView extends StatelessWidget {
           ),
         ),
         ToolsItem(
-          label: localizations.file,
+          label: UILocalizations.file,
           style: toolsTextSyle,
           image: _buildBtn(
             icon: ChatIcon.toolsFile(),
@@ -89,7 +87,7 @@ class ChatToolsView extends StatelessWidget {
           ),
         ),
         ToolsItem(
-          label: localizations.carte,
+          label: UILocalizations.carte,
           style: toolsTextSyle,
           image: _buildBtn(
             icon: ChatIcon.toolsCarte(),
@@ -97,7 +95,7 @@ class ChatToolsView extends StatelessWidget {
           ),
         ),
         ToolsItem(
-          label: localizations.voiceInput,
+          label: UILocalizations.voiceInput,
           style: toolsTextSyle,
           image: _buildBtn(
             icon: ChatIcon.toolsVoiceInput(),

@@ -6,7 +6,6 @@ import 'package:lottie/lottie.dart';
 class ChatRecordVoiceView extends StatelessWidget {
   const ChatRecordVoiceView(
       {Key? key,
-      required this.localizations,
       required this.selectedCancelArea,
       required this.selectedSoundToWordArea,
       required this.selectedPressArea,
@@ -23,8 +22,6 @@ class ChatRecordVoiceView extends StatelessWidget {
   final bool showRecognizeFailed;
   final Function()? onCancel;
   final Function()? onConfirm;
-
-  final UILocalizations localizations;
 
   @override
   Widget build(BuildContext context) {
@@ -149,7 +146,7 @@ class ChatRecordVoiceView extends StatelessWidget {
                 color: Color(0xFFFA5251),
               ),
               child: Text(
-                localizations.convertFailTips,
+                UILocalizations.convertFailTips,
                 style: TextStyle(
                   fontSize: 16.sp,
                   color: Colors.white,
@@ -186,7 +183,7 @@ class ChatRecordVoiceView extends StatelessWidget {
                 height: 24.w,
               ),
               Text(
-                localizations.cancelVoiceSend,
+                UILocalizations.cancelVoiceSend,
                 style: TextStyle(
                   fontSize: 14.sp,
                   color: Colors.white,
@@ -213,7 +210,7 @@ class ChatRecordVoiceView extends StatelessWidget {
                   height: 24.w,
                 ),
                 Text(
-                  localizations.confirmVoiceSend,
+                  UILocalizations.confirmVoiceSend,
                   style: TextStyle(
                     fontSize: 14.sp,
                     color: Colors.white,
@@ -277,7 +274,7 @@ class ChatRecordVoiceView extends StatelessWidget {
   Widget _selectedPressAreaReleaseText() => Visibility(
         visible: selectedPressArea,
         child: Text(
-          localizations.releaseSend,
+          UILocalizations.releaseSend,
           textAlign: TextAlign.center,
           style: TextStyle(
             color: Color(0xFFBEBEBE),
@@ -289,7 +286,7 @@ class ChatRecordVoiceView extends StatelessWidget {
   Widget _selectedSoundToWordAreaText() => Visibility(
         visible: selectedSoundToWordArea,
         child: Text(
-          localizations.soundToWord,
+          UILocalizations.soundToWord,
           style: TextStyle(
             color: Color(0xFFBEBEBE),
             fontSize: 14.sp,
@@ -300,7 +297,7 @@ class ChatRecordVoiceView extends StatelessWidget {
   Widget _selectedCancelAreaText() => Visibility(
         visible: selectedCancelArea,
         child: Text(
-          localizations.releaseCancel,
+          UILocalizations.releaseCancel,
           style: TextStyle(
             color: Color(0xFFBEBEBE),
             fontSize: 14.sp,
@@ -442,7 +439,7 @@ class ChatRecordVoiceView extends StatelessWidget {
                     Align(
                       alignment: Alignment.topLeft,
                       child: Text(
-                        localizations.converting,
+                        UILocalizations.converting,
                         style: TextStyle(
                           color: Color(0xFFBEBEBE),
                           fontSize: 14.sp,

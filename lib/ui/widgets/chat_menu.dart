@@ -87,6 +87,7 @@ class ChatLongPressMenu extends StatelessWidget {
       widgets.add(Row(
         mainAxisSize: MainAxisSize.min,
         // mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: subList
             .map((e) => _menuItem(
                   icon: e.icon,
@@ -114,13 +115,24 @@ class ChatLongPressMenu extends StatelessWidget {
         },
         behavior: HitTestBehavior.translucent,
         child: Container(
+          width: 35.w,
+          // constraints: BoxConstraints(maxWidth: 35.w, minWidth: 30.w),
           padding: EdgeInsets.symmetric(
             horizontal: menuStyle.crossAxisSpacing / 2,
             vertical: menuStyle.mainAxisSpacing / 2,
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
-            children: [icon, SizedBox(height: 3.h), Text(label, style: style)],
+            children: [
+              icon,
+              SizedBox(height: 3.h),
+              Text(
+                label,
+                // maxLines: 1,
+                // overflow: TextOverflow.ellipsis,
+                style: style,
+              ),
+            ],
           ),
         ),
       );

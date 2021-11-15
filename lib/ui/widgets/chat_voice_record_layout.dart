@@ -7,19 +7,18 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'chat_voice_record_bar.dart';
 import 'chat_voice_record_view.dart';
 
-typedef SpeakViewChildBuilder = Widget Function(
-    ChatVoiceRecordBar recordBar, UILocalizations localizations);
+typedef SpeakViewChildBuilder = Widget Function(ChatVoiceRecordBar recordBar);
 
 class ChatVoiceRecordLayout extends StatefulWidget {
   const ChatVoiceRecordLayout({
     Key? key,
-    this.localizations = const UILocalizations(),
     required this.builder,
+    this.locale,
     this.onCompleted,
   }) : super(key: key);
 
-  final UILocalizations localizations;
   final SpeakViewChildBuilder builder;
+  final Locale? locale;
   final Function(int sec, String path)? onCompleted;
 
   @override
@@ -40,6 +39,7 @@ class _ChatVoiceRecordLayoutState extends State<ChatVoiceRecordLayout> {
 
   @override
   void initState() {
+    UILocalizations.setLocale(widget.locale);
     super.initState();
   }
 
@@ -59,7 +59,6 @@ class _ChatVoiceRecordLayoutState extends State<ChatVoiceRecordLayout> {
   }
 
   ChatVoiceRecordBar _createSpeakBar() => ChatVoiceRecordBar(
-        localizations: widget.localizations,
         onLongPressMoveUpdate: (details) {
           Offset global = details.globalPosition;
           setState(() {
@@ -117,13 +116,12 @@ class _ChatVoiceRecordLayoutState extends State<ChatVoiceRecordLayout> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        widget.builder(_createSpeakBar(), widget.localizations),
+        widget.builder(_createSpeakBar()),
         IgnorePointer(
           ignoring: !_showRecognizeFailed,
           child: Visibility(
             visible: _showVoiceRecordView,
             child: ChatRecordVoiceView(
-              localizations: widget.localizations,
               selectedCancelArea: _selectedCancelArea,
               selectedSoundToWordArea: _selectedSoundToWordArea,
               selectedPressArea: _selectedPressArea,
