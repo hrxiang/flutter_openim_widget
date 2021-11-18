@@ -51,7 +51,8 @@ class ChatToolsView extends StatelessWidget {
           style: toolsTextSyle,
           image: _buildBtn(
             icon: ChatIcon.toolsAlbum(),
-            onTap: () => PermissionUtil.storage(() => onTapAlbum?.call()),
+            onTap: onTapAlbum,
+            // onTap: () => PermissionUtil.storage(() => onTapAlbum?.call()),
           ),
         ),
         ToolsItem(
@@ -59,7 +60,8 @@ class ChatToolsView extends StatelessWidget {
           style: toolsTextSyle,
           image: _buildBtn(
             icon: ChatIcon.toolsCamera(),
-            onTap: () => PermissionUtil.camera(() => onTapCamera?.call()),
+            onTap: onTapCamera,
+            // onTap: () => PermissionUtil.camera(() => onTapCamera?.call()),
           ),
         ),
         ToolsItem(
@@ -67,7 +69,8 @@ class ChatToolsView extends StatelessWidget {
           style: toolsTextSyle,
           image: _buildBtn(
             icon: ChatIcon.toolsVideoCall(),
-            onTap: () => PermissionUtil.camera(() => onTapVideoCall?.call()),
+            onTap: onTapVideoCall,
+            // onTap: () => PermissionUtil.camera(() => onTapVideoCall?.call()),
           ),
         ),
         ToolsItem(
@@ -75,7 +78,8 @@ class ChatToolsView extends StatelessWidget {
           style: toolsTextSyle,
           image: _buildBtn(
             icon: ChatIcon.toolsLocation(),
-            onTap: () => PermissionUtil.location(() => onTapLocation?.call()),
+            onTap: onTapLocation,
+            // onTap: () => PermissionUtil.location(() => onTapLocation?.call()),
           ),
         ),
         ToolsItem(
@@ -83,7 +87,8 @@ class ChatToolsView extends StatelessWidget {
           style: toolsTextSyle,
           image: _buildBtn(
             icon: ChatIcon.toolsFile(),
-            onTap: () => PermissionUtil.storage(() => onTapFile?.call()),
+            onTap: onTapFile,
+            // onTap: () => PermissionUtil.storage(() => onTapFile?.call()),
           ),
         ),
         ToolsItem(
@@ -99,9 +104,10 @@ class ChatToolsView extends StatelessWidget {
           style: toolsTextSyle,
           image: _buildBtn(
             icon: ChatIcon.toolsVoiceInput(),
-            onTap: () => PermissionUtil.microphone(
-              () => onTapVoiceInput?.call(),
-            ),
+            onTap: onTapVoiceInput,
+            // onTap: () => PermissionUtil.microphone(
+            //   () => onTapVoiceInput?.call(),
+            // ),
           ),
         ),
       ];
