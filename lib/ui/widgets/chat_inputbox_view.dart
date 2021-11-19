@@ -236,7 +236,7 @@ class _ChatInputBoxViewState extends State<ChatInputBoxView>
 
   Widget _buildTextFiled() => Container(
         alignment: Alignment.center,
-        constraints: BoxConstraints(minHeight: 35.h),
+        constraints: BoxConstraints(minHeight: 40.h),
         // padding: EdgeInsets.symmetric(
         //   horizontal: 4.w,
         //   vertical: 4.h,

@@ -44,7 +44,8 @@ class _ChatVoiceRecordBarState extends State<ChatVoiceRecordBar> {
         // print('local:$local');
       },
       child: Container(
-        constraints: BoxConstraints(minHeight: 35.h),
+        // constraints: BoxConstraints(minHeight: 40.h),
+        height: 40.h,
         alignment: Alignment.center,
         decoration: BoxDecoration(
           color: Color(0xFF1D6BED).withOpacity(_pressing ? 0.3 : 1),

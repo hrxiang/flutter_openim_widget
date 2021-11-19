@@ -47,7 +47,7 @@ class ChatTextField extends StatelessWidget {
         // contentPadding: EdgeInsets.zero,
         contentPadding: EdgeInsets.symmetric(
           horizontal: 4.w,
-          vertical: 4.h,
+          vertical: 8.h,
         ),
       ),
     );

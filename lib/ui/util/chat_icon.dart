@@ -173,6 +173,13 @@ class ChatIcon {
         height: 15.h,
       );
 
+  static Widget voiceInputNor() => assetImage(
+        'ic_voice_input_nor',
+        width: 88.h,
+        height: 88.h,
+        fit: BoxFit.cover,
+      );
+
   static Widget error({
     double? width,
     double? height,
