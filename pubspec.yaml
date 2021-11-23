@@ -36,12 +36,12 @@ dependencies:
 #  animate_do: ^2.0.0
   ##
 #  flutter_openim_sdk: ^0.0.9+4
-  flutter_openim_sdk:
-    path: ../flutter_openim_sdk
 #  flutter_openim_sdk:
-#    git:
-#      url: https://github.com/OpenIMSDK/Open-IM-SDK-Flutter.git
-#      ref: fix-ios-simulator
+#    path: ../flutter_openim_sdk
+  flutter_openim_sdk:
+    git:
+      url: https://github.com/OpenIMSDK/Open-IM-SDK-Flutter.git
+      ref: fix-ios-simulator
 
 dev_dependencies:
   flutter_test:
