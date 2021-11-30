@@ -101,7 +101,7 @@ class ChatItemView extends StatefulWidget {
   final ValueChanged<String>? onClickAtText;
 
   ///
-  final ValueChanged<String>? onClickUrlText;
+  // final ValueChanged<String>? onClickUrlText;
 
   /// Whether the current message item is visible,
   /// used to process whether the message has been read event
@@ -162,6 +162,8 @@ class ChatItemView extends StatefulWidget {
   ///
   final Function()? onTapQuoteMsg;
 
+  final List<MatchText> parse;
+
   const ChatItemView({
     Key? key,
     required this.index,
@@ -184,7 +186,6 @@ class ChatItemView extends StatefulWidget {
     this.visibilityChange,
     this.allAtMap = const {},
     this.onClickAtText,
-    this.onClickUrlText,
     this.menus,
     this.menuStyle,
     this.padding,
@@ -207,6 +208,7 @@ class ChatItemView extends StatefulWidget {
     this.onMultiSelChanged,
     this.multiList = const [],
     this.onTapQuoteMsg,
+    this.parse = const [],
   }) : super(key: key);
 
   @override
@@ -243,13 +245,8 @@ class _ChatItemViewState extends State<ChatItemView> {
             child: ChatAtText(
               text: widget.message.content!,
               allAtMap: {},
-              // textAlign: _isFromMsg ? TextAlign.left : TextAlign.right,
-              // enabled: false,
               textStyle: widget.textStyle,
-              // atTextStyle: widget.atTextStyle,
-              // onClickAt: widget.onClickAtText,
-              urlTextStyle: widget.urlTextStyle,
-              onClickUrl: widget.onClickUrlText,
+              parse: widget.parse,
             ),
           );
         }
@@ -262,13 +259,8 @@ class _ChatItemViewState extends State<ChatItemView> {
             child: ChatAtText(
               text: text,
               allAtMap: widget.allAtMap,
-              // textAlign: _isFromMsg ? TextAlign.left : TextAlign.right,
-              // enabled: true,
               textStyle: widget.textStyle,
-              atTextStyle: widget.atTextStyle,
-              onClickAt: widget.onClickAtText,
-              urlTextStyle: widget.urlTextStyle,
-              onClickUrl: widget.onClickUrlText,
+              parse: widget.parse,
             ),
           );
         }

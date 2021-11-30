@@ -43,11 +43,11 @@ class ChatAvatarView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Visibility(
       visible: visible,
-      child: isCircle
+      child:/* isCircle
           ? ClipOval(
               child: _childAvatar(),
             )
-          : ClipRRect(
+          : */ClipRRect(
               child: _childAvatar(),
               borderRadius: borderRadius ?? BorderRadius.circular(6),
             ),

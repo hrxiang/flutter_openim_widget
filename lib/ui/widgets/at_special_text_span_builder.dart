@@ -1,6 +1,10 @@
 import 'package:extended_text_field/extended_text_field.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_openim_widget/flutter_openim_widget.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import 'chat_emoji_view.dart';
 
 typedef AtTextCallback = Function(String showText, String actualText);
 
@@ -33,14 +37,49 @@ class AtSpecialTextSpanBuilder extends SpecialTextSpanBuilder {
     }
     final List<InlineSpan> children = <InlineSpan>[];
 
+    var emojiPattern = emojiFaces.keys
+        .toList()
+        .join('|')
+        .replaceAll('[', '\\[')
+        .replaceAll(']', '\\]');
+
+    final list = [atPattern, emojiPattern];
+    final pattern = '(${list.toList().join('|')})';
+    final atReg = RegExp(atPattern);
+    final emojiReg = RegExp(emojiPattern);
+
     data.splitMapJoin(
-      // RegExp(r"(@[^@\s|\/|:|@]+)"),
-      RegExp(r"(@\S+\s)"),
-      // RegExp(r"(@[^@]+\s)"),
+      RegExp(pattern),
+      // RegExp(r"(@\S+\s)"),
       onMatch: (Match m) {
         late InlineSpan inlineSpan;
         String value = m.group(0)!;
-        String id = value.replaceAll("@", "").trim();
+        try {
+          if (atReg.hasMatch(value)) {
+            String id = value.replaceFirst("@", "").trim();
+            if (allAtMap.containsKey(id)) {
+              var name = allAtMap[id]!;
+              inlineSpan = ExtendedWidgetSpan(
+                child: Text('@$name ', style: atStyle),
+                style: atStyle,
+                actualText: '$value',
+                start: m.start,
+              );
+              buffer.write('@$name ');
+            } else {
+              inlineSpan = TextSpan(text: '$value', style: textStyle);
+              buffer.write('$value');
+            }
+          } else if (emojiReg.hasMatch(value)) {
+            inlineSpan = ImageSpan(
+              ChatIcon.emojiImage(value),
+              imageWidth: 20.h,
+              imageHeight: 20.h,
+              start: m.start,
+              actualText: '$value',
+            );
+          }
+          /*String id = value.replaceAll("@", "").trim();
         if (allAtMap.containsKey(id)) {
           var name = allAtMap[id]!;
           inlineSpan = ExtendedWidgetSpan(
@@ -50,14 +89,18 @@ class AtSpecialTextSpanBuilder extends SpecialTextSpanBuilder {
             start: m.start,
           );
           buffer.write('@$name ');
-        } else {
-          /* inlineSpan = SpecialTextSpan(
+        }*/
+          else {
+            /* inlineSpan = SpecialTextSpan(
             text: '${m.group(0)}',
             style: TextStyle(color: Colors.blue),
             start: m.start,
           );*/
-          inlineSpan = TextSpan(text: '$value', style: textStyle);
-          buffer.write('${m.group(0)}');
+            inlineSpan = TextSpan(text: '$value', style: textStyle);
+            buffer.write('$value');
+          }
+        } catch (e) {
+          print('error: $e');
         }
         children.add(inlineSpan);
         return "";

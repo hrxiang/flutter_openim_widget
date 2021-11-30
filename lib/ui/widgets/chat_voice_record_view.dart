@@ -124,8 +124,8 @@ class ChatRecordVoiceView extends StatelessWidget {
 
   Widget _convertFailBtnView() => Visibility(
         visible: showRecognizeFailed,
-        child: Image.asset(
-          ChatIcon.imageResStr('ic_voice_convert_fail'),
+        child: ChatIcon.assetImage(
+          'ic_voice_convert_fail',
           width: 102.w,
           height: 102.h,
         ),
@@ -177,10 +177,10 @@ class ChatRecordVoiceView extends StatelessWidget {
           onTap: onCancel,
           child: Column(
             children: [
-              Image.asset(
-                ChatIcon.imageResStr('ic_voice_cancel'),
+              ChatIcon.assetImage(
+                'ic_voice_cancel',
                 width: 18.w,
-                height: 24.w,
+                height: 24.h,
               ),
               Text(
                 UILocalizations.cancelVoiceSend,
@@ -204,10 +204,10 @@ class ChatRecordVoiceView extends StatelessWidget {
             onTap: onConfirm,
             child: Column(
               children: [
-                Image.asset(
-                  ChatIcon.imageResStr('ic_voice_confirm'),
+                ChatIcon.assetImage(
+                  'ic_voice_confirm',
                   width: 24.w,
-                  height: 24.w,
+                  height: 24.h,
                 ),
                 Text(
                   UILocalizations.confirmVoiceSend,
@@ -248,10 +248,8 @@ class ChatRecordVoiceView extends StatelessWidget {
 
   Widget _bottomBg() => Visibility(
         visible: !showSpeechRecognizing && !showRecognizeFailed,
-        child: Image.asset(
-          ChatIcon.imageResStr((selectedPressArea)
-              ? 'ic_voice_record_bg1'
-              : 'ic_voice_record_bg2'),
+        child: ChatIcon.assetImage(
+          selectedPressArea ? 'ic_voice_record_bg1' : 'ic_voice_record_bg2',
           width: 375.w,
           height: 125.h,
           fit: BoxFit.fill,
@@ -262,8 +260,8 @@ class ChatRecordVoiceView extends StatelessWidget {
         visible: !showSpeechRecognizing && !showRecognizeFailed,
         child: Container(
           alignment: Alignment.center,
-          child: Image.asset(
-            ChatIcon.imageResStr('ic_voice_record_speaker'),
+          child: ChatIcon.assetImage(
+            'ic_voice_record_speaker',
             width: 36.w,
             height: 36.h,
             // color: Colors.blue,
@@ -307,8 +305,8 @@ class ChatRecordVoiceView extends StatelessWidget {
 
   Widget _selectedSoundToWordAreaView() => Visibility(
         visible: selectedSoundToWordArea,
-        child: Image.asset(
-          ChatIcon.imageResStr('ic_voice_record_zi_white'),
+        child: ChatIcon.assetImage(
+          'ic_voice_record_zi_white',
           width: 102.w,
           height: 102.h,
         ),
@@ -316,8 +314,8 @@ class ChatRecordVoiceView extends StatelessWidget {
 
   Widget _unselectedSoundToWordAreaView() => Visibility(
         visible: !selectedSoundToWordArea,
-        child: Image.asset(
-          ChatIcon.imageResStr('ic_voice_record_zi_grey'),
+        child: ChatIcon.assetImage(
+          'ic_voice_record_zi_grey',
           width: 82.w,
           height: 82.h,
         ),
@@ -325,8 +323,8 @@ class ChatRecordVoiceView extends StatelessWidget {
 
   Widget _selectedCancelAreaView() => Visibility(
         visible: selectedCancelArea,
-        child: Image.asset(
-          ChatIcon.imageResStr('ic_voice_record_cancel_white'),
+        child: ChatIcon.assetImage(
+          'ic_voice_record_cancel_white',
           width: 102.w,
           height: 102.h,
         ),
@@ -336,8 +334,8 @@ class ChatRecordVoiceView extends StatelessWidget {
         visible: !selectedCancelArea &&
             !showSpeechRecognizing &&
             !showRecognizeFailed,
-        child: Image.asset(
-          ChatIcon.imageResStr('ic_voice_record_cancel_grey'),
+        child: ChatIcon.assetImage(
+          'ic_voice_record_cancel_grey',
           width: 82.w,
           height: 82.h,
         ),
@@ -361,6 +359,7 @@ class ChatRecordVoiceView extends StatelessWidget {
                 width: 60.w,
                 height: 25.h,
                 fit: BoxFit.contain,
+                package: 'flutter_openim_widget',
               ),
             ),
             ClipPath(
@@ -395,6 +394,7 @@ class ChatRecordVoiceView extends StatelessWidget {
                   width: 140.w,
                   height: 35.h,
                   fit: BoxFit.contain,
+                  package: 'flutter_openim_widget',
                 ),
               ),
               ClipPath(
@@ -434,6 +434,7 @@ class ChatRecordVoiceView extends StatelessWidget {
                         width: 45.w,
                         height: 20.h,
                         fit: BoxFit.contain,
+                        package: 'flutter_openim_widget',
                       ),
                     ),
                     Align(

@@ -41,3 +41,4 @@ export 'ui/widgets/copy_custom_pop_up_menu.dart';
 export 'ui/widgets/pop_button.dart';
 export 'ui/widgets/title_bar.dart';
 export 'ui/widgets/unread_count_view.dart';
+export 'ui/widgets/chat_emoji_view.dart';

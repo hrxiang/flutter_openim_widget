@@ -33,7 +33,7 @@ dependencies:
   focus_detector: ^2.0.0
   sprintf: ^6.0.0
   flutter_inappwebview: ^5.3.2
-#  animate_do: ^2.0.0
+  animate_do: ^2.0.0
   ##
 #  flutter_openim_sdk: ^0.0.9+4
 #  flutter_openim_sdk:
@@ -42,6 +42,9 @@ dependencies:
     git:
       url: https://github.com/OpenIMSDK/Open-IM-SDK-Flutter.git
       ref: fix-ios-simulator
+#  linkable: ^3.0.1
+#  flutter_parsed_text: ^2.2.1
+  flutter_svg: ^0.23.0+1
 
 dev_dependencies:
   flutter_test:

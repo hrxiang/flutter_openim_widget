@@ -31,6 +31,7 @@ class ConversationItemView extends StatelessWidget {
   final EdgeInsetsGeometry padding;
   final bool underline;
   final Map<String, String> allAtMap;
+  final List<MatchText> parse;
 
   // final bool isPinned;
 
@@ -53,6 +54,7 @@ class ConversationItemView extends StatelessWidget {
     this.padding = const EdgeInsets.symmetric(horizontal: 22),
     this.underline = true,
     this.allAtMap = const {},
+    this.parse = const [],
     // this.isPinned = false,
     this.titleStyle = const TextStyle(
       fontSize: 16,
@@ -129,31 +131,16 @@ class ConversationItemView extends StatelessWidget {
                             allAtMap: allAtMap,
                             text: content,
                             textStyle: contentStyle,
-                            atTextStyle: contentStyle,
-                            urlTextStyle: contentStyle,
-                            prefixText: contentPrefix,
-                            prefixTextStyle: contentPrefixStyle,
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
+                            prefixSpan: null == contentPrefix
+                                ? null
+                                : TextSpan(
+                                    text: contentPrefix,
+                                    style: contentPrefixStyle,
+                                  ),
+                            parse: parse,
                           ),
-                          // child: atPrefix == null
-                          //     ? Text(
-                          //   content,
-                          //         style: contentStyle,
-                          //         overflow: TextOverflow.ellipsis,
-                          //       )
-                          //     : RichText(
-                          //         overflow: TextOverflow.ellipsis,
-                          //         text: TextSpan(
-                          //             text: atPrefix,
-                          //             style: atStyle,
-                          //             children: [
-                          //               TextSpan(
-                          //                 text: content,
-                          //                 style: contentStyle,
-                          //               ),
-                          //             ]),
-                          //       ),
                         ),
                         Spacer(),
                         UnreadCountView(count: unreadCount),

@@ -11,6 +11,7 @@ class ChatInputBoxView extends StatefulWidget {
     required this.toolbox,
     required this.multiOpToolbox,
     required this.voiceRecordBar,
+    required this.emojiView,
     this.allAtMap = const <String, String>{},
     this.atCallback,
     this.controller,
@@ -30,6 +31,7 @@ class ChatInputBoxView extends StatefulWidget {
   final ValueChanged<String>? onSubmitted;
   final Widget toolbox;
   final Widget multiOpToolbox;
+  final Widget emojiView;
   final ChatVoiceRecordBar voiceRecordBar;
   final TextStyle? style;
   final TextStyle? atStyle;
@@ -45,7 +47,9 @@ class ChatInputBoxView extends StatefulWidget {
 class _ChatInputBoxViewState extends State<ChatInputBoxView>
     with TickerProviderStateMixin {
   var _toolsVisible = false;
-  var _keyboardInput = true;
+  var _emojiVisible = false;
+  var _leftKeyboardButton = false;
+  var _rightKeyboardButton = false;
   late AnimationController _controller;
   late Animation<double> _animation;
 
@@ -71,6 +75,9 @@ class _ChatInputBoxViewState extends State<ChatInputBoxView>
       if (widget.focusNode!.hasFocus) {
         setState(() {
           _toolsVisible = false;
+          _emojiVisible = false;
+          _leftKeyboardButton = false;
+          _rightKeyboardButton = false;
         });
       }
     });
@@ -79,6 +86,7 @@ class _ChatInputBoxViewState extends State<ChatInputBoxView>
       if (!mounted) return;
       setState(() {
         _toolsVisible = false;
+        _emojiVisible = false;
       });
     });
 
@@ -132,7 +140,7 @@ class _ChatInputBoxViewState extends State<ChatInputBoxView>
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    _keyboardInput ? _speakBtn() : _keyboardBtn(),
+                    _leftKeyboardButton ? _keyboardLeftBtn() : _speakBtn(),
                     Flexible(
                       child: Stack(
                         children: [
@@ -145,19 +153,20 @@ class _ChatInputBoxViewState extends State<ChatInputBoxView>
                                   _quoteView(),
                               ],
                             ),
-                            offstage: !_keyboardInput,
+                            offstage: _leftKeyboardButton,
                           ),
                           Offstage(
                             child: widget.voiceRecordBar,
-                            offstage: _keyboardInput,
+                            offstage: !_leftKeyboardButton,
                           ),
                           // _keyboardInput ? _buildTextFiled() : _buildSpeakBar()
                         ],
                       ),
                     ),
+                    _rightKeyboardButton ? _keyboardRightBtn() : _emojiBtn(),
                     _toolsBtn(),
                     Visibility(
-                      visible: _keyboardInput,
+                      visible: !_leftKeyboardButton || !_rightKeyboardButton,
                       child: Container(
                         width: 60.0 * (1.0 - _animation.value),
                         child: _buildSendButton(),
@@ -172,12 +181,16 @@ class _ChatInputBoxViewState extends State<ChatInputBoxView>
             visible: _toolsVisible,
             child: widget.toolbox,
           ),
+          Visibility(
+            visible: _emojiVisible,
+            child: widget.emojiView,
+          ),
         ],
       );
 
   Widget _buildSendButton() => GestureDetector(
         onTap: () {
-          focus();
+          if (!_emojiVisible) focus();
           if (null != widget.onSubmitted && null != widget.controller) {
             widget.onSubmitted!(widget.controller!.text.toString());
           }
@@ -275,20 +288,36 @@ class _ChatInputBoxViewState extends State<ChatInputBoxView>
         onTap: () {
           PermissionUtil.microphone(() {
             setState(() {
-              _keyboardInput = !_keyboardInput;
+              _leftKeyboardButton = true;
+              _rightKeyboardButton = false;
               _toolsVisible = false;
+              _emojiVisible = false;
               unfocus();
             });
           });
         },
       );
 
-  Widget _keyboardBtn() => _buildBtn(
+  Widget _keyboardLeftBtn() => _buildBtn(
         icon: ChatIcon.keyboard(),
         onTap: () {
           setState(() {
-            _keyboardInput = !_keyboardInput;
+            _leftKeyboardButton = false;
             _toolsVisible = false;
+            _emojiVisible = false;
+            focus();
+          });
+        },
+      );
+
+  Widget _keyboardRightBtn() => _buildBtn(
+        padding: EdgeInsets.only(left: 10.w, right: 5.w),
+        icon: ChatIcon.keyboard(),
+        onTap: () {
+          setState(() {
+            _rightKeyboardButton = false;
+            _toolsVisible = false;
+            _emojiVisible = false;
             focus();
           });
         },
@@ -296,10 +325,13 @@ class _ChatInputBoxViewState extends State<ChatInputBoxView>
 
   Widget _toolsBtn() => _buildBtn(
         icon: ChatIcon.tools(),
+        padding: EdgeInsets.only(left: 5.w, right: 10.w),
         onTap: () {
           setState(() {
             _toolsVisible = !_toolsVisible;
-            _keyboardInput = true;
+            _emojiVisible = false;
+            _leftKeyboardButton = false;
+            _rightKeyboardButton = false;
             if (_toolsVisible) {
               unfocus();
             } else {
@@ -309,12 +341,30 @@ class _ChatInputBoxViewState extends State<ChatInputBoxView>
         },
       );
 
-  Widget _buildBtn({required Widget icon, required Function() onTap}) =>
+  Widget _emojiBtn() => _buildBtn(
+        padding: EdgeInsets.only(left: 10.w, right: 5.w),
+        icon: ChatIcon.emoji(),
+        onTap: () {
+          setState(() {
+            _rightKeyboardButton = true;
+            _leftKeyboardButton = false;
+            _emojiVisible = true;
+            _toolsVisible = false;
+            unfocus();
+          });
+        },
+      );
+
+  Widget _buildBtn({
+    required Widget icon,
+    required Function() onTap,
+    EdgeInsetsGeometry? padding,
+  }) =>
       GestureDetector(
         onTap: onTap,
         behavior: HitTestBehavior.translucent,
         child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 10.w),
+          padding: padding ?? EdgeInsets.symmetric(horizontal: 10.w),
           child: icon,
         ),
       );

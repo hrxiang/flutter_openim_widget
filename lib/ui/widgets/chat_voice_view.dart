@@ -140,9 +140,19 @@ class _ChatVoiceViewState extends State<ChatVoiceView> {
         _isPlaying
             ? RotatedBox(
                 quarterTurns: turns,
-                child: Lottie.asset(anim, height: 19.h, width: 18.w),
+                child: Lottie.asset(
+                  anim,
+                  height: 19.h,
+                  width: 18.w,
+                  package: 'flutter_openim_widget',
+                ),
               )
-            : Image.asset(png, height: 19.h, width: 18.w),
+            : Image.asset(
+                png,
+                height: 19.h,
+                width: 18.w,
+                package: 'flutter_openim_widget',
+              ),
         Visibility(
           visible: widget.isReceived,
           child: Text(

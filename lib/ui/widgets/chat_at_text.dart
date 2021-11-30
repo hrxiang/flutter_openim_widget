@@ -1,17 +1,17 @@
+import 'package:extended_text_field/extended_text_field.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_openim_widget/flutter_openim_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import 'chat_emoji_view.dart';
 
 /// message content: @uid1 @uid2 xxxxxxx
 ///
 class ChatAtText extends StatelessWidget {
   final String text;
-  final String? prefixText;
-  final TextStyle? atTextStyle;
-  final TextStyle? urlTextStyle;
   final TextStyle? textStyle;
-  final TextStyle? prefixTextStyle;
-  final ValueChanged<String>? onClickAt;
-  final ValueChanged<String>? onClickUrl;
+  final InlineSpan? prefixSpan;
 
   /// isReceived ? TextAlign.left : TextAlign.right
   final TextAlign textAlign;
@@ -22,22 +22,19 @@ class ChatAtText extends StatelessWidget {
   /// key:userid
   /// value:username
   final Map<String, String> allAtMap;
+  final List<MatchText> parse;
 
   // final TextAlign textAlign;
   const ChatAtText({
     Key? key,
     required this.text,
     required this.allAtMap,
+    this.prefixSpan,
+    this.parse = const <MatchText>[],
     this.textAlign = TextAlign.left,
     this.overflow = TextOverflow.clip,
-    this.prefixText,
-    this.onClickAt,
-    this.onClickUrl,
     // this.textAlign = TextAlign.start,
     this.textStyle,
-    this.atTextStyle,
-    this.urlTextStyle,
-    this.prefixTextStyle,
     this.maxLines,
   }) : super(key: key);
 
@@ -57,78 +54,93 @@ class ChatAtText extends StatelessWidget {
     decoration: TextDecoration.underline,
   );
 
-  //
-  // static var _httpExp = RegExp(
-  //     r"^((((H|h)(T|t)|(F|f))(T|t)(P|p)((S|s)?))\://)?(www.|[a-zA-Z0-9].)[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,6}(\:[0-9]{1,5})*(/($|[a-zA-Z0-9\.\,\;\?\'\\\+&amp;%\$#\=~_\-]+))*$");
-
-  static var _httpExp = RegExp(
-      r"((https?|ftp|smtp):\/\/)?(www.)?[a-z0-9]+(\.[a-z]+)+(\/[a-zA-Z0-9#]+\/?)*");
-
-  static var _atExp = RegExp(r"(@\S+\s)");
+  static var _linkTextStyle = TextStyle(
+    color: Color(0xFF1B72EC),
+    fontSize: 14.sp,
+  );
 
   @override
   Widget build(BuildContext context) {
     final List<InlineSpan> children = <InlineSpan>[];
-    if (prefixText != null && "" != prefixText) {
-      children.add(TextSpan(text: prefixText, style: prefixTextStyle));
-    }
-    var style = textStyle ?? _textStyle;
-    var atStyle = atTextStyle ?? _atTextStyle;
-    var urlStyle = urlTextStyle ?? _urlTextStyle;
 
-    // match at text
+    if (prefixSpan != null) children.add(prefixSpan!);
+
+    var style = textStyle ?? _textStyle;
+
+    final _mapping = Map<String, MatchText>();
+
+    parse.forEach((e) {
+      if (e.type == ParsedType.AT) {
+        _mapping[atPattern] = e;
+      } else if (e.type == ParsedType.EMAIL) {
+        _mapping[emailPattern] = e;
+      } else if (e.type == ParsedType.PHONE) {
+        _mapping[phonePattern] = e;
+      } else if (e.type == ParsedType.URL) {
+        _mapping[urlPattern] = e;
+      } else {
+        _mapping[e.pattern!] = e;
+      }
+    });
+
+    var emojiPattern = emojiFaces.keys
+        .toList()
+        .join('|')
+        .replaceAll('[', '\\[')
+        .replaceAll(']', '\\]');
+
+    _mapping[emojiPattern] = MatchText(type: ParsedType.EMOJI);
+
+    final pattern = '(${_mapping.keys.toList().join('|')})';
+
+    // match  text
     text.splitMapJoin(
-      _atExp,
-      onMatch: (Match m) {
-        late InlineSpan inlineSpan;
-        String uid = m.group(0)!.replaceAll("@", "").trim();
-        if (allAtMap.containsKey(uid)) {
-          var name = allAtMap[uid]!;
-          inlineSpan = WidgetSpan(
-            child: GestureDetector(
-              onTap: null != onClickAt
-                  ? () {
-                      print('click:$uid');
-                      onClickAt!(uid);
-                    }
-                  : null,
-              behavior: HitTestBehavior.translucent,
-              child: Text('@$name ', style: atStyle),
-            ),
-          );
+      RegExp(pattern),
+      onMatch: (Match match) {
+        var matchText = match[0]!;
+        var value = matchText;
+        var inlineSpan;
+        final mapping = _mapping[matchText] ??
+            _mapping[_mapping.keys.firstWhere((element) {
+              final reg = RegExp(element);
+              return reg.hasMatch(matchText);
+            }, orElse: () {
+              return '';
+            })];
+        if (mapping != null) {
+          if (mapping.type == ParsedType.AT) {
+            String uid = matchText.replaceAll("@", "").trim();
+            value = uid;
+            if (allAtMap.containsKey(uid)) {
+              matchText = '@${allAtMap[uid]!} ';
+            }
+          }
+          if (mapping.type == ParsedType.EMOJI) {
+            inlineSpan = ImageSpan(
+              ChatIcon.emojiImage(matchText),
+              imageWidth: 20.h,
+              imageHeight: 20.h,
+            );
+          } else {
+            inlineSpan = TextSpan(
+              text: "$matchText",
+              style: mapping.style != null ? mapping.style : style,
+              recognizer: mapping.onTap == null
+                  ? null
+                  : (TapGestureRecognizer()
+                    ..onTap = () => mapping.onTap!(
+                        _getUrl(value, mapping.type), mapping.type)),
+            );
+          }
         } else {
-          inlineSpan = TextSpan(text: '${m.group(0)}', style: style);
+          inlineSpan = TextSpan(text: "$matchText", style: style);
         }
         children.add(inlineSpan);
-        return m.group(0)!;
+        return '';
       },
       onNonMatch: (text) {
-        // match url text
-        text.splitMapJoin(
-          _httpExp,
-          onMatch: (Match m) {
-            String url = m.group(0)!;
-            var inlineSpan = WidgetSpan(
-              child: GestureDetector(
-                onTap: onClickUrl != null
-                    ? () {
-                        print('click:$url');
-                        onClickUrl?.call(url);
-                      }
-                    : null,
-                behavior: HitTestBehavior.translucent,
-                child: Text('$url', style: urlStyle),
-              ),
-            );
-            children.add(inlineSpan);
-            return m.group(0)!;
-          },
-          onNonMatch: (text) {
-            children.add(TextSpan(text: text, style: style));
-            return text;
-          },
-        );
-        return text;
+        children.add(TextSpan(text: text, style: style));
+        return '';
       },
     );
 
@@ -142,4 +154,47 @@ class ChatAtText extends StatelessWidget {
       ),
     );
   }
+
+  _getUrl(String text, ParsedType type) {
+    switch (type) {
+      case ParsedType.URL:
+        return text.substring(0, 4) == 'http' ? text : 'http://$text';
+      case ParsedType.EMAIL:
+        return text.substring(0, 7) == 'mailto:' ? text : 'mailto:$text';
+      case ParsedType.PHONE:
+        return text.substring(0, 4) == 'tel:' ? text : 'tel:$text';
+      default:
+        return text;
+    }
+  }
 }
+
+class MatchText {
+  ParsedType type;
+
+  String? pattern;
+
+  TextStyle? style;
+
+  Function(String link, ParsedType? type)? onTap;
+
+  MatchText({required this.type, this.pattern, this.style, this.onTap});
+}
+
+enum ParsedType { AT, EMAIL, PHONE, URL, EMOJI, CUSTOM }
+
+/// @uid
+const atPattern = r"(@\S+\s)";
+
+/// Email Regex - A predefined type for handling email matching
+const emailPattern = r"\b[\w\.-]+@[\w\.-]+\.\w{2,4}\b";
+
+/// URL Regex - A predefined type for handling URL matching
+const urlPattern =
+    r"[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:._\+-~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:_\+.~#?&\/\/=]*)";
+
+/// Phone Regex - A predefined type for handling phone matching
+// const phonePattern =
+//     r"(\+?( |-|\.)?\d{1,2}( |-|\.)?)?(\(?\d{3}\)?|\d{3})( |-|\.)?(\d{3}( |-|\.)?\d{4})";
+const phonePattern =
+    r'^((13[0-9])|(14[0-9])|(15[0-9])|(16[0-9])|(17[0-9])|(18[0-9])|(19[0-9]))\d{8}$';
