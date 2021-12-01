@@ -240,7 +240,7 @@ class ChatPicturePreview extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            IconUtl.error(width: 80.w, height: 70.h),
+            IconUtil.error(width: 80.w, height: 70.h),
             SizedBox(
               height: 19.h,
             ),

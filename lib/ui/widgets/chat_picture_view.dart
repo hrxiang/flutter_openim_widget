@@ -183,7 +183,7 @@ class _ChatPictureViewState extends State<ChatPictureView> {
   }
 
   Widget _errorIcon() =>
-      IconUtl.error(width: _trulyWidth, height: _trulyHeight);
+      IconUtil.error(width: _trulyWidth, height: _trulyHeight);
 
   static bool _isNotNull(String? value) =>
       null != value && value.trim().isNotEmpty;

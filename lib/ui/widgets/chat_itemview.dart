@@ -547,28 +547,28 @@ class _ChatItemViewState extends State<ChatItemView> {
 
   List<MenuInfo> _menusItem() => [
         MenuInfo(
-          icon: IconUtl.menuCopy(),
+          icon: IconUtil.menuCopy(),
           text: UILocalizations.copy,
           enabled: widget.message.contentType == MessageType.text,
           textStyle: menuTextStyle,
           onTap: widget.onTapCopyMenu,
         ),
         MenuInfo(
-          icon: IconUtl.menuDel(),
+          icon: IconUtil.menuDel(),
           text: UILocalizations.delete,
           enabled: true,
           textStyle: menuTextStyle,
           onTap: widget.onTapDelMenu,
         ),
         MenuInfo(
-          icon: IconUtl.menuForward(),
+          icon: IconUtil.menuForward(),
           text: UILocalizations.forward,
           enabled: widget.message.contentType != MessageType.voice,
           textStyle: menuTextStyle,
           onTap: widget.onTapForwardMenu,
         ),
         MenuInfo(
-          icon: IconUtl.menuReply(),
+          icon: IconUtil.menuReply(),
           text: UILocalizations.reply,
           enabled: widget.message.contentType == MessageType.text ||
               widget.message.contentType == MessageType.video ||
@@ -579,27 +579,27 @@ class _ChatItemViewState extends State<ChatItemView> {
           onTap: widget.onTapReplyMenu,
         ),
         MenuInfo(
-            icon: IconUtl.menuRevoke(),
+            icon: IconUtil.menuRevoke(),
             text: UILocalizations.revoke,
             enabled: widget.message.sendID == OpenIM.iMManager.uid,
             textStyle: menuTextStyle,
             onTap: widget.onTapRevokeMenu),
         MenuInfo(
-          icon: IconUtl.menuMultiChoice(),
+          icon: IconUtil.menuMultiChoice(),
           text: UILocalizations.multiChoice,
           enabled: true,
           textStyle: menuTextStyle,
           onTap: widget.onTapMultiMenu,
         ),
         MenuInfo(
-          icon: IconUtl.menuTranslation(),
+          icon: IconUtil.menuTranslation(),
           text: UILocalizations.translation,
           enabled: widget.message.contentType == MessageType.text,
           textStyle: menuTextStyle,
           onTap: widget.onTapTranslationMenu,
         ),
     // MenuInfo(
-        //   icon: IconUtl.menuDownload(),
+        //   icon: IconUtil.menuDownload(),
         //   text: widget.localizations.download,
         //   enabled: true,
         //   textStyle: menuTextStyle,

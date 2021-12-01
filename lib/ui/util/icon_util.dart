@@ -3,13 +3,13 @@ import 'package:flutter_openim_widget/ui/widgets/chat_emoji_view.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class IconUtl {
-  IconUtl._();
+class IconUtil {
+  IconUtil._();
 
   static String imageResStr(var name) => "assets/images/$name.webp";
 
   static AssetImage emojiImage(String key) => AssetImage(
-    IconUtl.imageResStr(emojiFaces[key]),
+    IconUtil.imageResStr(emojiFaces[key]),
         package: 'flutter_openim_widget',
       );
 

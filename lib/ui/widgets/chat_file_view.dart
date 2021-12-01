@@ -169,7 +169,7 @@ class ChatFileView extends StatelessWidget {
               SizedBox(
                 width: 10.w,
               ),
-              IconUtl.file(),
+              IconUtil.file(),
             ],
           ),
           ChatLinearProgressView(

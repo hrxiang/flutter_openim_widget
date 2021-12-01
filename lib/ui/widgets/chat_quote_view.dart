@@ -123,7 +123,7 @@ class ChatQuoteView extends StatelessWidget {
         alignment: Alignment.center,
         children: [
           child,
-          IconUtl.assetImage(
+          IconUtil.assetImage(
             'ic_video_play_small',
             width: 15.w,
             height: 15.h,

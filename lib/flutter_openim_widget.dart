@@ -1,8 +1,8 @@
 library flutter_openim_widget;
 
-export 'ui/util/icon_util.dart';
 export 'ui/util/common_util.dart';
-export 'ui/util/extensions.dart';
+export 'ui/util/custom_ext.dart';
+export 'ui/util/icon_util.dart';
 export 'ui/util/permission_util.dart';
 export 'ui/util/ui_locallizations.dart';
 export 'ui/util/voice_record.dart';
@@ -10,6 +10,7 @@ export 'ui/widgets/at_special_text_span_builder.dart';
 export 'ui/widgets/chat_at_text.dart';
 export 'ui/widgets/chat_avatar_view.dart';
 export 'ui/widgets/chat_carte_view.dart';
+export 'ui/widgets/chat_emoji_view.dart';
 export 'ui/widgets/chat_file_preview.dart';
 export 'ui/widgets/chat_file_view.dart';
 export 'ui/widgets/chat_inputbox_view.dart';
@@ -41,4 +42,3 @@ export 'ui/widgets/copy_custom_pop_up_menu.dart';
 export 'ui/widgets/pop_button.dart';
 export 'ui/widgets/title_bar.dart';
 export 'ui/widgets/unread_count_view.dart';
-export 'ui/widgets/chat_emoji_view.dart';
