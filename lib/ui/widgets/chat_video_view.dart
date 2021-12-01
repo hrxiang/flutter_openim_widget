@@ -134,7 +134,7 @@ class _ChatVideoViewState extends State<ChatVideoView> {
         alignment: Alignment.center,
         children: [
           _buildThumbView(),
-          ChatIcon.play(),
+          IconUtl.play(),
           ChatSendProgressView(
             height: _trulyHeight,
             width: _trulyWidth,
@@ -182,5 +182,5 @@ class _ChatVideoViewState extends State<ChatVideoView> {
   }
 
   Widget _errorIcon() =>
-      ChatIcon.error(width: _trulyWidth, height: _trulyHeight);
+      IconUtl.error(width: _trulyWidth, height: _trulyHeight);
 }

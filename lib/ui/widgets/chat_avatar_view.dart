@@ -77,7 +77,7 @@ class ChatAvatarView extends StatelessWidget {
         child: Container(
           width: size,
           height: size,
-          child: ChatIcon.assetImage(url!, width: size, height: size),
+          child: IconUtl.assetImage(url!, width: size, height: size),
         ),
       );
 

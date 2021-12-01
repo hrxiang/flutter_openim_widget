@@ -124,7 +124,7 @@ class ChatRecordVoiceView extends StatelessWidget {
 
   Widget _convertFailBtnView() => Visibility(
         visible: showRecognizeFailed,
-        child: ChatIcon.assetImage(
+        child: IconUtl.assetImage(
           'ic_voice_convert_fail',
           width: 102.w,
           height: 102.h,
@@ -177,7 +177,7 @@ class ChatRecordVoiceView extends StatelessWidget {
           onTap: onCancel,
           child: Column(
             children: [
-              ChatIcon.assetImage(
+              IconUtl.assetImage(
                 'ic_voice_cancel',
                 width: 18.w,
                 height: 24.h,
@@ -204,7 +204,7 @@ class ChatRecordVoiceView extends StatelessWidget {
             onTap: onConfirm,
             child: Column(
               children: [
-                ChatIcon.assetImage(
+                IconUtl.assetImage(
                   'ic_voice_confirm',
                   width: 24.w,
                   height: 24.h,
@@ -248,7 +248,7 @@ class ChatRecordVoiceView extends StatelessWidget {
 
   Widget _bottomBg() => Visibility(
         visible: !showSpeechRecognizing && !showRecognizeFailed,
-        child: ChatIcon.assetImage(
+        child: IconUtl.assetImage(
           selectedPressArea ? 'ic_voice_record_bg1' : 'ic_voice_record_bg2',
           width: 375.w,
           height: 125.h,
@@ -260,7 +260,7 @@ class ChatRecordVoiceView extends StatelessWidget {
         visible: !showSpeechRecognizing && !showRecognizeFailed,
         child: Container(
           alignment: Alignment.center,
-          child: ChatIcon.assetImage(
+          child: IconUtl.assetImage(
             'ic_voice_record_speaker',
             width: 36.w,
             height: 36.h,
@@ -305,7 +305,7 @@ class ChatRecordVoiceView extends StatelessWidget {
 
   Widget _selectedSoundToWordAreaView() => Visibility(
         visible: selectedSoundToWordArea,
-        child: ChatIcon.assetImage(
+        child: IconUtl.assetImage(
           'ic_voice_record_zi_white',
           width: 102.w,
           height: 102.h,
@@ -314,7 +314,7 @@ class ChatRecordVoiceView extends StatelessWidget {
 
   Widget _unselectedSoundToWordAreaView() => Visibility(
         visible: !selectedSoundToWordArea,
-        child: ChatIcon.assetImage(
+        child: IconUtl.assetImage(
           'ic_voice_record_zi_grey',
           width: 82.w,
           height: 82.h,
@@ -323,7 +323,7 @@ class ChatRecordVoiceView extends StatelessWidget {
 
   Widget _selectedCancelAreaView() => Visibility(
         visible: selectedCancelArea,
-        child: ChatIcon.assetImage(
+        child: IconUtl.assetImage(
           'ic_voice_record_cancel_white',
           width: 102.w,
           height: 102.h,
@@ -334,7 +334,7 @@ class ChatRecordVoiceView extends StatelessWidget {
         visible: !selectedCancelArea &&
             !showSpeechRecognizing &&
             !showRecognizeFailed,
-        child: ChatIcon.assetImage(
+        child: IconUtl.assetImage(
           'ic_voice_record_cancel_grey',
           width: 82.w,
           height: 82.h,

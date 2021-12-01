@@ -1,6 +1,6 @@
 library flutter_openim_widget;
 
-export 'ui/util/chat_icon.dart';
+export 'ui/util/icon_util.dart';
 export 'ui/util/common_util.dart';
 export 'ui/util/extensions.dart';
 export 'ui/util/permission_util.dart';

@@ -19,7 +19,7 @@ class ChatRadio extends StatelessWidget {
         behavior: HitTestBehavior.translucent,
         child: Container(
           margin: EdgeInsets.symmetric(horizontal: 12.w),
-          child: ChatIcon.assetImage(
+          child: IconUtl.assetImage(
             checked ? 'ic_radio_msg_sel' : 'ic_radio_msg_nor',
             width: 22.w,
             height: 22.h,

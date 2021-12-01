@@ -237,7 +237,7 @@ class _ChatInputBoxViewState extends State<ChatInputBoxView>
                   ),
                 ),
               ),
-              ChatIcon.assetImage(
+              IconUtl.assetImage(
                 'ic_del_quote',
                 width: 14.w,
                 height: 15.h,
@@ -284,7 +284,7 @@ class _ChatInputBoxViewState extends State<ChatInputBoxView>
   );
 
   Widget _speakBtn() => _buildBtn(
-        icon: ChatIcon.speak(),
+        icon: IconUtl.speak(),
         onTap: () {
           PermissionUtil.microphone(() {
             setState(() {
@@ -299,7 +299,7 @@ class _ChatInputBoxViewState extends State<ChatInputBoxView>
       );
 
   Widget _keyboardLeftBtn() => _buildBtn(
-        icon: ChatIcon.keyboard(),
+        icon: IconUtl.keyboard(),
         onTap: () {
           setState(() {
             _leftKeyboardButton = false;
@@ -312,7 +312,7 @@ class _ChatInputBoxViewState extends State<ChatInputBoxView>
 
   Widget _keyboardRightBtn() => _buildBtn(
         padding: EdgeInsets.only(left: 10.w, right: 5.w),
-        icon: ChatIcon.keyboard(),
+        icon: IconUtl.keyboard(),
         onTap: () {
           setState(() {
             _rightKeyboardButton = false;
@@ -324,7 +324,7 @@ class _ChatInputBoxViewState extends State<ChatInputBoxView>
       );
 
   Widget _toolsBtn() => _buildBtn(
-        icon: ChatIcon.tools(),
+        icon: IconUtl.tools(),
         padding: EdgeInsets.only(left: 5.w, right: 10.w),
         onTap: () {
           setState(() {
@@ -343,7 +343,7 @@ class _ChatInputBoxViewState extends State<ChatInputBoxView>
 
   Widget _emojiBtn() => _buildBtn(
         padding: EdgeInsets.only(left: 10.w, right: 5.w),
-        icon: ChatIcon.emoji(),
+        icon: IconUtl.emoji(),
         onTap: () {
           setState(() {
             _rightKeyboardButton = true;

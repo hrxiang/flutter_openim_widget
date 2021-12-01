@@ -23,7 +23,7 @@ class ChatMultiSelToolbox extends StatelessWidget {
             behavior: HitTestBehavior.translucent,
             child: Container(
               padding: EdgeInsets.all(12.h),
-              child: ChatIcon.assetImage(
+              child: IconUtl.assetImage(
                 'ic_multi_tool_del',
                 width: 20.w,
                 height: 22.h,
@@ -35,7 +35,7 @@ class ChatMultiSelToolbox extends StatelessWidget {
             behavior: HitTestBehavior.translucent,
             child: Container(
               padding: EdgeInsets.all(4),
-              child: ChatIcon.assetImage(
+              child: IconUtl.assetImage(
                 'ic_multi_tool_merge_forward',
                 width: 19.w,
                 height: 19.h,

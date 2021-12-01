@@ -111,7 +111,7 @@ class _ChatToolsViewState extends State<ChatToolsView>
               label: UILocalizations.album,
               style: toolsTextStyle,
               image: _buildBtn(
-                icon: ChatIcon.toolsAlbum(),
+                icon: IconUtl.toolsAlbum(),
                 onTap: widget.onTapAlbum,
               ),
             )),
@@ -122,7 +122,7 @@ class _ChatToolsViewState extends State<ChatToolsView>
               label: UILocalizations.file,
               style: toolsTextStyle,
               image: _buildBtn(
-                icon: ChatIcon.toolsFile(),
+                icon: IconUtl.toolsFile(),
                 onTap: widget.onTapFile,
               ),
             )),
@@ -135,7 +135,7 @@ class _ChatToolsViewState extends State<ChatToolsView>
               label: UILocalizations.camera,
               style: toolsTextStyle,
               image: _buildBtn(
-                icon: ChatIcon.toolsCamera(),
+                icon: IconUtl.toolsCamera(),
                 onTap: widget.onTapCamera,
               ),
             )),
@@ -146,7 +146,7 @@ class _ChatToolsViewState extends State<ChatToolsView>
               label: UILocalizations.carte,
               style: toolsTextStyle,
               image: _buildBtn(
-                icon: ChatIcon.toolsCarte(),
+                icon: IconUtl.toolsCarte(),
                 onTap: widget.onTapCarte,
               ),
             )),
@@ -159,7 +159,7 @@ class _ChatToolsViewState extends State<ChatToolsView>
               label: UILocalizations.videoCall,
               style: toolsTextStyle,
               image: _buildBtn(
-                icon: ChatIcon.toolsVideoCall(),
+                icon: IconUtl.toolsVideoCall(),
                 onTap: widget.onTapVideoCall,
               ),
             )),
@@ -170,7 +170,7 @@ class _ChatToolsViewState extends State<ChatToolsView>
               label: UILocalizations.voiceInput,
               style: toolsTextStyle,
               image: _buildBtn(
-                icon: ChatIcon.toolsVoiceInput(),
+                icon: IconUtl.toolsVoiceInput(),
                 onTap: () {
                   setState(() {
                     _enabledVoiceInput = true;
@@ -186,7 +186,7 @@ class _ChatToolsViewState extends State<ChatToolsView>
           label: UILocalizations.location,
           style: toolsTextStyle,
           image: _buildBtn(
-            icon: ChatIcon.toolsLocation(),
+            icon: IconUtl.toolsLocation(),
             onTap: widget.onTapLocation,
           ),
         )),
@@ -208,7 +208,7 @@ class _ChatToolsViewState extends State<ChatToolsView>
                   Center(
                     child: LongPressRippleAnimation(
                       radius: 44.h,
-                      child: ChatIcon.voiceInputNor(),
+                      child: IconUtl.voiceInputNor(),
                       onStart: widget.onStartVoiceInput,
                       onStop: widget.onStopVoiceInput,
                     ),
@@ -240,7 +240,7 @@ class _ChatToolsViewState extends State<ChatToolsView>
           label: UILocalizations.album,
           style: toolsTextStyle,
           image: _buildBtn(
-            icon: ChatIcon.toolsAlbum(),
+            icon: IconUtl.toolsAlbum(),
             onTap: onTapAlbum,
             // onTap: () => PermissionUtil.storage(() => onTapAlbum?.call()),
           ),
@@ -249,7 +249,7 @@ class _ChatToolsViewState extends State<ChatToolsView>
           label: UILocalizations.camera,
           style: toolsTextStyle,
           image: _buildBtn(
-            icon: ChatIcon.toolsCamera(),
+            icon: IconUtl.toolsCamera(),
             onTap: onTapCamera,
             // onTap: () => PermissionUtil.camera(() => onTapCamera?.call()),
           ),
@@ -258,7 +258,7 @@ class _ChatToolsViewState extends State<ChatToolsView>
           label: UILocalizations.videoCall,
           style: toolsTextStyle,
           image: _buildBtn(
-            icon: ChatIcon.toolsVideoCall(),
+            icon: IconUtl.toolsVideoCall(),
             onTap: onTapVideoCall,
             // onTap: () => PermissionUtil.camera(() => onTapVideoCall?.call()),
           ),
@@ -267,7 +267,7 @@ class _ChatToolsViewState extends State<ChatToolsView>
           label: UILocalizations.location,
           style: toolsTextStyle,
           image: _buildBtn(
-            icon: ChatIcon.toolsLocation(),
+            icon: IconUtl.toolsLocation(),
             onTap: onTapLocation,
             // onTap: () => PermissionUtil.location(() => onTapLocation?.call()),
           ),
@@ -276,7 +276,7 @@ class _ChatToolsViewState extends State<ChatToolsView>
           label: UILocalizations.file,
           style: toolsTextStyle,
           image: _buildBtn(
-            icon: ChatIcon.toolsFile(),
+            icon: IconUtl.toolsFile(),
             onTap: onTapFile,
             // onTap: () => PermissionUtil.storage(() => onTapFile?.call()),
           ),
@@ -285,7 +285,7 @@ class _ChatToolsViewState extends State<ChatToolsView>
           label: UILocalizations.carte,
           style: toolsTextStyle,
           image: _buildBtn(
-            icon: ChatIcon.toolsCarte(),
+            icon: IconUtl.toolsCarte(),
             onTap: onTapCarte,
           ),
         ),
@@ -293,7 +293,7 @@ class _ChatToolsViewState extends State<ChatToolsView>
           label: UILocalizations.voiceInput,
           style: toolsTextStyle,
           image: _buildBtn(
-            icon: ChatIcon.toolsVoiceInput(),
+            icon: IconUtl.toolsVoiceInput(),
             onTap: onTapVoiceInput,
             // onTap: () => PermissionUtil.microphone(
             //   () => onTapVoiceInput?.call(),
@@ -389,7 +389,7 @@ class _ChatToolsViewState extends State<ChatToolsView>
             child: Container(
               color: Colors.white,
               child: Center(
-                child: ChatIcon.voiceInputNor(),
+                child: IconUtl.voiceInputNor(),
               ),
             ),
           ),
@@ -407,7 +407,7 @@ class _ChatToolsViewState extends State<ChatToolsView>
                 label: UILocalizations.album,
                 style: toolsTextStyle,
                 image: _buildBtn(
-                  icon: ChatIcon.toolsAlbum(),
+                  icon: IconUtl.toolsAlbum(),
                   onTap: onTapAlbum,
                 ),
               )),
@@ -418,7 +418,7 @@ class _ChatToolsViewState extends State<ChatToolsView>
                 label: UILocalizations.file,
                 style: toolsTextStyle,
                 image: _buildBtn(
-                  icon: ChatIcon.toolsFile(),
+                  icon: IconUtl.toolsFile(),
                   onTap: onTapFile,
                 ),
               )),
@@ -431,7 +431,7 @@ class _ChatToolsViewState extends State<ChatToolsView>
                 label: UILocalizations.camera,
                 style: toolsTextStyle,
                 image: _buildBtn(
-                  icon: ChatIcon.toolsCamera(),
+                  icon: IconUtl.toolsCamera(),
                   onTap: onTapCamera,
                 ),
               )),
@@ -442,7 +442,7 @@ class _ChatToolsViewState extends State<ChatToolsView>
                 label: UILocalizations.carte,
                 style: toolsTextStyle,
                 image: _buildBtn(
-                  icon: ChatIcon.toolsCarte(),
+                  icon: IconUtl.toolsCarte(),
                   onTap: onTapCarte,
                 ),
               )),
@@ -455,7 +455,7 @@ class _ChatToolsViewState extends State<ChatToolsView>
                 label: UILocalizations.videoCall,
                 style: toolsTextStyle,
                 image: _buildBtn(
-                  icon: ChatIcon.toolsVideoCall(),
+                  icon: IconUtl.toolsVideoCall(),
                   onTap: onTapVideoCall,
                 ),
               )),
@@ -466,7 +466,7 @@ class _ChatToolsViewState extends State<ChatToolsView>
                 label: UILocalizations.voiceInput,
                 style: toolsTextStyle,
                 image: _buildBtn(
-                  icon: ChatIcon.toolsVoiceInput(),
+                  icon: IconUtl.toolsVoiceInput(),
                   onTap: onTapVoiceInput,
                 ),
               )),
@@ -477,7 +477,7 @@ class _ChatToolsViewState extends State<ChatToolsView>
             label: UILocalizations.location,
             style: toolsTextStyle,
             image: _buildBtn(
-              icon: ChatIcon.toolsLocation(),
+              icon: IconUtl.toolsLocation(),
               onTap: onTapLocation,
             ),
           )),
@@ -489,7 +489,7 @@ class _ChatToolsViewState extends State<ChatToolsView>
           label: UILocalizations.album,
           style: toolsTextStyle,
           image: _buildBtn(
-            icon: ChatIcon.toolsAlbum(),
+            icon: IconUtl.toolsAlbum(),
             onTap: onTapAlbum,
             // onTap: () => PermissionUtil.storage(() => onTapAlbum?.call()),
           ),
@@ -498,7 +498,7 @@ class _ChatToolsViewState extends State<ChatToolsView>
           label: UILocalizations.camera,
           style: toolsTextStyle,
           image: _buildBtn(
-            icon: ChatIcon.toolsCamera(),
+            icon: IconUtl.toolsCamera(),
             onTap: onTapCamera,
             // onTap: () => PermissionUtil.camera(() => onTapCamera?.call()),
           ),
@@ -507,7 +507,7 @@ class _ChatToolsViewState extends State<ChatToolsView>
           label: UILocalizations.videoCall,
           style: toolsTextStyle,
           image: _buildBtn(
-            icon: ChatIcon.toolsVideoCall(),
+            icon: IconUtl.toolsVideoCall(),
             onTap: onTapVideoCall,
             // onTap: () => PermissionUtil.camera(() => onTapVideoCall?.call()),
           ),
@@ -516,7 +516,7 @@ class _ChatToolsViewState extends State<ChatToolsView>
           label: UILocalizations.location,
           style: toolsTextStyle,
           image: _buildBtn(
-            icon: ChatIcon.toolsLocation(),
+            icon: IconUtl.toolsLocation(),
             onTap: onTapLocation,
             // onTap: () => PermissionUtil.location(() => onTapLocation?.call()),
           ),
@@ -525,7 +525,7 @@ class _ChatToolsViewState extends State<ChatToolsView>
           label: UILocalizations.file,
           style: toolsTextStyle,
           image: _buildBtn(
-            icon: ChatIcon.toolsFile(),
+            icon: IconUtl.toolsFile(),
             onTap: onTapFile,
             // onTap: () => PermissionUtil.storage(() => onTapFile?.call()),
           ),
@@ -534,7 +534,7 @@ class _ChatToolsViewState extends State<ChatToolsView>
           label: UILocalizations.carte,
           style: toolsTextStyle,
           image: _buildBtn(
-            icon: ChatIcon.toolsCarte(),
+            icon: IconUtl.toolsCarte(),
             onTap: onTapCarte,
           ),
         ),
@@ -542,7 +542,7 @@ class _ChatToolsViewState extends State<ChatToolsView>
           label: UILocalizations.voiceInput,
           style: toolsTextStyle,
           image: _buildBtn(
-            icon: ChatIcon.toolsVoiceInput(),
+            icon: IconUtl.toolsVoiceInput(),
             onTap: onTapVoiceInput,
             // onTap: () => PermissionUtil.microphone(
             //   () => onTapVoiceInput?.call(),

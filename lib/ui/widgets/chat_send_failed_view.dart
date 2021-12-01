@@ -42,7 +42,7 @@ class _ChatSendFailedViewState extends State<ChatSendFailedView> {
   Widget build(BuildContext context) {
     return Visibility(
       visible: !widget.isReceived && _failed,
-      child: ChatIcon.sendFailed(),
+      child: IconUtl.sendFailed(),
     );
   }
 }

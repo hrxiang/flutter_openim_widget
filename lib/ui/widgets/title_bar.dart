@@ -67,7 +67,7 @@ class TitleBar extends StatelessWidget implements PreferredSizeWidget {
           behavior: HitTestBehavior.translucent,
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 22),
-            child: ChatIcon.back(),
+            child: IconUtl.back(),
           ),
         ),
         right = right,
@@ -137,7 +137,7 @@ class TitleBar extends StatelessWidget implements PreferredSizeWidget {
                   behavior: HitTestBehavior.translucent,
                   child: Container(
                     padding: EdgeInsets.only(left: 10, right: 10),
-                    child: ChatIcon.search(),
+                    child: IconUtl.search(),
                   ),
                 ),
               ),
@@ -147,7 +147,7 @@ class TitleBar extends StatelessWidget implements PreferredSizeWidget {
                   menus: menus,
                   child: Container(
                     padding: EdgeInsets.only(left: 10, right: 10),
-                    child: ChatIcon.add(),
+                    child: IconUtl.add(),
                   ),
                 ),
               ),
