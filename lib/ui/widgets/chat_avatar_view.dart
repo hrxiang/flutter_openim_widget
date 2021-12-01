@@ -73,12 +73,10 @@ class ChatAvatarView extends StatelessWidget {
         ),
       );
 
-  Widget _indexAvatar() => ClipOval(
-        child: Container(
-          width: size,
-          height: size,
-          child: IconUtil.assetImage(url!, width: size, height: size),
-        ),
+  Widget _indexAvatar() => Container(
+        width: size,
+        height: size,
+        child: IconUtil.assetImage(url!, width: size, height: size),
       );
 
   Widget _defaultAvatar() => Container(
