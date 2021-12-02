@@ -91,7 +91,15 @@ class ChatAtText extends StatelessWidget {
 
     _mapping[emojiPattern] = MatchPattern(type: PatternType.EMOJI);
 
-    final pattern = '(${_mapping.keys.toList().join('|')})';
+    final pattern;
+
+    if (_mapping.length > 1) {
+      pattern = '(${_mapping.keys.toList().join('|')})';
+    } else {
+      pattern = emojiPattern;
+    }
+
+    // final pattern = '(${_mapping.keys.toList().join('|')})';
 
     // match  text
     text.splitMapJoin(
