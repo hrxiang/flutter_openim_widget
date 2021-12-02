@@ -166,10 +166,20 @@ class ChatSingleLayout extends StatelessWidget {
         mainAxisAlignment: _layoutAlignment(),
         // crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Visibility(
+          FutureBuilder(
+            future: Future.delayed(
+              Duration(seconds: (isSending && !isSendFailed) ? 2 : 0),
+              () => isSending && !isSendFailed,
+            ),
+            builder: (_, AsyncSnapshot<bool> hot) => Visibility(
+              visible: hot.data == true,
+              child: CupertinoActivityIndicator(),
+            ),
+          ),
+          /*Visibility(
             visible: isSending && !isSendFailed,
             child: CupertinoActivityIndicator(),
-          ),
+          ),*/
           ChatSendFailedView(
             msgId: msgId,
             isReceived: isReceivedMsg,
