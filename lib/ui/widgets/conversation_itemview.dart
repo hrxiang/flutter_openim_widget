@@ -31,7 +31,7 @@ class ConversationItemView extends StatelessWidget {
   final EdgeInsetsGeometry padding;
   final bool underline;
   final Map<String, String> allAtMap;
-  final List<MatchText> parse;
+  final List<MatchPattern> patterns;
 
   // final bool isPinned;
 
@@ -54,7 +54,7 @@ class ConversationItemView extends StatelessWidget {
     this.padding = const EdgeInsets.symmetric(horizontal: 22),
     this.underline = true,
     this.allAtMap = const {},
-    this.parse = const [],
+    this.patterns = const [],
     // this.isPinned = false,
     this.titleStyle = const TextStyle(
       fontSize: 16,
@@ -139,7 +139,7 @@ class ConversationItemView extends StatelessWidget {
                                     text: contentPrefix,
                                     style: contentPrefixStyle,
                                   ),
-                            parse: parse,
+                            patterns: patterns,
                           ),
                         ),
                         Spacer(),

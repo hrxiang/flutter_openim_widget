@@ -22,7 +22,7 @@ class ChatAtText extends StatelessWidget {
   /// key:userid
   /// value:username
   final Map<String, String> allAtMap;
-  final List<MatchText> parse;
+  final List<MatchPattern> patterns;
 
   // final TextAlign textAlign;
   const ChatAtText({
@@ -30,7 +30,7 @@ class ChatAtText extends StatelessWidget {
     required this.text,
     required this.allAtMap,
     this.prefixSpan,
-    this.parse = const <MatchText>[],
+    this.patterns = const <MatchPattern>[],
     this.textAlign = TextAlign.left,
     this.overflow = TextOverflow.clip,
     // this.textAlign = TextAlign.start,
@@ -67,16 +67,16 @@ class ChatAtText extends StatelessWidget {
 
     var style = textStyle ?? _textStyle;
 
-    final _mapping = Map<String, MatchText>();
+    final _mapping = Map<String, MatchPattern>();
 
-    parse.forEach((e) {
-      if (e.type == ParsedType.AT) {
+    patterns.forEach((e) {
+      if (e.type == PatternType.AT) {
         _mapping[atPattern] = e;
-      } else if (e.type == ParsedType.EMAIL) {
+      } else if (e.type == PatternType.EMAIL) {
         _mapping[emailPattern] = e;
-      } else if (e.type == ParsedType.PHONE) {
+      } else if (e.type == PatternType.PHONE) {
         _mapping[phonePattern] = e;
-      } else if (e.type == ParsedType.URL) {
+      } else if (e.type == PatternType.URL) {
         _mapping[urlPattern] = e;
       } else {
         _mapping[e.pattern!] = e;
@@ -89,7 +89,7 @@ class ChatAtText extends StatelessWidget {
         .replaceAll('[', '\\[')
         .replaceAll(']', '\\]');
 
-    _mapping[emojiPattern] = MatchText(type: ParsedType.EMOJI);
+    _mapping[emojiPattern] = MatchPattern(type: PatternType.EMOJI);
 
     final pattern = '(${_mapping.keys.toList().join('|')})';
 
@@ -108,14 +108,14 @@ class ChatAtText extends StatelessWidget {
               return '';
             })];
         if (mapping != null) {
-          if (mapping.type == ParsedType.AT) {
+          if (mapping.type == PatternType.AT) {
             String uid = matchText.replaceAll("@", "").trim();
             value = uid;
             if (allAtMap.containsKey(uid)) {
               matchText = '@${allAtMap[uid]!} ';
             }
           }
-          if (mapping.type == ParsedType.EMOJI) {
+          if (mapping.type == PatternType.EMOJI) {
             inlineSpan = ImageSpan(
               IconUtil.emojiImage(matchText),
               imageWidth: 20.h,
@@ -155,13 +155,13 @@ class ChatAtText extends StatelessWidget {
     );
   }
 
-  _getUrl(String text, ParsedType type) {
+  _getUrl(String text, PatternType type) {
     switch (type) {
-      case ParsedType.URL:
+      case PatternType.URL:
         return text.substring(0, 4) == 'http' ? text : 'http://$text';
-      case ParsedType.EMAIL:
+      case PatternType.EMAIL:
         return text.substring(0, 7) == 'mailto:' ? text : 'mailto:$text';
-      case ParsedType.PHONE:
+      case PatternType.PHONE:
         return text.substring(0, 4) == 'tel:' ? text : 'tel:$text';
       default:
         return text;
@@ -169,19 +169,19 @@ class ChatAtText extends StatelessWidget {
   }
 }
 
-class MatchText {
-  ParsedType type;
+class MatchPattern {
+  PatternType type;
 
   String? pattern;
 
   TextStyle? style;
 
-  Function(String link, ParsedType? type)? onTap;
+  Function(String link, PatternType? type)? onTap;
 
-  MatchText({required this.type, this.pattern, this.style, this.onTap});
+  MatchPattern({required this.type, this.pattern, this.style, this.onTap});
 }
 
-enum ParsedType { AT, EMAIL, PHONE, URL, EMOJI, CUSTOM }
+enum PatternType { AT, EMAIL, PHONE, URL, EMOJI, CUSTOM }
 
 /// @uid
 const atPattern = r"(@\S+\s)";

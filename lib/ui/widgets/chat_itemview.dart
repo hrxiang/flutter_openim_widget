@@ -165,7 +165,7 @@ class ChatItemView extends StatefulWidget {
   ///
   final Function()? onTapQuoteMsg;
 
-  final List<MatchText> parse;
+  final List<MatchPattern> patterns;
 
   const ChatItemView({
     Key? key,
@@ -212,7 +212,7 @@ class ChatItemView extends StatefulWidget {
     this.onMultiSelChanged,
     this.multiList = const [],
     this.onTapQuoteMsg,
-    this.parse = const [],
+    this.patterns = const [],
   }) : super(key: key);
 
   @override
@@ -250,7 +250,7 @@ class _ChatItemViewState extends State<ChatItemView> {
               text: widget.message.content!,
               allAtMap: {},
               textStyle: widget.textStyle,
-              parse: widget.parse,
+              patterns: widget.patterns,
             ),
           );
         }
@@ -264,7 +264,7 @@ class _ChatItemViewState extends State<ChatItemView> {
               text: text,
               allAtMap: widget.allAtMap,
               textStyle: widget.textStyle,
-              parse: widget.parse,
+              patterns: widget.patterns,
             ),
           );
         }
