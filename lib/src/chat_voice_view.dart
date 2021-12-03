@@ -46,36 +46,16 @@ class _ChatVoiceViewState extends State<ChatVoiceView> {
           setState(() {
             if (_isPlaying) {
               _isPlaying = false;
-              _voicePlayer.stop();
+              // _voicePlayer.stop();
             }
           });
           break;
       }
     });
-
-    String? path = widget.soundPath;
-    String? url = widget.soundUrl;
-
-    if (widget.isReceived) {
-      if (null != url && url.trim().isNotEmpty) {
-        _isExistSource = true;
-        _voicePlayer.setUrl(url);
-      }
-    } else {
-      if (path != null && path.trim().isNotEmpty) {
-        var file = File(path);
-        if (file.existsSync()) {
-          _isExistSource = true;
-          _voicePlayer.setFilePath(path);
-        }
-      } else if (null != url && url.trim().isNotEmpty) {
-        _isExistSource = true;
-        _voicePlayer.setUrl(url);
-      }
-    }
+    _initSource();
     widget.clickStream?.listen((i) {
       if (!mounted) return;
-      print('click:$i');
+      print('click:$i    $_isExistSource');
       if (_isExistSource) {
         print('sound click:$i');
         if (_isClickedLocation(i)) {
@@ -87,6 +67,7 @@ class _ChatVoiceViewState extends State<ChatVoiceView> {
             } else {
               print('sound start:$i');
               _isPlaying = true;
+              _voicePlayer.seek(Duration.zero);
               _voicePlayer.play();
             }
           });
@@ -102,6 +83,30 @@ class _ChatVoiceViewState extends State<ChatVoiceView> {
       }
     });
     super.initState();
+  }
+
+  void _initSource() async {
+    String? path = widget.soundPath;
+    String? url = widget.soundUrl;
+    if (widget.isReceived) {
+      if (null != url && url.trim().isNotEmpty) {
+        _isExistSource = true;
+        _voicePlayer.setUrl(url);
+      }
+    } else {
+      var _existFile = false;
+      if (path != null && path.trim().isNotEmpty) {
+        var file = File(path);
+        _existFile = await file.exists();
+      }
+      if (_existFile) {
+        _isExistSource = true;
+        _voicePlayer.setFilePath(path!);
+      } else if (null != url && url.trim().isNotEmpty) {
+        _isExistSource = true;
+        _voicePlayer.setUrl(url);
+      }
+    }
   }
 
   @override

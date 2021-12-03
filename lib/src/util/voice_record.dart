@@ -14,28 +14,28 @@ class VoiceRecord {
   int _long = 0;
   late int _tag;
   RecordFc callback;
+  final _audioRecorder = Record();
 
   VoiceRecord(this.callback) : _tag = DateTime.now().millisecondsSinceEpoch;
 
-  start() async {
-    var path = (await getApplicationDocumentsDirectory()).path;
-    _path = '$path/$_dir/$_tag$_ext';
-    File file = File(_path);
-    if (!(await file.exists())) {
-      await file.create(recursive: true);
-    }
-    print('_path:$_path');
-    _long = _now();
-    PermissionUtil.microphone(() => Record.start(path: _path));
+  start() {
+    PermissionUtil.microphone(() async {
+      var path = (await getApplicationDocumentsDirectory()).path;
+      _path = '$path/$_dir/$_tag$_ext';
+      File file = File(_path);
+      if (!(await file.exists())) {
+        await file.create(recursive: true);
+      }
+      _long = _now();
+      _audioRecorder.start(path: _path);
+    });
   }
 
   stop() async {
     _long = (_now() - _long) ~/ 1000;
-    print('-----------time:${_now() - _long}');
-    print('-----------time:$_long');
-    bool isRecording = await Record.isRecording();
+    bool isRecording = await _audioRecorder.isRecording();
     if (isRecording) {
-      Record.stop();
+      _audioRecorder.stop();
       callback(_long, _path);
     }
   }

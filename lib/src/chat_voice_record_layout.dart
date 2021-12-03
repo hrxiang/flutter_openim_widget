@@ -91,13 +91,11 @@ class _ChatVoiceRecordLayoutState extends State<ChatVoiceRecordLayout> {
               _selectedPressArea = false;
               _selectedCancelArea = false;
               _selectedSoundToWordArea = false;
-              print('--------------------1');
             } else {
               _showVoiceRecordView = false;
               _selectedPressArea = false;
               _selectedCancelArea = false;
               _selectedSoundToWordArea = false;
-              print('--------------------2');
             }
           });
         },

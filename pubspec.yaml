@@ -11,20 +11,20 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  rxdart: ^0.27.1
-  flutter_screenutil: ^5.0.0+2
+  rxdart: ^0.27.3
+  flutter_screenutil: ^5.0.1
   #  flutter_slidable: ^1.1.0
   cached_network_image: ^3.2.0
-  path_provider: ^2.0.2
-  photo_view: ^0.12.0
-  flutter_image_compress: ^1.0.0
-  record: ^2.1.1
-  just_audio: ^0.7.5
+  path_provider: ^2.0.7
+  photo_view: ^0.13.0
+  flutter_image_compress: ^1.1.0
+  record: ^3.0.2
+  just_audio: ^0.9.18
   #  chewie: ^1.2.2
   #  provider: ^6.0.1
-  video_player: ^2.1.6
-  lottie: ^1.0.1
-  permission_handler: ^8.0.0+2
+  video_player: ^2.2.7
+  lottie: ^1.2.1
+  permission_handler: ^8.3.0
   extended_text_field: ^8.0.0
   bubble: ^1.2.1
   focus_detector: ^2.0.0
@@ -34,19 +34,19 @@ dependencies:
   #  flutter_openim_sdk: ^0.0.9+4
   #  linkable: ^3.0.1
   #  flutter_parsed_text: ^2.2.1
-  flutter_svg: ^0.23.0+1
+  flutter_svg: ^1.0.0
   chewie:
     git:
       url: https://github.com/hrxiang/chewie.git
   flutter_slidable:
     git:
       url: https://github.com/letsar/flutter_slidable.git
-  flutter_openim_sdk:
-    git:
-      url: https://github.com/OpenIMSDK/Open-IM-SDK-Flutter.git
-      ref: fix-ios-simulator
 #  flutter_openim_sdk:
-#    path: ../flutter_openim_sdk
+#    git:
+#      url: https://github.com/OpenIMSDK/Open-IM-SDK-Flutter.git
+#      ref: fix-ios-simulator
+  flutter_openim_sdk:
+    path: ../flutter_openim_sdk
 
 dev_dependencies:
   flutter_test:
