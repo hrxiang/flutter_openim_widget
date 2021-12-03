@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_openim_widget/flutter_openim_widget.dart';
-import 'package:flutter_openim_widget/ui/widgets/unread_count_view.dart';
+import 'package:flutter_openim_widget/src/unread_count_view.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
@@ -11,7 +11,7 @@ final deleteColors = [Color(0xFFFFC84C), Color(0xFFFFA93C)];
 final haveReadColors = [Color(0xFFC9C9C9), Color(0xFF7A7A7A)];
 
 class ConversationItemView extends StatelessWidget {
-  final List<SlideItemInfo>? slideActions;
+  final List<SlideItemInfo> slideActions;
   final double avatarSize;
   final String? avatarUrl;
   final bool? isCircleAvatar;
@@ -32,12 +32,13 @@ class ConversationItemView extends StatelessWidget {
   final bool underline;
   final Map<String, String> allAtMap;
   final List<MatchPattern> patterns;
+  final Function()? onTap;
 
   // final bool isPinned;
 
   ConversationItemView({
     Key? key,
-    this.slideActions,
+    this.slideActions = const [],
     required this.title,
     required this.content,
     required this.timeStr,
@@ -55,6 +56,7 @@ class ConversationItemView extends StatelessWidget {
     this.underline = true,
     this.allAtMap = const {},
     this.patterns = const [],
+    this.onTap,
     // this.isPinned = false,
     this.titleStyle = const TextStyle(
       fontSize: 16,
@@ -76,8 +78,90 @@ class ConversationItemView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Slidable(
-      actionPane: SlidableScrollActionPane(),
-      actionExtentRatio: 0.2,
+      child: _ConversationView(
+        title: title,
+        content: content,
+        timeStr: timeStr,
+        contentPrefix: contentPrefix,
+        contentPrefixStyle: contentPrefixStyle,
+        avatarSize: avatarSize,
+        avatarUrl: avatarUrl,
+        isCircleAvatar: isCircleAvatar,
+        avatarBorderRadius: avatarBorderRadius,
+        backgroundColor: backgroundColor,
+        height: height,
+        contentWidth: contentWidth,
+        unreadCount: unreadCount,
+        padding: padding,
+        underline: underline,
+        allAtMap: allAtMap,
+        patterns: patterns,
+        titleStyle: titleStyle,
+        contentStyle: contentStyle,
+        timeStyle: timeStyle,
+        onTap: onTap,
+      ),
+      endActionPane: ActionPane(
+        motion: DrawerMotion(),
+        // extentRatio: 0.75,
+        children: slideActions.map((e) => _SlidableAction(item: e)).toList(),
+      ),
+    );
+  }
+}
+
+class _ConversationView extends StatelessWidget {
+  const _ConversationView({
+    Key? key,
+    required this.title,
+    required this.content,
+    required this.timeStr,
+    required this.avatarSize,
+    required this.backgroundColor,
+    required this.height,
+    required this.contentWidth,
+    required this.unreadCount,
+    required this.padding,
+    this.underline = true,
+    required this.allAtMap,
+    required this.patterns,
+    // this.isPinned = false,
+    required this.titleStyle,
+    required this.contentStyle,
+    required this.timeStyle,
+    this.avatarUrl,
+    this.isCircleAvatar,
+    this.avatarBorderRadius,
+    this.contentPrefix,
+    this.contentPrefixStyle,
+    this.onTap,
+  }) : super(key: key);
+  final double avatarSize;
+  final String? avatarUrl;
+  final bool? isCircleAvatar;
+  final BorderRadius? avatarBorderRadius;
+  final String title;
+  final TextStyle titleStyle;
+  final String content;
+  final TextStyle contentStyle;
+  final String? contentPrefix;
+  final TextStyle? contentPrefixStyle;
+  final String timeStr;
+  final TextStyle timeStyle;
+  final Color backgroundColor;
+  final double height;
+  final double contentWidth;
+  final int unreadCount;
+  final EdgeInsetsGeometry padding;
+  final bool underline;
+  final Map<String, String> allAtMap;
+  final List<MatchPattern> patterns;
+  final Function()? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () => onTap?.call(),
       child: Container(
         color: backgroundColor,
         height: height,
@@ -153,55 +237,53 @@ class ConversationItemView extends StatelessWidget {
           ],
         ),
       ),
-      secondaryActions: slideActions
-          ?.map((e) => _slideAction(
-                colors: e.colors,
-                text: e.text,
-                width: e.width,
-                textStyle: e.textStyle,
-                boxShadow: e.boxShadow,
-                onTap: e.onTap,
-              ))
-          .toList(),
     );
   }
+}
 
-  SlideAction _slideAction({
-    VoidCallback? onTap,
-    required List<Color> colors,
-    required String text,
-    required TextStyle textStyle,
-    double? width,
-    List<BoxShadow>? boxShadow,
-  }) =>
-      SlideAction(
-        onTap: onTap,
-        decoration: BoxDecoration(
-          boxShadow: boxShadow ??
-              [
-                BoxShadow(
-                  color: Color(0xFF000000).withOpacity(0.5),
-                  offset: Offset(0, 2),
-                  blurRadius: 4,
-                  spreadRadius: 0,
-                )
-              ],
-          gradient: LinearGradient(
-            colors: colors,
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-        ),
+class _SlidableAction extends StatelessWidget {
+  final SlideItemInfo item;
+
+  const _SlidableAction({Key? key, required this.item}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: GestureDetector(
+        onTap: () {
+          item.onTap?.call();
+          Slidable.of(context)?.close();
+        },
         child: Container(
-          alignment: Alignment.center,
-          width: width,
-          padding: EdgeInsets.symmetric(horizontal: 12.w),
-          child: Text(
-            text,
-            style: textStyle,
+          decoration: BoxDecoration(
+            boxShadow: item.boxShadow ??
+                [
+                  BoxShadow(
+                    color: Color(0xFF000000).withOpacity(0.5),
+                    offset: Offset(0, 2),
+                    blurRadius: 4,
+                    spreadRadius: 0,
+                  )
+                ],
+            gradient: LinearGradient(
+              colors: item.colors,
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+          child: Container(
+            alignment: Alignment.center,
+            width: item.width,
+            padding: EdgeInsets.symmetric(horizontal: 12.w),
+            child: Text(
+              item.text,
+              style: item.textStyle,
+            ),
           ),
         ),
-      );
+      ),
+    );
+  }
 }
 
 class SlideItemInfo {
@@ -211,10 +293,12 @@ class SlideItemInfo {
   final List<Color> colors;
   final List<BoxShadow>? boxShadow;
   final double? width;
+  final int flex;
 
   SlideItemInfo({
     required this.text,
     required this.colors,
+    this.flex = 1,
     this.onTap,
     this.width,
     this.boxShadow,

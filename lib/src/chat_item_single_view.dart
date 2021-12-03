@@ -34,6 +34,7 @@ class ChatSingleLayout extends StatelessWidget {
   final bool checked;
   final bool showRadio;
   final Function(bool checked)? onRadioChanged;
+  final bool delaySendingStatus;
 
   const ChatSingleLayout({
     Key? key,
@@ -66,6 +67,7 @@ class ChatSingleLayout extends StatelessWidget {
     this.checked = false,
     this.showRadio = false,
     this.onRadioChanged,
+    this.delaySendingStatus = false,
   }) : super(key: key);
 
   @override
@@ -166,20 +168,24 @@ class ChatSingleLayout extends StatelessWidget {
         mainAxisAlignment: _layoutAlignment(),
         // crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          FutureBuilder(
-            future: Future.delayed(
-              Duration(seconds: (isSending && !isSendFailed) ? 2 : 0),
-              () => isSending && !isSendFailed,
+          if (delaySendingStatus)
+            FutureBuilder(
+              future: Future.delayed(
+                Duration(seconds: (isSending && !isSendFailed) ? 1 : 0),
+                () => isSending && !isSendFailed,
+              ),
+              builder: (_, AsyncSnapshot<bool> hot) => Visibility(
+                visible: index == 0
+                    ? (hot.data == true)
+                    : (isSending && !isSendFailed),
+                child: CupertinoActivityIndicator(),
+              ),
             ),
-            builder: (_, AsyncSnapshot<bool> hot) => Visibility(
-              visible: hot.data == true,
+          if (!delaySendingStatus)
+            Visibility(
+              visible: isSending && !isSendFailed,
               child: CupertinoActivityIndicator(),
             ),
-          ),
-          /*Visibility(
-            visible: isSending && !isSendFailed,
-            child: CupertinoActivityIndicator(),
-          ),*/
           ChatSendFailedView(
             msgId: msgId,
             isReceived: isReceivedMsg,

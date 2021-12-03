@@ -1,7 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_openim_widget/flutter_openim_widget.dart';
-import 'package:flutter_openim_widget/ui/widgets/chat_longpress_ripple.dart';
+import 'package:flutter_openim_widget/src/chat_longpress_ripple.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 typedef IndexedToolsBuilder = Widget Function(

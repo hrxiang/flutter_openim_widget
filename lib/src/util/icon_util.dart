@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_openim_widget/ui/widgets/chat_emoji_view.dart';
+import 'package:flutter_openim_widget/src/chat_emoji_view.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 

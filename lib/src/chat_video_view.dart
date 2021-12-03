@@ -5,8 +5,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../flutter_openim_widget.dart';
-import 'chat_itemview.dart';
-import 'chat_send_progress_view.dart';
+import '../../src/chat_itemview.dart';
+import '../../src/chat_send_progress_view.dart';
 
 class ChatVideoView extends StatefulWidget {
   final String? videoPath;

@@ -167,6 +167,8 @@ class ChatItemView extends StatefulWidget {
 
   final List<MatchPattern> patterns;
 
+  final bool delaySendingStatus;
+
   const ChatItemView({
     Key? key,
     required this.index,
@@ -213,6 +215,7 @@ class ChatItemView extends StatefulWidget {
     this.multiList = const [],
     this.onTapQuoteMsg,
     this.patterns = const [],
+    this.delaySendingStatus = false,
   }) : super(key: key);
 
   @override
@@ -509,6 +512,7 @@ class _ChatItemViewState extends State<ChatItemView> {
         showRadio: widget.multiSelMode,
         checked: _checked,
         onRadioChanged: widget.onMultiSelChanged,
+        delaySendingStatus: widget.delaySendingStatus,
       );
 
   Widget _menuBuilder() => ChatLongPressMenu(
