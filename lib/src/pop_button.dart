@@ -95,28 +95,48 @@ class PopButton extends StatelessWidget {
     );
   }
 
-  Widget _buildPopBgView({Widget? child}) => Container(
-        child: child,
-        padding: EdgeInsets.symmetric(vertical: 4),
-        decoration: BoxDecoration(
-          color: menuBgColor,
-          borderRadius: BorderRadius.circular(menuBgRadius),
-          boxShadow: [
-            BoxShadow(
-              color: menuBgShadowColor ?? Color(0xFF000000).withOpacity(0.5),
-              offset: menuBgShadowOffset ?? Offset(0, 2),
-              blurRadius: menuBgShadowBlurRadius ?? 6,
-              spreadRadius: menuBgShadowSpreadRadius ?? 0,
-            )
-          ],
+  _clickArea(double dy) {
+    for (var i = 0; i < menus.length; i++) {
+      if (dy > i * menuItemHeight! && dy <= (i + 1) * menuItemHeight!) {
+        menus.elementAt(i).onTap?.call();
+        popCtrl?.hideMenu();
+      }
+    }
+  }
+
+  Widget _buildPopBgView({Widget? child}) => GestureDetector(
+        onPanDown: null == menuItemHeight
+            ? null
+            : (details) {
+                if (null != menuItemHeight) {
+                  _clickArea(details.localPosition.dy);
+                }
+              },
+        child: Container(
+          child: child,
+          padding: EdgeInsets.symmetric(vertical: 4),
+          decoration: BoxDecoration(
+            color: menuBgColor,
+            borderRadius: BorderRadius.circular(menuBgRadius),
+            boxShadow: [
+              BoxShadow(
+                color: menuBgShadowColor ?? Color(0xFF000000).withOpacity(0.5),
+                offset: menuBgShadowOffset ?? Offset(0, 2),
+                blurRadius: menuBgShadowBlurRadius ?? 6,
+                spreadRadius: menuBgShadowSpreadRadius ?? 0,
+              )
+            ],
+          ),
         ),
       );
 
   Widget _buildPopItemView(PopMenuInfo info) => GestureDetector(
-        onTap: () {
-          popCtrl?.hideMenu();
-          info.onTap?.call();
-        },
+        onTap: null == menuItemHeight
+            ? () {
+                popCtrl?.hideMenu();
+                info.onTap?.call();
+              }
+            : null,
         behavior: HitTestBehavior.translucent,
         child: Container(
           height: menuItemHeight,
