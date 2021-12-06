@@ -221,4 +221,10 @@ class IconUtil {
         height: height,
         width: width,
       );
+
+  static Widget notDisturb() => assetImage(
+        'ic_not_disturb',
+        width: 20.h,
+        height: 20.h,
+      );
 }

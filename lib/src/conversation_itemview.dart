@@ -33,6 +33,7 @@ class ConversationItemView extends StatelessWidget {
   final Map<String, String> allAtMap;
   final List<MatchPattern> patterns;
   final Function()? onTap;
+  final bool notDisturb;
 
   // final bool isPinned;
 
@@ -57,6 +58,7 @@ class ConversationItemView extends StatelessWidget {
     this.allAtMap = const {},
     this.patterns = const [],
     this.onTap,
+    this.notDisturb = false,
     // this.isPinned = false,
     this.titleStyle = const TextStyle(
       fontSize: 16,
@@ -100,6 +102,7 @@ class ConversationItemView extends StatelessWidget {
         contentStyle: contentStyle,
         timeStyle: timeStyle,
         onTap: onTap,
+        notDisturb: notDisturb,
       ),
       endActionPane: ActionPane(
         motion: DrawerMotion(),
@@ -135,6 +138,7 @@ class _ConversationView extends StatelessWidget {
     this.contentPrefix,
     this.contentPrefixStyle,
     this.onTap,
+    this.notDisturb = false,
   }) : super(key: key);
   final double avatarSize;
   final String? avatarUrl;
@@ -157,6 +161,7 @@ class _ConversationView extends StatelessWidget {
   final Map<String, String> allAtMap;
   final List<MatchPattern> patterns;
   final Function()? onTap;
+  final bool notDisturb;
 
   @override
   Widget build(BuildContext context) {
@@ -166,74 +171,98 @@ class _ConversationView extends StatelessWidget {
         color: backgroundColor,
         height: height,
         padding: padding,
-        child: Row(
+        child: Stack(
+          alignment: Alignment.center,
           children: [
-            ChatAvatarView(
-              size: avatarSize,
-              url: avatarUrl,
-              isCircle: isCircleAvatar ?? true,
-              borderRadius: avatarBorderRadius,
+            Row(
+              children: [
+                ChatAvatarView(
+                  size: avatarSize,
+                  url: avatarUrl,
+                  isCircle: isCircleAvatar ?? true,
+                  borderRadius: avatarBorderRadius,
+                ),
+                SizedBox(width: 12.w),
+                Flexible(
+                  child: Container(
+                    decoration: underline
+                        ? BoxDecoration(
+                            border: BorderDirectional(
+                              bottom: BorderSide(
+                                  color: Color(0xFFE5EBFF), width: 1),
+                            ),
+                          )
+                        : null,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Row(
+                          children: [
+                            Container(
+                              width: contentWidth,
+                              child: Text(
+                                title,
+                                style: titleStyle,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                              ),
+                            ),
+                            Spacer(),
+                            Text(
+                              timeStr,
+                              style: timeStyle,
+                            )
+                          ],
+                        ),
+                        SizedBox(height: 4.h),
+                        Row(
+                          children: [
+                            Container(
+                              width: contentWidth,
+                              child: ChatAtText(
+                                allAtMap: allAtMap,
+                                text: content,
+                                textStyle: contentStyle,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                                prefixSpan: null == contentPrefix
+                                    ? null
+                                    : TextSpan(
+                                        text: contentPrefix,
+                                        style: contentPrefixStyle,
+                                      ),
+                                patterns: patterns,
+                              ),
+                            ),
+                            Spacer(),
+                            if (!notDisturb)
+                              UnreadCountView(count: unreadCount),
+                            if (notDisturb) IconUtil.notDisturb(),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+              ],
             ),
-            SizedBox(width: 12.w),
-            Flexible(
-              child: Container(
-                decoration: underline
-                    ? BoxDecoration(
-                        border: BorderDirectional(
-                          bottom:
-                              BorderSide(color: Color(0xFFE5EBFF), width: 1),
-                        ),
-                      )
-                    : null,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Row(
-                      children: [
-                        Container(
-                          width: contentWidth,
-                          child: Text(
-                            title,
-                            style: titleStyle,
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
-                          ),
-                        ),
-                        Spacer(),
-                        Text(
-                          timeStr,
-                          style: timeStyle,
-                        )
-                      ],
+            if (notDisturb && unreadCount > 0)
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Container(
+                  width: avatarSize + 4,
+                  height: avatarSize + 4,
+                  alignment: Alignment.topRight,
+                  child: Container(
+                    width: 8,
+                    height: 8,
+                    decoration: BoxDecoration(
+                      color: Colors.redAccent,
+                      shape: BoxShape.circle,
                     ),
-                    SizedBox(height: 4.h),
-                    Row(
-                      children: [
-                        Container(
-                          width: contentWidth,
-                          child: ChatAtText(
-                            allAtMap: allAtMap,
-                            text: content,
-                            textStyle: contentStyle,
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
-                            prefixSpan: null == contentPrefix
-                                ? null
-                                : TextSpan(
-                                    text: contentPrefix,
-                                    style: contentPrefixStyle,
-                                  ),
-                            patterns: patterns,
-                          ),
-                        ),
-                        Spacer(),
-                        UnreadCountView(count: unreadCount),
-                      ],
-                    ),
-                  ],
+                  ),
                 ),
               ),
-            )
           ],
         ),
       ),
