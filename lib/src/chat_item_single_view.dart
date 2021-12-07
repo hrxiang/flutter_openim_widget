@@ -1,7 +1,7 @@
-import 'package:bubble/bubble.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_openim_widget/flutter_openim_widget.dart';
+import 'package:flutter_openim_widget/src/chat_bubble.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ChatSingleLayout extends StatelessWidget {
@@ -109,8 +109,7 @@ class ChatSingleLayout extends StatelessWidget {
 
   Widget _isFromWidget() => Row(
         mainAxisAlignment: _layoutAlignment(),
-        crossAxisAlignment:
-            isBubbleBg ? CrossAxisAlignment.center : CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _buildAvatar(
             leftAvatar,
@@ -142,17 +141,13 @@ class ChatSingleLayout extends StatelessWidget {
                 verticalMargin: 0,
                 // horizontalMargin: 0,
                 child: isBubbleBg
-                    ? Bubble(
-                        margin: BubbleEdges.only(
-                          left: isReceivedMsg ? 4.w : 0,
-                          right: isReceivedMsg ? 0 : 4.w,
-                        ),
-                        // alignment: Alignment.topRight,
-                        nip: _nip(),
-                        color: _bubbleColor(),
-                        child: InkWell(
+                    ? GestureDetector(
+                        onTap: () => _onItemClick?.add(index),
+                        child: ChatBubble(
+                          constraints: BoxConstraints(minHeight: avatarSize),
+                          bubbleType: BubbleType.receiver,
                           child: child,
-                          onTap: () => _onItemClick?.add(index),
+                          backgroundColor: _bubbleColor(),
                         ),
                       )
                     : _noBubbleBgView(),
@@ -166,7 +161,6 @@ class ChatSingleLayout extends StatelessWidget {
 
   Widget _isToWidget() => Row(
         mainAxisAlignment: _layoutAlignment(),
-        // crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           if (delaySendingStatus)
             FutureBuilder(
@@ -195,9 +189,7 @@ class ChatSingleLayout extends StatelessWidget {
           if (isSingleChat && !isSendFailed && !isSending)
             _buildReadStatusView(),
           Row(
-            crossAxisAlignment: isBubbleBg
-                ? CrossAxisAlignment.center
-                : CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
               CopyCustomPopupMenu(
@@ -207,18 +199,13 @@ class ChatSingleLayout extends StatelessWidget {
                 verticalMargin: 0,
                 // horizontalMargin: 0,
                 child: isBubbleBg
-                    ? Bubble(
-                        margin: BubbleEdges.only(
-                          left: isReceivedMsg ? 4.w : 0,
-                          right: isReceivedMsg ? 0 : 4.w,
-                        ),
-                        // alignment: Alignment.topRight,
-                        nip: _nip(),
-                        color: _bubbleColor(),
-                        child: GestureDetector(
-                          behavior: HitTestBehavior.translucent,
+                    ? GestureDetector(
+                        onTap: () => _onItemClick?.add(index),
+                        child: ChatBubble(
+                          constraints: BoxConstraints(minHeight: avatarSize),
+                          bubbleType: BubbleType.send,
                           child: child,
-                          onTap: () => _onItemClick?.add(index),
+                          backgroundColor: _bubbleColor(),
                         ),
                       )
                     : _noBubbleBgView(),
@@ -238,7 +225,7 @@ class ChatSingleLayout extends StatelessWidget {
       );
 
   Widget _noBubbleBgView() => Container(
-        margin: EdgeInsets.only(right: 12.w, left: 12.w),
+        margin: EdgeInsets.only(right: 10.w, left: 10.w),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(6),
           child: Container(
@@ -270,8 +257,8 @@ class ChatSingleLayout extends StatelessWidget {
   MainAxisAlignment _layoutAlignment() =>
       isReceivedMsg ? MainAxisAlignment.start : MainAxisAlignment.end;
 
-  BubbleNip _nip() =>
-      isReceivedMsg ? BubbleNip.leftCenter : BubbleNip.rightCenter;
+  // BubbleNip _nip() =>
+  //     isReceivedMsg ? BubbleNip.leftCenter : BubbleNip.rightCenter;
 
   Color _bubbleColor() => isReceivedMsg ? leftBubbleColor : rightBubbleColor;
 
@@ -295,11 +282,11 @@ class ChatSingleLayout extends StatelessWidget {
       visible: !isReceivedMsg,
       child: read
           ? Text(
-        UILocalizations.haveRead,
+              UILocalizations.haveRead,
               style: haveRead,
             )
           : Text(
-        UILocalizations.unread,
+              UILocalizations.unread,
               style: unread,
             ),
     );
@@ -309,9 +296,9 @@ class ChatSingleLayout extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 1.h),
       margin: EdgeInsets.only(
-        left: isReceivedMsg ? avatarSize + 12.w : 0,
-        right: isReceivedMsg ? 0 : avatarSize + 12.w,
-        top: 2.h,
+        left: isReceivedMsg ? avatarSize + 10.w : 0,
+        right: isReceivedMsg ? 0 : avatarSize + 10.w,
+        // top: 2.h,
       ),
       decoration: BoxDecoration(
         color: Color(0xFFF0F0F0),

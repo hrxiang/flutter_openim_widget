@@ -26,7 +26,8 @@ dependencies:
   lottie: ^1.2.1
   permission_handler: ^8.3.0
   extended_text_field: ^8.0.0
-  bubble: ^1.2.1
+#  bubble: ^1.2.1
+#  bubble_box: ^0.5.1
   focus_detector: ^2.0.0
   sprintf: ^6.0.0
   flutter_inappwebview: ^5.3.2

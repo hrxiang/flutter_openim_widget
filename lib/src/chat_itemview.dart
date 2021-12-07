@@ -367,10 +367,9 @@ class _ChatItemViewState extends State<ChatItemView> {
           child = _buildCommonItemView(
             child: ChatAtText(
               text: widget.message.quoteElem?.text ?? '',
-              allAtMap: {},
-              // textAlign: _isFromMsg ? TextAlign.left : TextAlign.right,
-              // enabled: false,
-              textStyle: widget.hintTextStyle ?? _hintTextStyle,
+              allAtMap: widget.allAtMap,
+              textStyle: widget.textStyle,
+              patterns: widget.patterns,
             ),
           );
         }
@@ -602,7 +601,7 @@ class _ChatItemViewState extends State<ChatItemView> {
           textStyle: menuTextStyle,
           onTap: widget.onTapTranslationMenu,
         ),
-    // MenuInfo(
+        // MenuInfo(
         //   icon: IconUtil.menuDownload(),
         //   text: widget.localizations.download,
         //   enabled: true,

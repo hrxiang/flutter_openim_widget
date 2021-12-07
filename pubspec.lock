@@ -36,13 +36,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.1.0"
-  bubble:
-    dependency: "direct main"
-    description:
-      name: bubble
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "1.2.1"
   cached_network_image:
     dependency: "direct main"
     description:
@@ -195,10 +188,10 @@ packages:
     description:
       path: "."
       ref: fix-ios-simulator
-      resolved-ref: c496fd2d9c02845ab1633c38d54441b442917512
+      resolved-ref: "9963fe8259328dc75958452fceef34f1cd9f1fda"
       url: "https://github.com/OpenIMSDK/Open-IM-SDK-Flutter.git"
     source: git
-    version: "1.0.5"
+    version: "1.0.6"
   flutter_screenutil:
     dependency: "direct main"
     description:
