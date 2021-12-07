@@ -112,11 +112,13 @@ class _ChatPictureViewState extends State<ChatPictureView> {
 
   bool _isClickedLocation(i) => i == widget.index;
 
-  Widget _urlView({required String url}) => CachedNetworkImage(
-        imageUrl: url,
+  Widget _urlView({required String url}) => IconUtil.networkImage(
+        url: url,
         height: _trulyHeight,
         width: _trulyWidth,
         fit: BoxFit.fitWidth,
+        memCacheWidth: _trulyWidth.toInt(),
+        memCacheHeight: _trulyHeight.toInt(),
         placeholder: (context, url) => Container(
           width: 20,
           height: 20,

@@ -1,8 +1,9 @@
 import 'dart:convert';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../flutter_openim_widget.dart';
 
 class ChatLocationView extends StatelessWidget {
   ChatLocationView({
@@ -73,10 +74,11 @@ class ChatLocationView extends StatelessWidget {
             Row(
               children: [
                 Expanded(
-                  child: CachedNetworkImage(
-                    imageUrl: url,
+                  child: IconUtil.networkImage(
+                    url: url,
                     height: 100.h,
                     fit: BoxFit.fitWidth,
+                    memCacheHeight: 100.h.toInt(),
                   ),
                 )
               ],

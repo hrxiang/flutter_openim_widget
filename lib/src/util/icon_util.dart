@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_openim_widget/src/chat_emoji_view.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -13,8 +14,7 @@ class IconUtil {
         package: 'flutter_openim_widget',
       );
 
-  static Widget svg(
-    String name, {
+  static Widget svg(String name, {
     double? width,
     double? height,
     BoxFit? fit,
@@ -29,8 +29,7 @@ class IconUtil {
     );
   }
 
-  static Widget assetImage(
-    String res, {
+  static Widget assetImage(String res, {
     double? width,
     double? height,
     BoxFit? fit,
@@ -80,34 +79,34 @@ class IconUtil {
   );
 
   static Widget speak() => svg(
-        'ic_speak',
-        width: 26.h,
-        height: 26.h,
-      );
+    'ic_speak',
+    width: 26.h,
+    height: 26.h,
+  );
 
   static Widget tools() => svg(
-        'ic_tools',
-        width: 26.h,
-        height: 26.h,
-      );
+    'ic_tools',
+    width: 26.h,
+    height: 26.h,
+  );
 
   static Widget emoji() => svg(
-        'ic_emoji',
-        width: 26.h,
-        height: 26.h,
-      );
+    'ic_emoji',
+    width: 26.h,
+    height: 26.h,
+  );
 
   static Widget keyboard() => svg(
-        'ic_keyboard',
-        width: 26.h,
-        height: 26.h,
-      );
+    'ic_keyboard',
+    width: 26.h,
+    height: 26.h,
+  );
 
   static Widget toolsAlbum() => assetImage(
-        'ic_tools_album',
-        width: 48.h,
-        height: 48.h,
-      );
+    'ic_tools_album',
+    width: 48.h,
+    height: 48.h,
+  );
 
   static Widget toolsCamera() => assetImage(
     'ic_tools_camera',
@@ -226,5 +225,27 @@ class IconUtil {
         'ic_not_disturb',
         width: 20.h,
         height: 20.h,
+      );
+
+  static Widget networkImage({
+    required String url,
+    double? width,
+    double? height,
+    BoxFit? fit,
+    int? memCacheHeight,
+    int? memCacheWidth,
+    PlaceholderWidgetBuilder? placeholder,
+    LoadingErrorWidgetBuilder? errorWidget,
+  }) =>
+      CachedNetworkImage(
+        imageUrl: url,
+        width: width,
+        height: height,
+        fit: fit,
+        memCacheHeight: memCacheHeight,
+        memCacheWidth: memCacheWidth,
+        placeholder: placeholder,
+        errorWidget: errorWidget,
+        // filterQuality: FilterQuality.medium,
       );
 }

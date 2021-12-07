@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_openim_widget/flutter_openim_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -64,11 +63,13 @@ class ChatAvatarView extends StatelessWidget {
               ? _defaultAvatar()
               : (_isIndexAvatar()
                   ? _indexAvatar()
-                  : CachedNetworkImage(
-                      imageUrl: url!,
+                  : IconUtil.networkImage(
+                      url: url!,
                       width: _size,
                       height: _size,
                       fit: BoxFit.fill,
+                      memCacheHeight: _size.toInt(),
+                      memCacheWidth: _size.toInt(),
                     )),
         ),
       );

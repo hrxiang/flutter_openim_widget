@@ -186,11 +186,9 @@ packages:
   flutter_openim_sdk:
     dependency: "direct main"
     description:
-      path: "."
-      ref: fix-ios-simulator
-      resolved-ref: "9963fe8259328dc75958452fceef34f1cd9f1fda"
-      url: "https://github.com/OpenIMSDK/Open-IM-SDK-Flutter.git"
-    source: git
+      path: "../flutter_openim_sdk"
+      relative: true
+    source: path
     version: "1.0.6"
   flutter_screenutil:
     dependency: "direct main"
@@ -315,7 +313,7 @@ packages:
       name: octo_image
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.0.0+1"
+    version: "1.0.1"
   path:
     dependency: transitive
     description:

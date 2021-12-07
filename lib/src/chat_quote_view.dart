@@ -30,18 +30,22 @@ class ChatQuoteView extends StatelessWidget {
           var url2 = quoteMessage.pictureElem?.sourcePicture?.url;
           var path = quoteMessage.pictureElem?.sourcePath;
           if (url1 != null && url1.isNotEmpty) {
-            child = CachedNetworkImage(
-              imageUrl: url1,
+            child = IconUtil.networkImage(
+              url: url1,
               width: 42.h,
               height: 42.h,
               fit: BoxFit.fill,
+              memCacheHeight: 42.h.toInt(),
+              memCacheWidth: 42.h.toInt(),
             );
           } else if (url2 != null && url2.isNotEmpty) {
-            child = CachedNetworkImage(
-              imageUrl: url2,
+            child = IconUtil.networkImage(
+              url: url2,
               width: 42.h,
               height: 42.h,
               fit: BoxFit.fill,
+              memCacheHeight: 42.h.toInt(),
+              memCacheWidth: 42.h.toInt(),
             );
           } else if (path != null && path.isNotEmpty) {
             child = Image(
@@ -56,11 +60,13 @@ class ChatQuoteView extends StatelessWidget {
           var path = quoteMessage.videoElem?.snapshotPath;
           if (url != null && url.isNotEmpty) {
             child = _playIcon(
-              child: CachedNetworkImage(
-                imageUrl: url,
+              child: IconUtil.networkImage(
+                url: url,
                 width: 42.h,
                 height: 42.h,
                 fit: BoxFit.fill,
+                memCacheHeight: 42.h.toInt(),
+                memCacheWidth: 42.h.toInt(),
               ),
             );
           } else if (path != null && path.isNotEmpty) {
@@ -81,11 +87,13 @@ class ChatQuoteView extends StatelessWidget {
             var name = map['name'];
             var addr = map['addr'];
             content = '$name($addr)';
-            child = CachedNetworkImage(
-              imageUrl: url,
+            child = IconUtil.networkImage(
+              url: url,
               width: 42.h,
               height: 42.h,
               fit: BoxFit.fill,
+              memCacheHeight: 42.h.toInt(),
+              memCacheWidth: 42.h.toInt(),
             );
           }
         } else if (quoteMessage.contentType == MessageType.file) {}

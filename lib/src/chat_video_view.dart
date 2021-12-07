@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -88,11 +87,13 @@ class _ChatVideoViewState extends State<ChatVideoView> {
   Widget _buildThumbView() {
     if (widget.isReceived) {
       if (null != snapshotUrl && snapshotUrl!.isNotEmpty) {
-        return CachedNetworkImage(
-          imageUrl: snapshotUrl!,
+        return IconUtil.networkImage(
+          url: snapshotUrl!,
           width: _trulyWidth,
           height: _trulyHeight,
           fit: BoxFit.fitWidth,
+          memCacheHeight: _trulyHeight.toInt(),
+          memCacheWidth: _trulyWidth.toInt(),
           placeholder: (context, url) => CupertinoActivityIndicator(),
           errorWidget: (context, url, error) => _errorIcon(),
         );
@@ -110,11 +111,13 @@ class _ChatVideoViewState extends State<ChatVideoView> {
         );
       } else {
         if (null != snapshotUrl && snapshotUrl!.isNotEmpty) {
-          return CachedNetworkImage(
-            imageUrl: snapshotUrl!,
+          return IconUtil.networkImage(
+            url: snapshotUrl!,
             width: _trulyWidth,
             height: _trulyHeight,
             fit: BoxFit.fitWidth,
+            memCacheHeight: _trulyHeight.toInt(),
+            memCacheWidth: _trulyWidth.toInt(),
             placeholder: (context, url) => CupertinoActivityIndicator(),
             errorWidget: (context, url, error) => _errorIcon(),
           );
