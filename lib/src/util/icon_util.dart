@@ -41,6 +41,8 @@ class IconUtil {
       height: height,
       fit: fit,
       color: color,
+      cacheHeight: height?.toInt(),
+      // cacheWidth: width?.toInt(),
       package: 'flutter_openim_widget',
     );
   }
