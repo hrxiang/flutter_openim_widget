@@ -1,5 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_openim_widget/src/chat_emoji_view.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -10,7 +12,7 @@ class IconUtil {
   static String imageResStr(var name) => "assets/images/$name.webp";
 
   static AssetImage emojiImage(String key) => AssetImage(
-    IconUtil.imageResStr(emojiFaces[key]),
+        IconUtil.imageResStr(emojiFaces[key]),
         package: 'flutter_openim_widget',
       );
 
@@ -249,5 +251,20 @@ class IconUtil {
         placeholder: placeholder,
         errorWidget: errorWidget,
         // filterQuality: FilterQuality.medium,
+        cacheManager: CustomCacheManager.instance,
       );
+}
+
+class CustomCacheManager {
+  static const key = 'customCacheKey';
+  static CacheManager instance = CacheManager(
+    Config(
+      key,
+      stalePeriod: const Duration(days: 7),
+      maxNrOfCacheObjects: 10,
+      repo: JsonCacheInfoRepository(databaseName: key),
+      // fileSystem: MemoryCacheSystem(key),
+      // fileService: HttpFileService(),
+    ),
+  );
 }

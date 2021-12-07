@@ -4,24 +4,38 @@ openim widget.
 
 
 ```
+import 'package:flutter/material.dart';
+import 'package:flutter_openim_widget/flutter_openim_widget.dart';
+import 'package:get/get.dart';
+import 'package:openim_enterprise_chat/src/res/strings.dart';
+import 'package:openim_enterprise_chat/src/res/styles.dart';
+import 'package:openim_enterprise_chat/src/widgets/chat_listview.dart';
+import 'package:openim_enterprise_chat/src/widgets/titlebar.dart';
+
+import 'chat_logic.dart';
+
 class ChatPage extends StatelessWidget {
   final logic = Get.find<ChatLogic>();
 
-  Widget _itemView(index, local) => ChatItemView(
+  Widget _itemView(index) => ChatItemView(
+        key: logic.itemKey(index),
         index: index,
-        localizations: local,
-        message: logic.messageList.elementAt(index),
+        message: logic.indexOfMessage(index),
+        timeStr: logic.getShowTime(index),
         isSingleChat: logic.isSingleChat,
         clickSubject: logic.clickSubject,
         msgSendStatusSubject: logic.msgSendStatusSubject,
         msgSendProgressSubject: logic.msgSendProgressSubject,
         multiSelMode: logic.multiSelMode.value,
         multiList: logic.multiSelList.value,
-        allAtMap: logic.atUserMappingMap,
+        allAtMap: logic.atUserNameMappingMap,
+        delaySendingStatus: true,
         onMultiSelChanged: (checked) {
           logic.multiSelMsg(index, checked);
         },
-        onTapCopyMenu: () {},
+        onTapCopyMenu: () {
+          logic.copy(index);
+        },
         onTapDelMenu: () {
           logic.deleteMsg(index);
         },
@@ -45,9 +59,38 @@ class ChatPage extends StatelessWidget {
           logic.onLongPressLeftAvatar(index);
         },
         onLongPressRightAvatar: () {},
-        onTapLeftAvatar: () {},
+        onTapLeftAvatar: () {
+          logic.onTapLeftAvatar(index);
+        },
         onTapRightAvatar: () {},
-        onClickAtText: (v) {},
+        onClickAtText: (uid) {
+          logic.clickAtText(uid);
+        },
+        onTapQuoteMsg: () {
+          logic.onTapQuoteMsg(index);
+        },
+        patterns: <MatchPattern>[
+          MatchPattern(
+            type: PatternType.AT,
+            style: PageStyle.ts_1B72EC_14sp,
+            onTap: logic.clickLinkText,
+          ),
+          MatchPattern(
+            type: PatternType.EMAIL,
+            style: PageStyle.ts_1B72EC_14sp,
+            onTap: logic.clickLinkText,
+          ),
+          MatchPattern(
+            type: PatternType.URL,
+            style: PageStyle.ts_1B72EC_14sp_underline,
+            onTap: logic.clickLinkText,
+          ),
+          MatchPattern(
+            type: PatternType.PHONE,
+            style: PageStyle.ts_1B72EC_14sp,
+            onTap: logic.clickLinkText,
+          ),
+        ],
       );
 
   @override
@@ -57,62 +100,65 @@ class ChatPage extends StatelessWidget {
         return logic.exit();
       },
       child: ChatVoiceRecordLayout(
-        builder: (bar, local) => Scaffold(
-          backgroundColor: PageStyle.c_FFFFFF,
-          body: Column(
-            children: [
-              Obx(() => EnterpriseTitleBar.chatTitle(
-                    title: logic.name,
-                    subTitle: 'xxx技术有限公司',
-                    onClickCallBtn: () {},
-                    onClickMoreBtn: () => logic.chatSetup(),
-                    leftButton: logic.multiSelMode.value ? StrRes.cancel : null,
-                    onClose: () => logic.exit(),
-                  )),
-              Expanded(
-                child: Obx(() => TouchCloseSoftKeyboard(
-                      onTouch: () => logic.closeToolbox(),
-                      child: ListView.builder(
-                        itemCount: logic.messageList.length,
-                        padding: EdgeInsets.zero,
-                        controller: logic.autoCtrl,
-                        itemBuilder: (_, index) => Obx(() => AutoScrollTag(
-                              key: ValueKey(index),
-                              controller: logic.autoCtrl,
-                              index: index,
-                              child: _itemView(index, local),
-                            )),
-                      ),
-                    )),
+        locale: Get.locale,
+        builder: (bar) => Obx(() => Scaffold(
+              backgroundColor: PageStyle.c_FFFFFF,
+              appBar: EnterpriseTitleBar.chatTitle(
+                title: logic.name.value,
+                subTitle: logic.getSubTile(),
+                onClickCallBtn: () => logic.call(),
+                onClickMoreBtn: () => logic.chatSetup(),
+                leftButton: logic.multiSelMode.value ? StrRes.cancel : null,
+                onClose: () => logic.exit(),
+                showOnlineStatus: logic.showOnlineStatus(),
+                online: logic.onlineStatus.value,
               ),
-              Obx(() => ChatInputBoxView(
-                    controller: logic.inputCtrl,
-                    allAtMap: logic.atUserMappingMap,
-                    toolbox: ChatToolsView(
-                      localizations: local,
-                      onTapAlbum: () => logic.onTapAlbum(),
-                      onTapCamera: () => logic.onTapCamera(),
-                      onTapCarte: () => logic.onTapCarte(),
-                      onTapFile: () => logic.onTapFile(),
-                      onTapLocation: () => logic.onTapLocation(),
-                      onTapVideoCall: () => logic.call(),
-                      onTapVoiceInput: () {},
+              body: SafeArea(
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: ChatListView(
+                        listViewKey: ObjectKey(logic.listViewKey.value),
+                        onTouch: () => logic.closeToolbox(),
+                        itemCount: logic.messageList.length,
+                        controller: logic.autoCtrl,
+                        onLoad: () => logic.getHistoryMsgList(),
+                        itemBuilder: (_, index) => Obx(() => _itemView(index)),
+                      ),
                     ),
-                    multiOpToolbox: ChatMultiSelToolbox(
-                      onDelete: () => logic.mergeDelete(),
-                      onMergeForward: () => logic.mergeForward(),
+                    ChatInputBoxView(
+                      controller: logic.inputCtrl,
+                      allAtMap: logic.atUserNameMappingMap,
+                      toolbox: ChatToolsView(
+                        onTapAlbum: () => logic.onTapAlbum(),
+                        onTapCamera: () => logic.onTapCamera(),
+                        onTapCarte: () => logic.onTapCarte(),
+                        onTapFile: () => logic.onTapFile(),
+                        onTapLocation: () => logic.onTapLocation(),
+                        onTapVideoCall: () => logic.call(),
+                        onStopVoiceInput: () => logic.onStopVoiceInput(),
+                        onStartVoiceInput: () => logic.onStartVoiceInput(),
+                      ),
+                      multiOpToolbox: ChatMultiSelToolbox(
+                        onDelete: () => logic.mergeDelete(),
+                        onMergeForward: () => logic.mergeForward(),
+                      ),
+                      emojiView: ChatEmojiView(
+                        onAddEmoji: logic.onAddEmoji,
+                        onDeleteEmoji: logic.onDeleteEmoji,
+                      ),
+                      onSubmitted: (v) => logic.sendTextMsg(),
+                      forceCloseToolboxSub: logic.forceCloseToolbox,
+                      voiceRecordBar: bar,
+                      quoteContent: logic.quoteContent.value,
+                      onClearQuote: () => logic.setQuoteMsg(-1),
+                      multiMode: logic.multiSelMode.value,
+                      focusNode: logic.focusNode,
                     ),
-                    onSubmitted: (v) => logic.sendTextMsg(),
-                    forceCloseToolboxSub: logic.forceCloseToolbox,
-                    voiceRecordBar: bar,
-                    quoteContent: logic.quoteContent.value,
-                    onClearQuote: () => logic.setQuoteMsg(-1),
-                    multiMode: logic.multiSelMode.value,
-                    focusNode: logic.focusNode,
-                  )),
-            ],
-          ),
-        ),
+                  ],
+                ),
+              ),
+            )),
         onCompleted: (sec, path) {
           logic.sendVoice(duration: sec, path: path);
         },
@@ -121,34 +167,5 @@ class ChatPage extends StatelessWidget {
   }
 }
 
+
 ```
-
-| Widget               |                                                              |
-| -------------------- | ------------------------------------------------------------ |
-| ChatItemView         | The item of the chat page, including text, @text, picture, video, audio , file and custom item |
-| ConversationItemView | The item of the conversation page                            |
-| ChatInputBoxView     | The input box contains the processing of @ message           |
-| ChatToolsView        |                                                              |
-| TitleBar             |                                                              |
-| UnreadCountView      |                                                              |
-
-
-#### Dependencies packages
-
-|                        |
-| ---------------------- |
-| rxdart                 |
-| flutter_screenutil     |
-| flutter_slidable       |
-| cached_network_image   |
-| path_provider          |
-| photo_view             |
-| flutter_image_compress |
-| record                 |
-| just_audio             |
-| chewie                 |
-| video_player           |
-| lottie                 |
-| permission_handler     |
-| extended_text_field    |
-| bubble                 |
