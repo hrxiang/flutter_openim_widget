@@ -77,8 +77,8 @@ class ChatLocationView extends StatelessWidget {
                   child: IconUtil.networkImage(
                     url: url,
                     height: 100.h,
-                    fit: BoxFit.fitWidth,
-                    // cacheHeight: 100.h.toInt(),
+                    fit: BoxFit.cover,
+                    cacheWidth: (1.sw).toInt(),
                   ),
                 )
               ],

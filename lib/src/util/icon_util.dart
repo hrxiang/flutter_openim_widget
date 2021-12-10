@@ -1,4 +1,3 @@
-import 'package:animate_do/animate_do.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -280,10 +279,10 @@ class IconUtil {
                         : null;
                 // CupertinoActivityIndicator()
                 return loadProgress
-                    ? Center(
-                        child: Container(
-                          width: 20.0,
-                          height: 20.0,
+                    ? Container(
+                        width: 20.0,
+                        height: 20.0,
+                        child: Center(
                           child: CircularProgressIndicator(
                             value: progress,
                           ),
@@ -297,15 +296,16 @@ class IconUtil {
                 ///please return null or state.completedWidget
                 //return null;
                 //return state.completedWidget;
-                return FadeIn(
-                  // duration: const Duration(milliseconds: 100),
-                  child: ExtendedRawImage(
-                    image: state.extendedImageInfo?.image,
-                    width: width,
-                    height: height,
-                    fit: fit,
-                  ),
-                );
+                return state.completedWidget;
+                // return FadeIn(
+                //   // duration: const Duration(milliseconds: 100),
+                //   child: ExtendedRawImage(
+                //     image: state.extendedImageInfo?.image,
+                //     width: width,
+                //     height: height,
+                //     fit: fit,
+                //   ),
+                // );
               }
             case LoadState.failed:
               //remove memory cached
