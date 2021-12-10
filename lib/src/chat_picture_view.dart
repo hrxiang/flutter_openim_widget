@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_openim_widget/flutter_openim_widget.dart';
@@ -117,14 +116,6 @@ class _ChatPictureViewState extends State<ChatPictureView> {
         height: _trulyHeight,
         width: _trulyWidth,
         fit: BoxFit.fitWidth,
-        memCacheWidth: _trulyWidth.toInt(),
-        memCacheHeight: _trulyHeight.toInt(),
-        placeholder: (context, url) => Container(
-          width: 20,
-          height: 20,
-          child: CupertinoActivityIndicator(),
-        ),
-        errorWidget: (context, url, error) => _errorIcon(),
       );
 
   Widget _pathView({required String path}) => Stack(
@@ -181,7 +172,8 @@ class _ChatPictureViewState extends State<ChatPictureView> {
   @override
   Widget build(BuildContext context) {
     var child = _buildChildView();
-    return Hero(tag: widget.msgId, child: child);
+    return child;
+    // return Hero(tag: widget.msgId, child: child);
   }
 
   Widget _errorIcon() =>

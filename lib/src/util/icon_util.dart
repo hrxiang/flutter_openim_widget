@@ -1,7 +1,7 @@
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:animate_do/animate_do.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_openim_widget/src/chat_emoji_view.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -43,7 +43,7 @@ class IconUtil {
       height: height,
       fit: fit,
       color: color,
-      cacheHeight: height?.toInt(),
+      // cacheHeight: height?.toInt(),
       // cacheWidth: width?.toInt(),
       package: 'flutter_openim_widget',
     );
@@ -231,7 +231,119 @@ class IconUtil {
         height: 20.h,
       );
 
+  static Widget lowMemoryNetworkImage({
+    required String url,
+    double? width,
+    double? height,
+    BoxFit? fit,
+    bool loadProgress = true,
+  }) =>
+      networkImage(
+        url: url,
+        width: width,
+        height: height,
+        fit: fit,
+        cacheWidth: width?.toInt(),
+        cacheHeight: height?.toInt(),
+        loadProgress: loadProgress,
+        clearMemoryCacheWhenDispose: true,
+      );
+
   static Widget networkImage({
+    required String url,
+    double? width,
+    double? height,
+    int? cacheWidth,
+    int? cacheHeight,
+    BoxFit? fit,
+    bool loadProgress = true,
+    bool clearMemoryCacheWhenDispose = false,
+  }) =>
+      ExtendedImage.network(
+        url,
+        width: width,
+        height: height,
+        fit: fit,
+        cache: true,
+        cacheWidth: cacheWidth ?? (1.sw * .75).toInt(),
+        cacheHeight: cacheHeight,
+        clearMemoryCacheWhenDispose: clearMemoryCacheWhenDispose,
+        loadStateChanged: (ExtendedImageState state) {
+          switch (state.extendedImageLoadState) {
+            case LoadState.loading:
+              {
+                final ImageChunkEvent? loadingProgress = state.loadingProgress;
+                final double? progress =
+                    loadingProgress?.expectedTotalBytes != null
+                        ? loadingProgress!.cumulativeBytesLoaded /
+                            loadingProgress.expectedTotalBytes!
+                        : null;
+                // CupertinoActivityIndicator()
+                return loadProgress
+                    ? Center(
+                        child: Container(
+                          width: 20.0,
+                          height: 20.0,
+                          child: CircularProgressIndicator(
+                            value: progress,
+                          ),
+                        ),
+                      )
+                    : Container();
+              }
+            case LoadState.completed:
+              {
+                ///if you don't want override completed widget
+                ///please return null or state.completedWidget
+                //return null;
+                //return state.completedWidget;
+                return FadeIn(
+                  // duration: const Duration(milliseconds: 100),
+                  child: ExtendedRawImage(
+                    image: state.extendedImageInfo?.image,
+                    width: width,
+                    height: height,
+                    fit: fit,
+                  ),
+                );
+              }
+            case LoadState.failed:
+              //remove memory cached
+              state.imageProvider.evict();
+              return error(width: width, height: height);
+          }
+        },
+        // border: Border.all(color: Colors.red, width: 1.0),
+        // shape: boxShape,
+        // borderRadius: BorderRadius.all(Radius.circular(30.0)),
+        //cancelToken: cancellationToken,
+      );
+/*FadeInImage.memoryNetwork(
+        placeholder: kTransparentImage,
+        image: url,
+        height: height,
+        width: width,
+        fit: fit ?? BoxFit.cover,
+        imageCacheHeight: cacheHeight,
+        imageCacheWidth: cacheWidth,
+        fadeInDuration: const Duration(milliseconds: 100),
+      );*/
+/*Image.network(
+        url,
+        height: height,
+        width: width,
+        fit: fit ?? BoxFit.cover,
+        cacheHeight: cacheHeight,
+        cacheWidth: cacheWidth,
+        loadingBuilder: null != loadingWidget
+            ? (context, child, loadingProgress) => loadingWidget
+            : null,
+        errorBuilder: null != errorWidget
+            ? (context, Object, stackTrace) => errorWidget
+            : null,
+      );*/
+
+/*static Widget networkImage({
     required String url,
     double? width,
     double? height,
@@ -239,6 +351,7 @@ class IconUtil {
     int? memCacheHeight,
     int? memCacheWidth,
     PlaceholderWidgetBuilder? placeholder,
+    ProgressIndicatorBuilder? progressIndicatorBuilder,
     LoadingErrorWidgetBuilder? errorWidget,
   }) =>
       CachedNetworkImage(
@@ -249,22 +362,10 @@ class IconUtil {
         memCacheHeight: memCacheHeight,
         memCacheWidth: memCacheWidth,
         placeholder: placeholder,
+        progressIndicatorBuilder: progressIndicatorBuilder,
         errorWidget: errorWidget,
         // filterQuality: FilterQuality.medium,
-        cacheManager: CustomCacheManager.instance,
-      );
-}
+        // cacheManager: CustomCacheManager.instance,
+      );*/
 
-class CustomCacheManager {
-  static const key = 'customCacheKey';
-  static CacheManager instance = CacheManager(
-    Config(
-      key,
-      stalePeriod: const Duration(days: 7),
-      maxNrOfCacheObjects: 10,
-      repo: JsonCacheInfoRepository(databaseName: key),
-      // fileSystem: MemoryCacheSystem(key),
-      // fileService: HttpFileService(),
-    ),
-  );
 }

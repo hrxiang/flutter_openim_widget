@@ -92,10 +92,6 @@ class _ChatVideoViewState extends State<ChatVideoView> {
           width: _trulyWidth,
           height: _trulyHeight,
           fit: BoxFit.fitWidth,
-          memCacheHeight: _trulyHeight.toInt(),
-          memCacheWidth: _trulyWidth.toInt(),
-          placeholder: (context, url) => CupertinoActivityIndicator(),
-          errorWidget: (context, url, error) => _errorIcon(),
         );
       }
     } else {
@@ -116,10 +112,6 @@ class _ChatVideoViewState extends State<ChatVideoView> {
             width: _trulyWidth,
             height: _trulyHeight,
             fit: BoxFit.fitWidth,
-            memCacheHeight: _trulyHeight.toInt(),
-            memCacheWidth: _trulyWidth.toInt(),
-            placeholder: (context, url) => CupertinoActivityIndicator(),
-            errorWidget: (context, url, error) => _errorIcon(),
           );
         }
       }

@@ -1,4 +1,4 @@
-# openim_ui_flutter
+# flutter_openim_widget
 
 openim widget.
 

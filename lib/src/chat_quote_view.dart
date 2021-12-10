@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_openim_sdk/flutter_openim_sdk.dart';
 import 'package:flutter_openim_widget/flutter_openim_widget.dart';
@@ -35,8 +34,6 @@ class ChatQuoteView extends StatelessWidget {
               width: 42.h,
               height: 42.h,
               fit: BoxFit.fill,
-              memCacheHeight: 42.h.toInt(),
-              memCacheWidth: 42.h.toInt(),
             );
           } else if (url2 != null && url2.isNotEmpty) {
             child = IconUtil.networkImage(
@@ -44,8 +41,6 @@ class ChatQuoteView extends StatelessWidget {
               width: 42.h,
               height: 42.h,
               fit: BoxFit.fill,
-              memCacheHeight: 42.h.toInt(),
-              memCacheWidth: 42.h.toInt(),
             );
           } else if (path != null && path.isNotEmpty) {
             child = Image(
@@ -65,8 +60,6 @@ class ChatQuoteView extends StatelessWidget {
                 width: 42.h,
                 height: 42.h,
                 fit: BoxFit.fill,
-                memCacheHeight: 42.h.toInt(),
-                memCacheWidth: 42.h.toInt(),
               ),
             );
           } else if (path != null && path.isNotEmpty) {
@@ -92,8 +85,6 @@ class ChatQuoteView extends StatelessWidget {
               width: 42.h,
               height: 42.h,
               fit: BoxFit.fill,
-              memCacheHeight: 42.h.toInt(),
-              memCacheWidth: 42.h.toInt(),
             );
           }
         } else if (quoteMessage.contentType == MessageType.file) {}

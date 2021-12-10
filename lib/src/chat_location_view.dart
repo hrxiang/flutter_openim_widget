@@ -78,7 +78,7 @@ class ChatLocationView extends StatelessWidget {
                     url: url,
                     height: 100.h,
                     fit: BoxFit.fitWidth,
-                    memCacheHeight: 100.h.toInt(),
+                    // cacheHeight: 100.h.toInt(),
                   ),
                 )
               ],

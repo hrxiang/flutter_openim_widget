@@ -1,5 +1,6 @@
 import 'dart:collection';
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -183,6 +184,7 @@ class _ChatWebViewMapState extends State<ChatWebViewMap> {
                     _result['latitude'] = list[0];
                     _result['longitude'] = list[1];
                     _result['url'] = sprintf(mapThumbnailUrl, [lat, lat]);
+                    // log('--url:${_result['url']}');
                     latitude = double.tryParse(_result['latitude']!);
                     longitude = double.tryParse(_result['longitude']!);
                     description = jsonEncode(_result);

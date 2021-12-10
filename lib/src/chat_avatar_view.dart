@@ -23,6 +23,7 @@ class ChatAvatarView extends StatelessWidget {
     this.borderRadius,
     this.text,
     this.textStyle,
+    this.lowMemory = false,
   }) : super(key: key);
   final bool visible;
   final double? size;
@@ -33,6 +34,7 @@ class ChatAvatarView extends StatelessWidget {
   final BorderRadius? borderRadius;
   final String? text;
   final TextStyle? textStyle;
+  final bool lowMemory;
 
   double get _size => size ?? 42.h;
 
@@ -42,14 +44,15 @@ class ChatAvatarView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Visibility(
       visible: visible,
-      child:/* isCircle
+      child: /* isCircle
           ? ClipOval(
               child: _childAvatar(),
             )
-          : */ClipRRect(
-              child: _childAvatar(),
-              borderRadius: borderRadius ?? BorderRadius.circular(6),
-            ),
+          : */
+          ClipRRect(
+        child: _childAvatar(),
+        borderRadius: borderRadius ?? BorderRadius.circular(6),
+      ),
     );
   }
 
@@ -61,16 +64,7 @@ class ChatAvatarView extends StatelessWidget {
           onLongPress: onLongPress,
           child: null == url || url!.isEmpty
               ? _defaultAvatar()
-              : (_isIndexAvatar()
-                  ? _indexAvatar()
-                  : IconUtil.networkImage(
-                      url: url!,
-                      width: _size,
-                      height: _size,
-                      fit: BoxFit.fill,
-                      memCacheHeight: _size.toInt(),
-                      memCacheWidth: _size.toInt(),
-                    )),
+              : (_isIndexAvatar() ? _indexAvatar() : _networkImage()),
         ),
       );
 
@@ -105,4 +99,21 @@ class ChatAvatarView extends StatelessWidget {
         alignment: Alignment.center,
         // color: Colors.grey[400],
       );
+
+  Widget _networkImage() => lowMemory
+      ? IconUtil.lowMemoryNetworkImage(
+          url: url!,
+          width: _size,
+          height: _size,
+          fit: BoxFit.cover,
+          loadProgress: false,
+        )
+      : IconUtil.networkImage(
+          url: url!,
+          width: _size,
+          height: _size,
+          fit: BoxFit.cover,
+          loadProgress: false,
+          cacheWidth: (1.sw * .25).toInt(),
+        );
 }
