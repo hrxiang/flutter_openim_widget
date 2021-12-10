@@ -74,9 +74,10 @@ class _ChatVideoPlayerViewState extends State<ChatVideoPlayerView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      body: SafeArea(
+    return Material(
+      // backgroundColor: Colors.transparent,
+      color: Colors.black,
+      child: SafeArea(
         child: Stack(
           children: [
             if (null == chewieController)
