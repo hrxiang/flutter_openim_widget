@@ -71,32 +71,34 @@ class ChatAtText extends StatelessWidget {
 
     patterns.forEach((e) {
       if (e.type == PatternType.AT) {
-        _mapping[atPattern] = e;
+        _mapping[regexAt] = e;
       } else if (e.type == PatternType.EMAIL) {
-        _mapping[emailPattern] = e;
-      } else if (e.type == PatternType.PHONE) {
-        _mapping[phonePattern] = e;
+        _mapping[regexEmail] = e;
+      } else if (e.type == PatternType.MOBILE) {
+        _mapping[regexMobile] = e;
+      } else if (e.type == PatternType.TEL) {
+        _mapping[regexTel] = e;
       } else if (e.type == PatternType.URL) {
-        _mapping[urlPattern] = e;
+        _mapping[regexUrl] = e;
       } else {
         _mapping[e.pattern!] = e;
       }
     });
 
-    var emojiPattern = emojiFaces.keys
+    var regexEmoji = emojiFaces.keys
         .toList()
         .join('|')
         .replaceAll('[', '\\[')
         .replaceAll(']', '\\]');
 
-    _mapping[emojiPattern] = MatchPattern(type: PatternType.EMOJI);
+    _mapping[regexEmoji] = MatchPattern(type: PatternType.EMOJI);
 
     final pattern;
 
     if (_mapping.length > 1) {
       pattern = '(${_mapping.keys.toList().join('|')})';
     } else {
-      pattern = emojiPattern;
+      pattern = regexEmoji;
     }
 
     // final pattern = '(${_mapping.keys.toList().join('|')})';
@@ -169,8 +171,11 @@ class ChatAtText extends StatelessWidget {
         return text.substring(0, 4) == 'http' ? text : 'http://$text';
       case PatternType.EMAIL:
         return text.substring(0, 7) == 'mailto:' ? text : 'mailto:$text';
-      case PatternType.PHONE:
+      case PatternType.TEL:
+      case PatternType.MOBILE:
         return text.substring(0, 4) == 'tel:' ? text : 'tel:$text';
+      // case PatternType.PHONE:
+      //   return text.substring(0, 4) == 'tel:' ? text : 'tel:$text';
       default:
         return text;
     }
@@ -189,22 +194,25 @@ class MatchPattern {
   MatchPattern({required this.type, this.pattern, this.style, this.onTap});
 }
 
-enum PatternType { AT, EMAIL, PHONE, URL, EMOJI, CUSTOM }
+enum PatternType { AT, EMAIL, MOBILE, TEL, URL, EMOJI, CUSTOM }
 
 /// @uid
-const atPattern = r"(@\S+\s)";
+const regexAt = r"(@\S+\s)";
 
 /// Email Regex - A predefined type for handling email matching
-const emailPattern = r"\b[\w\.-]+@[\w\.-]+\.\w{2,4}\b";
+const regexEmail = r"\b[\w\.-]+@[\w\.-]+\.\w{2,4}\b";
 
 /// URL Regex - A predefined type for handling URL matching
-const urlPattern =
+const regexUrl =
     r"[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:._\+-~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:_\+.~#?&\/\/=]*)";
 
 /// Phone Regex - A predefined type for handling phone matching
-const phonePattern =
-    r"(\+?( |-|\.)?\d{1,2}( |-|\.)?)?(\(?\d{3}\)?|\d{3})( |-|\.)?(\d{3}( |-|\.)?\d{4})";
-// const phonePattern =
-//     r'^((13[0-9])|(14[0-9])|(15[0-9])|(16[0-9])|(17[0-9])|(18[0-9])|(19[0-9]))\d{8}$';
-// const phonePattern =
-//     r'^(?:\+?86)?1(?:3\d{3}|5[^4\D]\d{2}|8\d{3}|7(?:[0-35-9]\d{2}|4(?:0\d|1[0-2]|9\d))|9[0-35-9]\d{2}|6[2567]\d{2}|4(?:(?:10|4[01])\d{3}|[68]\d{4}|[579]\d{2}))\d{6}$';
+// const regexMobile =
+//     r"(\+?( |-|\.)?\d{1,2}( |-|\.)?)?(\(?\d{3}\)?|\d{3})( |-|\.)?(\d{3}( |-|\.)?\d{4})";
+
+/// Regex of exact mobile.
+const String regexMobile =
+    '^(\\+?86)?((13[0-9])|(14[57])|(15[0-35-9])|(16[2567])|(17[01235-8])|(18[0-9])|(19[1589]))\\d{8}\$';
+
+/// Regex of telephone number.
+const String regexTel = '^0\\d{2,3}[-]?\\d{7,8}';

@@ -37,16 +37,16 @@ class AtSpecialTextSpanBuilder extends SpecialTextSpanBuilder {
     }
     final List<InlineSpan> children = <InlineSpan>[];
 
-    var emojiPattern = emojiFaces.keys
+    var regexEmoji = emojiFaces.keys
         .toList()
         .join('|')
         .replaceAll('[', '\\[')
         .replaceAll(']', '\\]');
 
-    final list = [atPattern, emojiPattern];
+    final list = [regexAt, regexEmoji];
     final pattern = '(${list.toList().join('|')})';
-    final atReg = RegExp(atPattern);
-    final emojiReg = RegExp(emojiPattern);
+    final atReg = RegExp(regexAt);
+    final emojiReg = RegExp(regexEmoji);
 
     data.splitMapJoin(
       RegExp(pattern),
