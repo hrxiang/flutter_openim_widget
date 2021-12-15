@@ -165,10 +165,10 @@ packages:
   flutter_openim_sdk:
     dependency: "direct main"
     description:
-      path: "../flutter_openim_sdk"
-      relative: true
-    source: path
-    version: "1.0.7"
+      name: flutter_openim_sdk
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.0.8"
   flutter_screenutil:
     dependency: "direct main"
     description:

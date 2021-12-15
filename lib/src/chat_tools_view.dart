@@ -50,12 +50,12 @@ class _ChatToolsViewState extends State<ChatToolsView>
       duration: Duration(milliseconds: 200),
       vsync: this,
     )..addStatusListener((status) {
-      if (status == AnimationStatus.completed) {
-        // controller.reverse();
-      } else if (status == AnimationStatus.dismissed) {
-        // controller.forward();
-      }
-    });
+        if (status == AnimationStatus.completed) {
+          // controller.reverse();
+        } else if (status == AnimationStatus.dismissed) {
+          // controller.forward();
+        }
+      });
 
     _animation = Tween(begin: 1.0, end: 0.0).animate(_controller)
       ..addListener(() {
@@ -100,99 +100,99 @@ class _ChatToolsViewState extends State<ChatToolsView>
   }
 
   Widget _buildToolsLayout() => Container(
-    alignment: Alignment.center,
-    padding: EdgeInsets.symmetric(horizontal: 38.w, vertical: 17.h),
-    child: Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Column(
+        alignment: Alignment.center,
+        padding: EdgeInsets.symmetric(horizontal: 38.w, vertical: 17.h),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _toolsOption(ToolsItem(
-              label: UILocalizations.album,
-              style: toolsTextStyle,
-              image: _buildBtn(
-                icon: IconUtil.toolsAlbum(),
-                onTap: widget.onTapAlbum,
-              ),
-            )),
-            SizedBox(
-              height: 14.h,
+            Column(
+              children: [
+                _toolsOption(ToolsItem(
+                  label: UILocalizations.album,
+                  style: toolsTextStyle,
+                  image: _buildBtn(
+                    icon: IconUtil.toolsAlbum(),
+                    onTap: widget.onTapAlbum,
+                  ),
+                )),
+                SizedBox(
+                  height: 14.h,
+                ),
+                _toolsOption(ToolsItem(
+                  label: UILocalizations.file,
+                  style: toolsTextStyle,
+                  image: _buildBtn(
+                    icon: IconUtil.toolsFile(),
+                    onTap: widget.onTapFile,
+                  ),
+                )),
+              ],
             ),
+            Spacer(),
+            Column(
+              children: [
+                _toolsOption(ToolsItem(
+                  label: UILocalizations.camera,
+                  style: toolsTextStyle,
+                  image: _buildBtn(
+                    icon: IconUtil.toolsCamera(),
+                    onTap: widget.onTapCamera,
+                  ),
+                )),
+                SizedBox(
+                  height: 14.h,
+                ),
+                _toolsOption(ToolsItem(
+                  label: UILocalizations.carte,
+                  style: toolsTextStyle,
+                  image: _buildBtn(
+                    icon: IconUtil.toolsCarte(),
+                    onTap: widget.onTapCarte,
+                  ),
+                )),
+              ],
+            ),
+            Spacer(),
+            Column(
+              children: [
+                _toolsOption(ToolsItem(
+                  label: UILocalizations.videoCall,
+                  style: toolsTextStyle,
+                  image: _buildBtn(
+                    icon: IconUtil.toolsVideoCall(),
+                    onTap: widget.onTapVideoCall,
+                  ),
+                )),
+                SizedBox(
+                  height: 14.h,
+                ),
+                _toolsOption(ToolsItem(
+                  label: UILocalizations.voiceInput,
+                  style: toolsTextStyle,
+                  image: _buildBtn(
+                    icon: IconUtil.toolsVoiceInput(),
+                    onTap: () {
+                      setState(() {
+                        _enabledVoiceInput = true;
+                        _controller.forward();
+                      });
+                    },
+                  ),
+                )),
+              ],
+            ),
+            Spacer(),
             _toolsOption(ToolsItem(
-              label: UILocalizations.file,
+              label: UILocalizations.location,
               style: toolsTextStyle,
               image: _buildBtn(
-                icon: IconUtil.toolsFile(),
-                onTap: widget.onTapFile,
+                icon: IconUtil.toolsLocation(),
+                onTap: widget.onTapLocation,
               ),
             )),
           ],
         ),
-        Spacer(),
-        Column(
-          children: [
-            _toolsOption(ToolsItem(
-              label: UILocalizations.camera,
-              style: toolsTextStyle,
-              image: _buildBtn(
-                icon: IconUtil.toolsCamera(),
-                onTap: widget.onTapCamera,
-              ),
-            )),
-            SizedBox(
-              height: 14.h,
-            ),
-            _toolsOption(ToolsItem(
-              label: UILocalizations.carte,
-              style: toolsTextStyle,
-              image: _buildBtn(
-                icon: IconUtil.toolsCarte(),
-                onTap: widget.onTapCarte,
-              ),
-            )),
-          ],
-        ),
-        Spacer(),
-        Column(
-          children: [
-            _toolsOption(ToolsItem(
-              label: UILocalizations.videoCall,
-              style: toolsTextStyle,
-              image: _buildBtn(
-                icon: IconUtil.toolsVideoCall(),
-                onTap: widget.onTapVideoCall,
-              ),
-            )),
-            SizedBox(
-              height: 14.h,
-            ),
-            _toolsOption(ToolsItem(
-              label: UILocalizations.voiceInput,
-              style: toolsTextStyle,
-              image: _buildBtn(
-                icon: IconUtil.toolsVoiceInput(),
-                onTap: () {
-                  setState(() {
-                    _enabledVoiceInput = true;
-                    _controller.forward();
-                  });
-                },
-              ),
-            )),
-          ],
-        ),
-        Spacer(),
-        _toolsOption(ToolsItem(
-          label: UILocalizations.location,
-          style: toolsTextStyle,
-          image: _buildBtn(
-            icon: IconUtil.toolsLocation(),
-            onTap: widget.onTapLocation,
-          ),
-        )),
-      ],
-    ),
-  );
+      );
 
   Widget _buildVoiceInputLayout() => AnimatedBuilder(
       animation: _controller,
@@ -315,26 +315,26 @@ class _ChatToolsViewState extends State<ChatToolsView>
   );
 
   Widget _toolsOption(ToolsItem item) => GestureDetector(
-    behavior: HitTestBehavior.translucent,
-    onTap: item.onTap,
-    child: Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        item.image,
-        SizedBox(
-          height: 2.h,
+        behavior: HitTestBehavior.translucent,
+        onTap: item.onTap,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            item.image,
+            SizedBox(
+              height: 2.h,
+            ),
+            Text(
+              item.label,
+              style: item.style ??
+                  TextStyle(
+                    color: Color(0xFF999999),
+                    fontSize: 11.sp,
+                  ),
+            )
+          ],
         ),
-        Text(
-          item.label,
-          style: item.style ??
-              TextStyle(
-                color: Color(0xFF999999),
-                fontSize: 11.sp,
-              ),
-        )
-      ],
-    ),
-  );
+      );
 }
 
 /*class ChatToolsView extends StatelessWidget {
@@ -610,12 +610,13 @@ class ToolsLayoutParams {
   final bool? shrinkWrap;
   final EdgeInsetsGeometry? padding;
 
-  const ToolsLayoutParams({required this.crossAxisCount,
-    this.mainAxisSpacing = 0.0,
-    this.crossAxisSpacing = 0.0,
-    this.childAspectRatio = 1.0,
-    this.shrinkWrap = true,
-    this.mainAxisExtent,
-    this.cacheExtent,
-    this.padding});
+  const ToolsLayoutParams(
+      {required this.crossAxisCount,
+      this.mainAxisSpacing = 0.0,
+      this.crossAxisSpacing = 0.0,
+      this.childAspectRatio = 1.0,
+      this.shrinkWrap = true,
+      this.mainAxisExtent,
+      this.cacheExtent,
+      this.padding});
 }

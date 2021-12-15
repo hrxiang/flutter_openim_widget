@@ -13,7 +13,7 @@ class CommonUtil {
     required double minWidth,
     required double minHeight,
   }) async {
-    if(!(await File(path).exists())){
+    if (!(await File(path).exists())) {
       return null;
     }
     String thumbPath = await createTempPath(path, flag: 'im');

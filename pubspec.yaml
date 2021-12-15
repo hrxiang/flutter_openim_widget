@@ -44,10 +44,11 @@ dependencies:
   flutter_slidable:
     git:
       url: https://github.com/letsar/flutter_slidable.git
-  flutter_openim_sdk:
-    git:
-      url: https://github.com/OpenIMSDK/Open-IM-SDK-Flutter.git
-      ref: fix-ios-simulator
+  flutter_openim_sdk: ^1.0.8
+#  flutter_openim_sdk:
+#    git:
+#      url: https://github.com/OpenIMSDK/Open-IM-SDK-Flutter.git
+#      ref: fix-ios-simulator
 #  flutter_openim_sdk:
 #    path: ../flutter_openim_sdk
 

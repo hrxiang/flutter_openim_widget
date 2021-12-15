@@ -60,9 +60,7 @@ class _ChatVoiceRecordBarState extends State<ChatVoiceRecordBar> {
           ],
         ),
         child: Text(
-          _pressing
-              ? UILocalizations.releaseSend
-              : UILocalizations.pressSpeak,
+          _pressing ? UILocalizations.releaseSend : UILocalizations.pressSpeak,
           style: TextStyle(
             fontSize: 12.sp,
             color: Color(0xFFFFFFFF),
