@@ -226,29 +226,28 @@ class ChatSingleLayout extends StatelessWidget {
 
   Widget _noBubbleBgView() => Container(
         margin: EdgeInsets.only(right: 10.w, left: 10.w),
-        child: ClipRRect(
+        // padding: EdgeInsets.all(1),
+        decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(6),
-          child: Container(
-            // padding: EdgeInsets.all(1),
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: Color(0xFFECECEC),
-                width: 0.5,
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: Color(0xFF000000).withOpacity(0.1),
-                  offset: Offset(0, 2.h),
-                  blurRadius: 4,
-                ),
-              ],
-            ),
-            child: GestureDetector(
-              behavior: HitTestBehavior.translucent,
-              child: child,
-              onTap: () => _onItemClick?.add(index),
-            ),
+          border: Border.all(
+            color: Color(0xFFE6E6E6),
+            width: 1,
           ),
+          // boxShadow: [
+          //   BoxShadow(
+          //     color: Color(0xFF000000).withOpacity(0.1),
+          //     offset: Offset(0, 2.h),
+          //     blurRadius: 4,
+          //   ),
+          // ],
+        ),
+        child: GestureDetector(
+          behavior: HitTestBehavior.translucent,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(6),
+            child: child,
+          ),
+          onTap: () => _onItemClick?.add(index),
         ),
       );
 

@@ -282,10 +282,11 @@ class IconUtil {
                 // CupertinoActivityIndicator()
                 return loadProgress
                     ? Container(
-                        width: 20.0,
-                        height: 20.0,
+                        width: 15.0,
+                        height: 15.0,
                         child: Center(
                           child: CircularProgressIndicator(
+                            strokeWidth: 1.5,
                             value: progress,
                           ),
                         ),
@@ -296,9 +297,9 @@ class IconUtil {
               {
                 ///if you don't want override completed widget
                 ///please return null or state.completedWidget
-                //return null;
+                return null;
                 //return state.completedWidget;
-                return state.completedWidget;
+                // return state.completedWidget;
                 // return FadeIn(
                 //   // duration: const Duration(milliseconds: 100),
                 //   child: ExtendedRawImage(
