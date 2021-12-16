@@ -114,14 +114,14 @@ packages:
       name: extended_text_field
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "9.0.0"
+    version: "9.0.1"
   extended_text_library:
     dependency: transitive
     description:
       name: extended_text_library
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "7.0.0"
+    version: "8.0.0"
   fake_async:
     dependency: transitive
     description:
@@ -165,9 +165,9 @@ packages:
   flutter_openim_sdk:
     dependency: "direct main"
     description:
-      name: flutter_openim_sdk
-      url: "https://pub.flutter-io.cn"
-    source: hosted
+      path: "../flutter_openim_sdk"
+      relative: true
+    source: path
     version: "1.0.8"
   flutter_screenutil:
     dependency: "direct main"
