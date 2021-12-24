@@ -14,7 +14,7 @@ dependencies:
   rxdart: ^0.27.3
   flutter_screenutil: ^5.0.1
   #  flutter_slidable: ^1.1.0
-#  cached_network_image: ^3.2.0
+  cached_network_image: ^3.2.0
   path_provider: ^2.0.7
 #  photo_view: ^0.13.0
   flutter_image_compress: ^1.1.0
@@ -44,13 +44,13 @@ dependencies:
   flutter_slidable:
     git:
       url: https://github.com/letsar/flutter_slidable.git
-  flutter_openim_sdk: ^1.0.8
+#  flutter_openim_sdk: ^1.0.8
 #  flutter_openim_sdk:
 #    git:
 #      url: https://github.com/OpenIMSDK/Open-IM-SDK-Flutter.git
 #      ref: fix-ios-simulator
-#  flutter_openim_sdk:
-#    path: ../flutter_openim_sdk
+  flutter_openim_sdk:
+    path: ../flutter_openim_sdk
 
 dev_dependencies:
   flutter_test:

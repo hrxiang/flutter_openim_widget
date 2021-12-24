@@ -75,14 +75,15 @@ class ChatAvatarView extends StatelessWidget {
       );
 
   Widget _defaultAvatar() => Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Color(0xFF89C1FA),
-              Color(0xFF185FD5),
-            ],
-          ),
-        ),
+        color: Color(0xFF5496EB),
+        // decoration: BoxDecoration(
+        //   gradient: LinearGradient(
+        //     colors: [
+        //       Color(0xFF89C1FA),
+        //       Color(0xFF185FD5),
+        //     ],
+        //   ),
+        // ),
         child: null == text
             ? Icon(
                 Icons.person,

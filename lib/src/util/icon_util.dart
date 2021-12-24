@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -260,6 +261,36 @@ class IconUtil {
     bool loadProgress = true,
     bool clearMemoryCacheWhenDispose = false,
   }) =>
+      /*CachedNetworkImage(
+        imageUrl: url,
+        width: width,
+        height: height,
+        fit: fit,
+        memCacheHeight: cacheHeight,
+        memCacheWidth: cacheWidth ?? (1.sw * .75).toInt(),
+        // placeholder: placeholder,
+        progressIndicatorBuilder: (context, url, progress) {
+          final double? value = progress.totalSize != null
+              ? progress.downloaded / progress.totalSize!
+              : null;
+          // CupertinoActivityIndicator()
+          return Container(
+            width: 15.0,
+            height: 15.0,
+            child: loadProgress
+                ? Center(
+                    child: CircularProgressIndicator(
+                      strokeWidth: 1.5,
+                      value: value,
+                    ),
+                  )
+                : null,
+          );
+        },
+        errorWidget: (_, url, error) => error(width: width, height: height),
+        // filterQuality: FilterQuality.medium,
+        // cacheManager: CustomCacheManager.instance,
+      );*/
       ExtendedImage.network(
         url,
         width: width,
@@ -280,35 +311,35 @@ class IconUtil {
                             loadingProgress.expectedTotalBytes!
                         : null;
                 // CupertinoActivityIndicator()
-                return loadProgress
-                    ? Container(
-                        width: 15.0,
-                        height: 15.0,
-                        child: Center(
+                return Container(
+                  width: 15.0,
+                  height: 15.0,
+                  child: loadProgress
+                      ? Center(
                           child: CircularProgressIndicator(
                             strokeWidth: 1.5,
                             value: progress,
                           ),
-                        ),
-                      )
-                    : Container();
+                        )
+                      : null,
+                );
               }
             case LoadState.completed:
               {
                 ///if you don't want override completed widget
                 ///please return null or state.completedWidget
-                return null;
+                // return null;
                 //return state.completedWidget;
-                // return state.completedWidget;
-                // return FadeIn(
-                //   // duration: const Duration(milliseconds: 100),
-                //   child: ExtendedRawImage(
-                //     image: state.extendedImageInfo?.image,
-                //     width: width,
-                //     height: height,
-                //     fit: fit,
-                //   ),
-                // );
+                return FadeIn(
+                  // duration: const Duration(milliseconds: 100),
+                  child: state.completedWidget,
+                  // child: ExtendedRawImage(
+                  //   image: state.extendedImageInfo?.image,
+                  //   width: width,
+                  //   height: height,
+                  //   fit: fit,
+                  // ),
+                );
               }
             case LoadState.failed:
               //remove memory cached
