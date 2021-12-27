@@ -119,7 +119,7 @@ class ChatAtText extends StatelessWidget {
             })];
         if (mapping != null) {
           if (mapping.type == PatternType.AT) {
-            String uid = matchText.replaceAll("@", "").trim();
+            String uid = matchText.replaceFirst("@", "").trim();
             value = uid;
             if (allAtMap.containsKey(uid)) {
               matchText = '@${allAtMap[uid]!} ';
