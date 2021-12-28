@@ -14,7 +14,7 @@ class MsgStreamEv<T> {
   MsgStreamEv({required this.msgId, required this.value});
 }
 
-typedef CustomItemBuilder = Widget Function(
+typedef CustomItemBuilder = Widget? Function(
   BuildContext context,
   int index,
   Message message,
@@ -180,7 +180,7 @@ class ChatItemView extends StatefulWidget {
     required this.msgSendStatusSubject,
     required this.msgSendProgressSubject,
     // required this.downloadProgressSubject,
-    this.isBubbleMsg = false,
+    this.isBubbleMsg = true,
     // this.width = 100,
     this.leftBubbleColor = const Color(0xFFF0F0F0),
     this.rightBubbleColor = const Color(0xFFDCEBFE),
@@ -245,189 +245,7 @@ class _ChatItemViewState extends State<ChatItemView> {
   @override
   Widget build(BuildContext context) {
     Widget? child;
-    switch (widget.message.contentType) {
-      case MessageType.text:
-        {
-          child = _buildCommonItemView(
-            child: ChatAtText(
-              text: widget.message.content!,
-              allAtMap: {},
-              textStyle: widget.textStyle,
-              patterns: widget.patterns,
-            ),
-          );
-        }
-        break;
-      case MessageType.at_text:
-        {
-          Map map = json.decode(widget.message.content!);
-          var text = map['text'];
-          child = _buildCommonItemView(
-            child: ChatAtText(
-              text: text,
-              allAtMap: widget.allAtMap,
-              textStyle: widget.textStyle,
-              patterns: widget.patterns,
-            ),
-          );
-        }
-        break;
-      case MessageType.picture:
-        {
-          child = _buildCommonItemView(
-            isBubbleBg: false,
-            child: ChatPictureView(
-              msgId: widget.message.clientMsgID!,
-              isReceived: _isFromMsg,
-              snapshotPath: null,
-              snapshotUrl: widget.message.pictureElem?.snapshotPicture?.url,
-              sourcePath: widget.message.pictureElem?.sourcePath,
-              sourceUrl: widget.message.pictureElem?.sourcePicture?.url,
-              width:
-                  widget.message.pictureElem?.sourcePicture?.width?.toDouble(),
-              height:
-                  widget.message.pictureElem?.sourcePicture?.height?.toDouble(),
-              widgetWidth: 100.w,
-              msgSenProgressStream: widget.msgSendProgressSubject.stream,
-              initMsgSendProgress: 100,
-              index: widget.index,
-              clickStream: widget.clickSubject.stream,
-            ),
-          );
-        }
-        break;
-      case MessageType.voice:
-        {
-          child = _buildCommonItemView(
-            child: ChatVoiceView(
-              index: widget.index,
-              clickStream: widget.clickSubject.stream,
-              isReceived: _isFromMsg,
-              soundPath: widget.message.soundElem?.soundPath,
-              soundUrl: widget.message.soundElem?.sourceUrl,
-              duration: widget.message.soundElem?.duration,
-            ),
-          );
-        }
-        break;
-      case MessageType.video:
-        {
-          child = _buildCommonItemView(
-            isBubbleBg: false,
-            child: ChatVideoView(
-              msgId: widget.message.clientMsgID!,
-              isReceived: _isFromMsg,
-              snapshotPath: widget.message.videoElem?.snapshotPath,
-              snapshotUrl: widget.message.videoElem?.snapshotUrl,
-              videoPath: widget.message.videoElem?.videoPath,
-              videoUrl: widget.message.videoElem?.videoUrl,
-              width: widget.message.videoElem?.snapshotWidth?.toDouble(),
-              height: widget.message.videoElem?.snapshotHeight?.toDouble(),
-              widgetWidth: 100.w,
-              msgSenProgressStream: widget.msgSendProgressSubject.stream,
-              initMsgSendProgress: 100,
-              index: widget.index,
-              clickStream: widget.clickSubject.stream,
-            ),
-          );
-        }
-        break;
-      case MessageType.file:
-        {
-          child = _buildCommonItemView(
-            child: ChatFileView(
-              msgId: widget.message.clientMsgID!,
-              fileName: widget.message.fileElem!.fileName ?? '',
-              filePath: widget.message.fileElem!.filePath!,
-              url: widget.message.fileElem!.sourceUrl!,
-              bytes: widget.message.fileElem?.fileSize ?? 0,
-              width: 158.w,
-              initProgress: 100,
-              uploadStream: widget.msgSendProgressSubject.stream,
-              index: widget.index,
-              clickStream: widget.clickSubject.stream,
-            ),
-          );
-        }
-        break;
-      case MessageType.location:
-        {
-          child = _buildCommonItemView(
-            isBubbleBg: false,
-            child: ChatLocationView(
-              description: widget.message.locationElem!.description!,
-              latitude: widget.message.locationElem!.latitude!,
-              longitude: widget.message.locationElem!.longitude!,
-            ),
-          );
-        }
-        break;
-      case MessageType.quote:
-        {
-          child = _buildCommonItemView(
-            child: ChatAtText(
-              text: widget.message.quoteElem?.text ?? '',
-              allAtMap: widget.allAtMap,
-              textStyle: widget.textStyle,
-              patterns: widget.patterns,
-            ),
-          );
-        }
-        break;
-
-      case MessageType.merger:
-        {
-          child = _buildCommonItemView(
-            child: ChatMergeMsgView(
-              title: widget.message.mergeElem?.title ?? '',
-              summaryList: widget.message.mergeElem?.abstractList ?? [],
-            ),
-          );
-        }
-        break;
-      case MessageType.card:
-        {
-          var data = json.decode(widget.message.content!);
-          child = _buildCommonItemView(
-            isBubbleBg: false,
-            child: ChatCarteView(
-              name: data['name'],
-              url: data['icon'],
-            ),
-          );
-        }
-        break;
-      default:
-        {
-          _isHintMsg = true;
-          var text;
-          if (MessageType.revoke == widget.message.contentType) {
-            var who = _isFromMsg
-                ? widget.message.senderNickName
-                : UILocalizations.you;
-            text = '$who ${UILocalizations.revokeAMsg}';
-          } else {
-            try {
-              var content = json.decode(widget.message.content!);
-              text = content['defaultTips'];
-            } catch (e) {
-              text = json.encode(widget.message);
-            }
-          }
-          child = _buildCommonItemView(
-            isBubbleBg: false,
-            isHintMsg: true,
-            child: ChatAtText(
-              text: text,
-              allAtMap: {},
-              textAlign: TextAlign.center,
-              // enabled: false,
-              textStyle: widget.hintTextStyle ?? _hintTextStyle,
-            ),
-          );
-        }
-        break;
-    }
+    // custom view
     var view = _customItemView();
     if (null != view) {
       if (widget.isBubbleMsg) {
@@ -435,7 +253,10 @@ class _ChatItemViewState extends State<ChatItemView> {
       } else {
         child = view;
       }
+    } else {
+      child = _buildItemView();
     }
+
     return FocusDetector(
       child: Container(
         padding: widget.padding ??
@@ -469,6 +290,198 @@ class _ChatItemViewState extends State<ChatItemView> {
         }
       },
     );
+  }
+
+  Widget? _buildItemView() {
+    Widget? child;
+    switch (widget.message.contentType) {
+      case MessageType.text:
+        {
+          child = _buildCommonItemView(
+            child: ChatAtText(
+              text: widget.message.content!,
+              allAtMap: {},
+              textStyle: widget.textStyle,
+              patterns: widget.patterns,
+            ),
+          );
+        }
+        break;
+      case MessageType.at_text:
+        {
+          Map map = json.decode(widget.message.content!);
+          var text = map['text'];
+          child = _buildCommonItemView(
+            child: ChatAtText(
+              text: text,
+              allAtMap: widget.allAtMap,
+              textStyle: widget.textStyle,
+              patterns: widget.patterns,
+            ),
+          );
+        }
+        break;
+      case MessageType.picture:
+        {
+          var picture = widget.message.pictureElem;
+          child = _buildCommonItemView(
+            isBubbleBg: false,
+            child: ChatPictureView(
+              msgId: widget.message.clientMsgID!,
+              isReceived: _isFromMsg,
+              snapshotPath: null,
+              snapshotUrl: picture?.snapshotPicture?.url,
+              sourcePath: picture?.sourcePath,
+              sourceUrl: picture?.sourcePicture?.url,
+              width: picture?.sourcePicture?.width?.toDouble(),
+              height: picture?.sourcePicture?.height?.toDouble(),
+              widgetWidth: 100.w,
+              msgSenProgressStream: widget.msgSendProgressSubject.stream,
+              initMsgSendProgress: 100,
+              index: widget.index,
+              clickStream: widget.clickSubject.stream,
+            ),
+          );
+        }
+        break;
+      case MessageType.voice:
+        {
+          var sound = widget.message.soundElem;
+          child = _buildCommonItemView(
+            child: ChatVoiceView(
+              index: widget.index,
+              clickStream: widget.clickSubject.stream,
+              isReceived: _isFromMsg,
+              soundPath: sound?.soundPath,
+              soundUrl: sound?.sourceUrl,
+              duration: sound?.duration,
+            ),
+          );
+        }
+        break;
+      case MessageType.video:
+        {
+          var video = widget.message.videoElem;
+          child = _buildCommonItemView(
+            isBubbleBg: false,
+            child: ChatVideoView(
+              msgId: widget.message.clientMsgID!,
+              isReceived: _isFromMsg,
+              snapshotPath: video?.snapshotPath,
+              snapshotUrl: video?.snapshotUrl,
+              videoPath: video?.videoPath,
+              videoUrl: video?.videoUrl,
+              width: video?.snapshotWidth?.toDouble(),
+              height: video?.snapshotHeight?.toDouble(),
+              widgetWidth: 100.w,
+              msgSenProgressStream: widget.msgSendProgressSubject.stream,
+              initMsgSendProgress: 100,
+              index: widget.index,
+              clickStream: widget.clickSubject.stream,
+            ),
+          );
+        }
+        break;
+      case MessageType.file:
+        {
+          var file = widget.message.fileElem;
+          child = _buildCommonItemView(
+            child: ChatFileView(
+              msgId: widget.message.clientMsgID!,
+              fileName: file!.fileName!,
+              // filePath: file.filePath!,
+              // url: file.sourceUrl!,
+              bytes: file.fileSize ?? 0,
+              width: 158.w,
+              initProgress: 100,
+              uploadStream: widget.msgSendProgressSubject.stream,
+              index: widget.index,
+              clickStream: widget.clickSubject.stream,
+            ),
+          );
+        }
+        break;
+      case MessageType.location:
+        {
+          var location = widget.message.locationElem;
+          child = _buildCommonItemView(
+            isBubbleBg: false,
+            child: ChatLocationView(
+              description: location!.description!,
+              latitude: location.latitude!,
+              longitude: location.longitude!,
+            ),
+          );
+        }
+        break;
+      case MessageType.quote:
+        {
+          child = _buildCommonItemView(
+            child: ChatAtText(
+              text: widget.message.quoteElem?.text ?? '',
+              allAtMap: widget.allAtMap,
+              textStyle: widget.textStyle,
+              patterns: widget.patterns,
+            ),
+          );
+        }
+        break;
+      case MessageType.merger:
+        {
+          child = _buildCommonItemView(
+            child: ChatMergeMsgView(
+              title: widget.message.mergeElem?.title ?? '',
+              summaryList: widget.message.mergeElem?.abstractList ?? [],
+            ),
+          );
+        }
+        break;
+      case MessageType.card:
+        {
+          var data = json.decode(widget.message.content!);
+          child = _buildCommonItemView(
+            isBubbleBg: false,
+            child: ChatCarteView(
+              name: data['name'],
+              url: data['icon'],
+            ),
+          );
+        }
+        break;
+      default:
+        {
+          try {
+            _isHintMsg = true;
+            var text = widget.message.content!;
+            if (MessageType.revoke == widget.message.contentType) {
+              var who = _isFromMsg
+                  ? widget.message.senderNickName
+                  : UILocalizations.you;
+              text = '$who ${UILocalizations.revokeAMsg}';
+            } else {
+              try {
+                var content = json.decode(widget.message.content!);
+                text = content['defaultTips'];
+              } catch (e) {
+                text = json.encode(widget.message);
+              }
+            }
+            child = _buildCommonItemView(
+              isBubbleBg: false,
+              isHintMsg: true,
+              child: ChatAtText(
+                text: text,
+                allAtMap: {},
+                textAlign: TextAlign.center,
+                // enabled: false,
+                textStyle: widget.hintTextStyle ?? _hintTextStyle,
+              ),
+            );
+          } catch (e) {}
+        }
+        break;
+    }
+    return child;
   }
 
   Widget _buildCommonItemView({
@@ -527,13 +540,11 @@ class _ChatItemViewState extends State<ChatItemView> {
             ),
       );
 
-  Widget? _customItemView() => null == widget.customItemBuilder
-      ? null
-      : widget.customItemBuilder!(
-          context,
-          widget.index,
-          widget.message,
-        );
+  Widget? _customItemView() => widget.customItemBuilder?.call(
+        context,
+        widget.index,
+        widget.message,
+      );
 
   Widget _buildTimeView() => Container(
         padding: EdgeInsets.symmetric(vertical: 4.h, horizontal: 2.h),
