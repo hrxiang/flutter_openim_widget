@@ -34,6 +34,7 @@ class ConversationItemView extends StatelessWidget {
   final List<MatchPattern> patterns;
   final Function()? onTap;
   final bool notDisturb;
+  final double extentRatio;
 
   // final bool isPinned;
 
@@ -59,6 +60,7 @@ class ConversationItemView extends StatelessWidget {
     this.patterns = const [],
     this.onTap,
     this.notDisturb = false,
+    this.extentRatio = 0.5,
     // this.isPinned = false,
     this.titleStyle = const TextStyle(
       fontSize: 16,
@@ -106,7 +108,7 @@ class ConversationItemView extends StatelessWidget {
       ),
       endActionPane: ActionPane(
         motion: DrawerMotion(),
-        // extentRatio: 0.75,
+        extentRatio: extentRatio,
         children: slideActions.map((e) => _SlidableAction(item: e)).toList(),
       ),
     );
@@ -278,6 +280,7 @@ class _SlidableAction extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
+      flex: item.flex,
       child: GestureDetector(
         onTap: () {
           item.onTap?.call();
@@ -302,7 +305,7 @@ class _SlidableAction extends StatelessWidget {
           ),
           child: Container(
             alignment: Alignment.center,
-            width: item.width,
+            // width: item.width,
             padding: EdgeInsets.symmetric(horizontal: 12.w),
             child: Text(
               item.text,
@@ -312,6 +315,16 @@ class _SlidableAction extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  // Here it is!
+  Size _textSize(String text, TextStyle style) {
+    final TextPainter textPainter = TextPainter(
+        text: TextSpan(text: text, style: style),
+        maxLines: 1,
+        textDirection: TextDirection.ltr)
+      ..layout(minWidth: 0, maxWidth: double.infinity);
+    return textPainter.size;
   }
 }
 
