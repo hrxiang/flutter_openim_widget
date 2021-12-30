@@ -50,6 +50,7 @@ class UILocalizations {
       "fileSize": "File size:%s",
       "fileUnavailable": "The file has expired or has been cleaned up",
       "send": 'Send',
+      "unsupportedMessage": '[Message types not supported]',
     },
     'zh': {
       'top': '置顶',
@@ -91,6 +92,7 @@ class UILocalizations {
       "fileSize": "文件大小：%s",
       "fileUnavailable": "文件已过期或已被清理",
       "send": '发送',
+      "unsupportedMessage": '[暂不支持的消息类型]',
     },
   };
 
@@ -175,6 +177,8 @@ class UILocalizations {
   static String get addFriendHint => _value(key: 'addFriendHint');
 
   static String get send => _value(key: 'send');
+
+  static String get unsupportedMessage => _value(key: 'unsupportedMessage');
 
   static String _value({required String key}) =>
       _localizedValues[_locale.languageCode]![key] ?? key;

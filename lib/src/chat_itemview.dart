@@ -452,7 +452,7 @@ class _ChatItemViewState extends State<ChatItemView> {
         {
           try {
             _isHintMsg = true;
-            var text = widget.message.content!;
+            var text;
             if (MessageType.revoke == widget.message.contentType) {
               var who = _isFromMsg
                   ? widget.message.senderNickName
@@ -467,14 +467,16 @@ class _ChatItemViewState extends State<ChatItemView> {
               }
             }
             child = _buildCommonItemView(
-              isBubbleBg: false,
-              isHintMsg: true,
+              isBubbleBg: null == text ? true : false,
+              isHintMsg: null == text ? false : true,
               child: ChatAtText(
-                text: text,
+                text: text ?? UILocalizations.unsupportedMessage,
                 allAtMap: {},
                 textAlign: TextAlign.center,
                 // enabled: false,
-                textStyle: widget.hintTextStyle ?? _hintTextStyle,
+                textStyle: null != text
+                    ? widget.hintTextStyle ?? _hintTextStyle
+                    : widget.textStyle,
               ),
             );
           } catch (e) {}
