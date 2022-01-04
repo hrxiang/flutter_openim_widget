@@ -1,5 +1,6 @@
 import 'package:extended_text_field/extended_text_field.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'at_special_text_span_builder.dart';
@@ -12,6 +13,7 @@ class ChatTextField extends StatelessWidget {
   final ValueChanged<String>? onSubmitted;
   final TextStyle? style;
   final TextStyle? atStyle;
+  final List<TextInputFormatter>? inputFormatters;
 
   const ChatTextField({
     Key? key,
@@ -22,6 +24,7 @@ class ChatTextField extends StatelessWidget {
     this.onSubmitted,
     this.style,
     this.atStyle,
+    this.inputFormatters,
   }) : super(key: key);
 
   @override
@@ -50,6 +53,32 @@ class ChatTextField extends StatelessWidget {
           vertical: 8.h,
         ),
       ),
+      inputFormatters: inputFormatters,
+    );
+  }
+}
+
+class AtTextInputFormatter extends TextInputFormatter {
+  final Function()? onTap;
+
+  AtTextInputFormatter(this.onTap);
+
+  @override
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    String value = newValue.text;
+    int selectionIndex = newValue.selection.end;
+    int start = oldValue.selection.baseOffset;
+    if (oldValue.text.length <= newValue.text.length) {
+      var curChar = newValue.text.substring(start);
+      if (curChar == '@') {
+        onTap?.call();
+        return oldValue;
+      }
+    }
+    return TextEditingValue(
+      text: value,
+      selection: TextSelection.collapsed(offset: selectionIndex),
     );
   }
 }

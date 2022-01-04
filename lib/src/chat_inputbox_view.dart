@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_openim_widget/flutter_openim_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rxdart/rxdart.dart';
@@ -23,6 +24,7 @@ class ChatInputBoxView extends StatefulWidget {
     this.quoteContent,
     this.onClearQuote,
     this.multiMode = false,
+    this.inputFormatters,
   }) : super(key: key);
   final AtTextCallback? atCallback;
   final Map<String, String> allAtMap;
@@ -39,6 +41,7 @@ class ChatInputBoxView extends StatefulWidget {
   final String? quoteContent;
   final Function()? onClearQuote;
   final bool multiMode;
+  final List<TextInputFormatter>? inputFormatters;
 
   @override
   _ChatInputBoxViewState createState() => _ChatInputBoxViewState();
@@ -265,6 +268,7 @@ class _ChatInputBoxViewState extends State<ChatInputBoxView>
           allAtMap: widget.allAtMap,
           focusNode: widget.focusNode,
           controller: widget.controller,
+          inputFormatters: widget.inputFormatters,
           // onSubmitted: (value) {
           //   focus();
           //   if (null != widget.onSubmitted) widget.onSubmitted!(value);
