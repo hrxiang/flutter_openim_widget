@@ -59,7 +59,7 @@ class ChatTextField extends StatelessWidget {
 }
 
 class AtTextInputFormatter extends TextInputFormatter {
-  final String Function()? onTap;
+  final String? Function()? onTap;
 
   AtTextInputFormatter(this.onTap);
 
@@ -73,14 +73,13 @@ class AtTextInputFormatter extends TextInputFormatter {
       var curChar = newValue.text.substring(start);
       if (curChar == '@') {
         var result = onTap?.call();
-        if (result != null && result.isNotEmpty) {
+        if (result != null) {
           var v1 = oldValue.text + result;
           return TextEditingValue(
             text: v1,
             selection: TextSelection.collapsed(offset: start + result.length),
           );
         }
-        return oldValue;
       }
     }
     return TextEditingValue(
