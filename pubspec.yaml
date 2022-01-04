@@ -22,10 +22,10 @@ dependencies:
   just_audio: ^0.9.18
   #  chewie: ^1.2.2
   #  provider: ^6.0.1
-  video_player: ^2.2.7
+  video_player: ^2.2.10
   lottie: ^1.2.1
   permission_handler: ^8.3.0
-  extended_text_field: ^9.0.1
+  extended_text_field: ^9.0.2
 #  bubble: ^1.2.1
 #  bubble_box: ^0.5.1
   focus_detector: ^2.0.0
@@ -45,12 +45,12 @@ dependencies:
     git:
       url: https://github.com/letsar/flutter_slidable.git
 #  flutter_openim_sdk: ^1.0.8
-#  flutter_openim_sdk:
-#    git:
-#      url: https://github.com/OpenIMSDK/Open-IM-SDK-Flutter.git
-#      ref: fix-ios-simulator
   flutter_openim_sdk:
-    path: ../flutter_openim_sdk
+    git:
+      url: https://github.com/OpenIMSDK/Open-IM-SDK-Flutter.git
+      ref: fix-ios-simulator
+#  flutter_openim_sdk:
+#    path: ../flutter_openim_sdk
 
 dev_dependencies:
   flutter_test:
