@@ -35,6 +35,7 @@ class ChatSingleLayout extends StatelessWidget {
   final bool showRadio;
   final Function(bool checked)? onRadioChanged;
   final bool delaySendingStatus;
+  final bool enabledReadStatus;
 
   const ChatSingleLayout({
     Key? key,
@@ -68,6 +69,7 @@ class ChatSingleLayout extends StatelessWidget {
     this.showRadio = false,
     this.onRadioChanged,
     this.delaySendingStatus = false,
+    this.enabledReadStatus = true,
   }) : super(key: key);
 
   @override
@@ -186,7 +188,7 @@ class ChatSingleLayout extends StatelessWidget {
             stream: sendStatusStream,
             isSendFailed: isSendFailed,
           ),
-          if (isSingleChat && !isSendFailed && !isSending)
+          if (isSingleChat && !isSendFailed && !isSending && enabledReadStatus)
             _buildReadStatusView(),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,

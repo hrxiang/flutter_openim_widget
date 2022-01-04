@@ -328,8 +328,8 @@ class IconUtil {
               {
                 ///if you don't want override completed widget
                 ///please return null or state.completedWidget
-                // return null;
-                //return state.completedWidget;
+                return null;
+                // return state.completedWidget;
                 return FadeIn(
                   // duration: const Duration(milliseconds: 100),
                   child: state.completedWidget,

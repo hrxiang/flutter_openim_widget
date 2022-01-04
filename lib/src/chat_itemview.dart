@@ -153,6 +153,27 @@ class ChatItemView extends StatefulWidget {
   ///
   final Function()? onTapTranslationMenu;
 
+  /// Click the copy button event on the menu
+  final bool? enabledCopyMenu;
+
+  /// Click the delete button event on the menu
+  final bool? enabledDelMenu;
+
+  /// Click the forward button event on the menu
+  final bool? enabledForwardMenu;
+
+  /// Click the reply button event on the menu
+  final bool? enabledReplyMenu;
+
+  /// Click the revoke button event on the menu
+  final bool? enabledRevokeMenu;
+
+  ///
+  final bool? enabledMultiMenu;
+
+  ///
+  final bool? enabledTranslationMenu;
+
   ///
   final bool multiSelMode;
 
@@ -168,6 +189,8 @@ class ChatItemView extends StatefulWidget {
   final List<MatchPattern> patterns;
 
   final bool delaySendingStatus;
+
+  final bool enabledReadStatus;
 
   const ChatItemView({
     Key? key,
@@ -210,12 +233,20 @@ class ChatItemView extends StatefulWidget {
     this.onTapRevokeMenu,
     this.onTapMultiMenu,
     this.onTapTranslationMenu,
+    this.enabledCopyMenu,
+    this.enabledMultiMenu,
+    this.enabledDelMenu,
+    this.enabledForwardMenu,
+    this.enabledReplyMenu,
+    this.enabledRevokeMenu,
+    this.enabledTranslationMenu,
     this.multiSelMode = false,
     this.onMultiSelChanged,
     this.multiList = const [],
     this.onTapQuoteMsg,
     this.patterns = const [],
     this.delaySendingStatus = false,
+    this.enabledReadStatus = true,
   }) : super(key: key);
 
   @override
@@ -527,6 +558,7 @@ class _ChatItemViewState extends State<ChatItemView> {
         checked: _checked,
         onRadioChanged: widget.onMultiSelChanged,
         delaySendingStatus: widget.delaySendingStatus,
+        enabledReadStatus: widget.enabledReadStatus,
       );
 
   Widget _menuBuilder() => ChatLongPressMenu(
@@ -565,52 +597,48 @@ class _ChatItemViewState extends State<ChatItemView> {
         MenuInfo(
           icon: IconUtil.menuCopy(),
           text: UILocalizations.copy,
-          enabled: widget.message.contentType == MessageType.text,
+          enabled: _showCopyMenu,
           textStyle: menuTextStyle,
           onTap: widget.onTapCopyMenu,
         ),
         MenuInfo(
           icon: IconUtil.menuDel(),
           text: UILocalizations.delete,
-          enabled: true,
+          enabled: _showDelMenu,
           textStyle: menuTextStyle,
           onTap: widget.onTapDelMenu,
         ),
         MenuInfo(
           icon: IconUtil.menuForward(),
           text: UILocalizations.forward,
-          enabled: widget.message.contentType != MessageType.voice,
+          enabled: _showForwardMenu,
           textStyle: menuTextStyle,
           onTap: widget.onTapForwardMenu,
         ),
         MenuInfo(
           icon: IconUtil.menuReply(),
           text: UILocalizations.reply,
-          enabled: widget.message.contentType == MessageType.text ||
-              widget.message.contentType == MessageType.video ||
-              widget.message.contentType == MessageType.picture ||
-              widget.message.contentType == MessageType.location ||
-              widget.message.contentType == MessageType.quote,
+          enabled: _showReplyMenu,
           textStyle: menuTextStyle,
           onTap: widget.onTapReplyMenu,
         ),
         MenuInfo(
             icon: IconUtil.menuRevoke(),
             text: UILocalizations.revoke,
-            enabled: widget.message.sendID == OpenIM.iMManager.uid,
+            enabled: _showRevokeMenu,
             textStyle: menuTextStyle,
             onTap: widget.onTapRevokeMenu),
         MenuInfo(
           icon: IconUtil.menuMultiChoice(),
           text: UILocalizations.multiChoice,
-          enabled: true,
+          enabled: _showMultiChoiceMenu,
           textStyle: menuTextStyle,
           onTap: widget.onTapMultiMenu,
         ),
         MenuInfo(
           icon: IconUtil.menuTranslation(),
           text: UILocalizations.translation,
-          enabled: widget.message.contentType == MessageType.text,
+          enabled: _showTranslationMenu,
           textStyle: menuTextStyle,
           onTap: widget.onTapTranslationMenu,
         ),
@@ -627,4 +655,30 @@ class _ChatItemViewState extends State<ChatItemView> {
     fontSize: 10.sp,
     color: Color(0xFFFFFFFF),
   );
+
+  bool get _showCopyMenu =>
+      widget.enabledCopyMenu ?? widget.message.contentType == MessageType.text;
+
+  bool get _showDelMenu => widget.enabledDelMenu ?? true;
+
+  bool get _showForwardMenu =>
+      widget.enabledForwardMenu ??
+      widget.message.contentType != MessageType.voice;
+
+  bool get _showReplyMenu =>
+      widget.enabledReplyMenu ??
+      widget.message.contentType == MessageType.text ||
+          widget.message.contentType == MessageType.video ||
+          widget.message.contentType == MessageType.picture ||
+          widget.message.contentType == MessageType.location ||
+          widget.message.contentType == MessageType.quote;
+
+  bool get _showRevokeMenu =>
+      widget.enabledRevokeMenu ?? widget.message.sendID == OpenIM.iMManager.uid;
+
+  bool get _showMultiChoiceMenu => widget.enabledMultiMenu ?? true;
+
+  bool get _showTranslationMenu =>
+      widget.enabledTranslationMenu ??
+      widget.message.contentType == MessageType.text;
 }
