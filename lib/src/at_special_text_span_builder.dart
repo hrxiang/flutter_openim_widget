@@ -32,9 +32,9 @@ class AtSpecialTextSpanBuilder extends SpecialTextSpanBuilder {
     if (kIsWeb) {
       return TextSpan(text: data, style: textStyle);
     }
-    if (allAtMap.isEmpty) {
-      return TextSpan(text: data, style: textStyle);
-    }
+    // if (allAtMap.isEmpty) {
+    //   return TextSpan(text: data, style: textStyle);
+    // }
     final List<InlineSpan> children = <InlineSpan>[];
 
     var regexEmoji = emojiFaces.keys
