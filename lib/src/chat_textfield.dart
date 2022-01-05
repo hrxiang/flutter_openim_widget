@@ -67,24 +67,26 @@ class AtTextInputFormatter extends TextInputFormatter {
   TextEditingValue formatEditUpdate(
       TextEditingValue oldValue, TextEditingValue newValue) {
     String value = newValue.text;
-    int selectionIndex = newValue.selection.end;
+    int end = newValue.selection.end;
     int start = oldValue.selection.baseOffset;
     if (oldValue.text.length <= newValue.text.length) {
-      var curChar = newValue.text.substring(start);
-      if (curChar == '@') {
+      var newChar = newValue.text.substring(start, end);
+      if (newChar == '@') {
         var result = onTap?.call();
         if (result != null) {
-          var v1 = oldValue.text + result;
+          var v1 = newValue.text.replaceRange(start, end, result);
+          var offset = start + result.length;
           return TextEditingValue(
             text: v1,
-            selection: TextSelection.collapsed(offset: start + result.length),
+            selection: TextSelection.collapsed(offset: offset),
           );
         }
       }
     }
+
     return TextEditingValue(
       text: value,
-      selection: TextSelection.collapsed(offset: selectionIndex),
+      selection: TextSelection.collapsed(offset: end),
     );
   }
 }
