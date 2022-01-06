@@ -181,7 +181,7 @@ class _ConversationView extends StatelessWidget {
                 ChatAvatarView(
                   size: avatarSize,
                   url: avatarUrl,
-                  isCircle: isCircleAvatar ?? true,
+                  isCircle: isCircleAvatar ?? false,
                   borderRadius: avatarBorderRadius,
                 ),
                 SizedBox(width: 12.w),
