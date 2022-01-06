@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -241,6 +240,7 @@ class ImageUtil {
     int? cacheHeight,
     BoxFit? fit,
     bool loadProgress = true,
+    bool clearMemoryCacheWhenDispose = true,
   }) =>
       ExtendedImage.network(
         url,
@@ -249,7 +249,8 @@ class ImageUtil {
         fit: fit,
         cacheWidth: cacheWidth ?? (1.sw * .75).toInt(),
         cacheHeight: cacheHeight,
-        clearMemoryCacheWhenDispose: true,
+        cache: true,
+        clearMemoryCacheWhenDispose: clearMemoryCacheWhenDispose,
         loadStateChanged: (ExtendedImageState state) {
           switch (state.extendedImageLoadState) {
             case LoadState.loading:
@@ -285,7 +286,7 @@ class ImageUtil {
         // border: Border.all(color: Colors.red, width: 1.0),
         // shape: boxShape,
         // borderRadius: BorderRadius.all(Radius.circular(30.0)),
-        cancelToken: CancellationToken(),
+        // cancelToken: CancellationToken(),
       );
 
   static Widget networkImage({
@@ -297,9 +298,19 @@ class ImageUtil {
     BoxFit? fit,
     bool loadProgress = true,
     // bool clearMemoryCacheWhenDispose = false,
-    bool lowMemory = false,
+    // bool lowMemory = false,
   }) =>
-      CachedNetworkImage(
+      lowMemoryNetworkImage(
+        url: url,
+        width: width,
+        height: height,
+        cacheWidth: cacheWidth,
+        cacheHeight: cacheHeight,
+        fit: fit,
+        loadProgress: loadProgress,
+        clearMemoryCacheWhenDispose: false,
+      );
+/*CachedNetworkImage(
         imageUrl: url,
         width: width,
         height: height,
@@ -320,5 +331,5 @@ class ImageUtil {
               : null,
         ),
         errorWidget: (_, url, error) => error(width: width, height: height),
-      );
+      );*/
 }
