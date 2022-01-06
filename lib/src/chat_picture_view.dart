@@ -4,9 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_openim_widget/flutter_openim_widget.dart';
 
-import 'chat_itemview.dart';
-import 'chat_send_progress_view.dart';
-
 class ChatPictureView extends StatefulWidget {
   const ChatPictureView({
     Key? key,
@@ -111,7 +108,7 @@ class _ChatPictureViewState extends State<ChatPictureView> {
 
   bool _isClickedLocation(i) => i == widget.index;
 
-  Widget _urlView({required String url}) => IconUtil.networkImage(
+  Widget _urlView({required String url}) => ImageUtil.networkImage(
         url: url,
         height: _trulyHeight,
         width: _trulyWidth,
@@ -177,7 +174,7 @@ class _ChatPictureViewState extends State<ChatPictureView> {
   }
 
   Widget _errorIcon() =>
-      IconUtil.error(width: _trulyWidth, height: _trulyHeight);
+      ImageUtil.error(width: _trulyWidth, height: _trulyHeight);
 
   static bool _isNotNull(String? value) =>
       null != value && value.trim().isNotEmpty;

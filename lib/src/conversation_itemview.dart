@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_openim_widget/flutter_openim_widget.dart';
-import 'package:flutter_openim_widget/src/unread_count_view.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-
-import 'chat_avatar_view.dart';
 
 final pinColors = [Color(0xFF87C0FF), Color(0xFF0060E7)];
 final deleteColors = [Color(0xFFFFC84C), Color(0xFFFFA93C)];
@@ -239,7 +236,7 @@ class _ConversationView extends StatelessWidget {
                             Spacer(),
                             if (!notDisturb)
                               UnreadCountView(count: unreadCount),
-                            if (notDisturb) IconUtil.notDisturb(),
+                            if (notDisturb) ImageUtil.notDisturb(),
                           ],
                         ),
                       ],

@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_openim_widget/flutter_openim_widget.dart';
-import 'package:flutter_openim_widget/src/chat_bubble.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ChatSingleLayout extends StatelessWidget {

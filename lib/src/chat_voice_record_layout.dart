@@ -4,9 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_openim_widget/flutter_openim_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'chat_voice_record_bar.dart';
-import 'chat_voice_record_view.dart';
-
 typedef SpeakViewChildBuilder = Widget Function(ChatVoiceRecordBar recordBar);
 
 class ChatVoiceRecordLayout extends StatefulWidget {

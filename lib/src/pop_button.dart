@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_openim_widget/flutter_openim_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import 'copy_custom_pop_up_menu.dart';
 
 // typedef PopupMenuItemBuilder = Widget Function(PopMenuInfo info);
 

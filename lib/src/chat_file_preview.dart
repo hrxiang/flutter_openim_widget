@@ -48,7 +48,7 @@ class _ChatFilePreviewState extends State<ChatFilePreview> {
           Positioned(
             top: 136.h,
             width: 375.w,
-            child: IconUtil.assetImage(
+            child: ImageUtil.assetImage(
               'ic_file_grey',
               width: 56.w,
               height: 56.h,
@@ -111,7 +111,7 @@ class _ChatFilePreviewState extends State<ChatFilePreview> {
                                   strokeWidth: 3,
                                   value: event?.value ?? 0,
                                 ),
-                                IconUtil.assetImage(
+                                ImageUtil.assetImage(
                                   _start
                                       ? 'ic_download_continue'
                                       : 'ic_download_stop',

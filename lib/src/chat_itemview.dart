@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_openim_sdk/flutter_openim_sdk.dart';
 import 'package:flutter_openim_widget/flutter_openim_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:focus_detector/focus_detector.dart';
@@ -595,55 +594,55 @@ class _ChatItemViewState extends State<ChatItemView> {
 
   List<MenuInfo> _menusItem() => [
         MenuInfo(
-          icon: IconUtil.menuCopy(),
+          icon: ImageUtil.menuCopy(),
           text: UILocalizations.copy,
           enabled: _showCopyMenu,
           textStyle: menuTextStyle,
           onTap: widget.onTapCopyMenu,
         ),
         MenuInfo(
-          icon: IconUtil.menuDel(),
+          icon: ImageUtil.menuDel(),
           text: UILocalizations.delete,
           enabled: _showDelMenu,
           textStyle: menuTextStyle,
           onTap: widget.onTapDelMenu,
         ),
         MenuInfo(
-          icon: IconUtil.menuForward(),
+          icon: ImageUtil.menuForward(),
           text: UILocalizations.forward,
           enabled: _showForwardMenu,
           textStyle: menuTextStyle,
           onTap: widget.onTapForwardMenu,
         ),
         MenuInfo(
-          icon: IconUtil.menuReply(),
+          icon: ImageUtil.menuReply(),
           text: UILocalizations.reply,
           enabled: _showReplyMenu,
           textStyle: menuTextStyle,
           onTap: widget.onTapReplyMenu,
         ),
         MenuInfo(
-            icon: IconUtil.menuRevoke(),
+            icon: ImageUtil.menuRevoke(),
             text: UILocalizations.revoke,
             enabled: _showRevokeMenu,
             textStyle: menuTextStyle,
             onTap: widget.onTapRevokeMenu),
         MenuInfo(
-          icon: IconUtil.menuMultiChoice(),
+          icon: ImageUtil.menuMultiChoice(),
           text: UILocalizations.multiChoice,
           enabled: _showMultiChoiceMenu,
           textStyle: menuTextStyle,
           onTap: widget.onTapMultiMenu,
         ),
         MenuInfo(
-          icon: IconUtil.menuTranslation(),
+          icon: ImageUtil.menuTranslation(),
           text: UILocalizations.translation,
           enabled: _showTranslationMenu,
           textStyle: menuTextStyle,
           onTap: widget.onTapTranslationMenu,
         ),
         // MenuInfo(
-        //   icon: IconUtil.menuDownload(),
+        //   icon: ImageUtil.menuDownload(),
         //   text: widget.localizations.download,
         //   enabled: true,
         //   textStyle: menuTextStyle,

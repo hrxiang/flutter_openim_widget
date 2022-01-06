@@ -1,9 +1,8 @@
 import 'package:extended_text_field/extended_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_openim_widget/flutter_openim_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import 'at_special_text_span_builder.dart';
 
 class ChatTextField extends StatelessWidget {
   final AtTextCallback? atCallback;

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'chat_itemview.dart';
+import 'package:flutter_openim_widget/flutter_openim_widget.dart';
 
 class ChatSendProgressView extends StatefulWidget {
   /// this.show = message.status == MessageStatus.sending;

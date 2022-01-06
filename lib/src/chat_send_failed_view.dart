@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_openim_widget/flutter_openim_widget.dart';
 
-import 'chat_itemview.dart';
-
 class ChatSendFailedView extends StatefulWidget {
   final String msgId;
   final bool isReceived;
@@ -42,7 +40,7 @@ class _ChatSendFailedViewState extends State<ChatSendFailedView> {
   Widget build(BuildContext context) {
     return Visibility(
       visible: !widget.isReceived && _failed,
-      child: IconUtil.sendFailed(),
+      child: ImageUtil.sendFailed(),
     );
   }
 }

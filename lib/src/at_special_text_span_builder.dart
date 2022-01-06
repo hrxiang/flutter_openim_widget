@@ -72,7 +72,7 @@ class AtSpecialTextSpanBuilder extends SpecialTextSpanBuilder {
             }
           } else if (emojiReg.hasMatch(value)) {
             inlineSpan = ImageSpan(
-              IconUtil.emojiImage(value),
+              ImageUtil.emojiImage(value),
               imageWidth: 20.h,
               imageHeight: 20.h,
               start: m.start,

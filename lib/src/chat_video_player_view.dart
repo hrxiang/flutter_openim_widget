@@ -3,9 +3,8 @@ import 'dart:io';
 import 'package:chewie/chewie.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_openim_widget/flutter_openim_widget.dart';
 import 'package:video_player/video_player.dart';
-
-import 'custom_chawie_controls.dart';
 
 class ChatVideoPlayerView extends StatefulWidget {
   final String? path;

@@ -83,7 +83,7 @@ class ChatAvatarView extends StatelessWidget {
   Widget _indexAvatar({required double size, required String url}) => Container(
         width: size,
         height: size,
-        child: IconUtil.assetImage(url, width: size, height: size),
+        child: ImageUtil.assetImage(url, width: size, height: size),
       );
 
   Widget _defaultAvatar({required double size, String? text}) => Container(
@@ -113,14 +113,14 @@ class ChatAvatarView extends StatelessWidget {
     int? cacheHeight,
   }) =>
       lowMemory
-          ? IconUtil.lowMemoryNetworkImage(
+          ? ImageUtil.lowMemoryNetworkImage(
               url: url,
               width: size,
               height: size,
               fit: BoxFit.cover,
               loadProgress: false,
             )
-          : IconUtil.networkImage(
+          : ImageUtil.networkImage(
               url: url,
               width: size,
               height: size,

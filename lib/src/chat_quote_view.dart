@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_openim_sdk/flutter_openim_sdk.dart';
 import 'package:flutter_openim_widget/flutter_openim_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -29,14 +28,14 @@ class ChatQuoteView extends StatelessWidget {
           var url2 = quoteMessage.pictureElem?.sourcePicture?.url;
           var path = quoteMessage.pictureElem?.sourcePath;
           if (url1 != null && url1.isNotEmpty) {
-            child = IconUtil.networkImage(
+            child = ImageUtil.networkImage(
               url: url1,
               width: 42.h,
               height: 42.h,
               fit: BoxFit.fill,
             );
           } else if (url2 != null && url2.isNotEmpty) {
-            child = IconUtil.networkImage(
+            child = ImageUtil.networkImage(
               url: url2,
               width: 42.h,
               height: 42.h,
@@ -55,7 +54,7 @@ class ChatQuoteView extends StatelessWidget {
           var path = quoteMessage.videoElem?.snapshotPath;
           if (url != null && url.isNotEmpty) {
             child = _playIcon(
-              child: IconUtil.networkImage(
+              child: ImageUtil.networkImage(
                 url: url,
                 width: 42.h,
                 height: 42.h,
@@ -80,7 +79,7 @@ class ChatQuoteView extends StatelessWidget {
             var name = map['name'];
             var addr = map['addr'];
             content = '$name($addr)';
-            child = IconUtil.networkImage(
+            child = ImageUtil.networkImage(
               url: url,
               width: 42.h,
               height: 42.h,
@@ -122,7 +121,7 @@ class ChatQuoteView extends StatelessWidget {
         alignment: Alignment.center,
         children: [
           child,
-          IconUtil.assetImage(
+          ImageUtil.assetImage(
             'ic_video_play_small',
             width: 15.w,
             height: 15.h,

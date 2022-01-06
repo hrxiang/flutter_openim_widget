@@ -2,10 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import '../../flutter_openim_widget.dart';
-import '../../src/chat_itemview.dart';
-import '../../src/chat_send_progress_view.dart';
+import 'package:flutter_openim_widget/flutter_openim_widget.dart';
 
 class ChatVideoView extends StatefulWidget {
   final String? videoPath;
@@ -87,7 +84,7 @@ class _ChatVideoViewState extends State<ChatVideoView> {
   Widget _buildThumbView() {
     if (widget.isReceived) {
       if (null != snapshotUrl && snapshotUrl!.isNotEmpty) {
-        return IconUtil.networkImage(
+        return ImageUtil.networkImage(
           url: snapshotUrl!,
           width: _trulyWidth,
           height: _trulyHeight,
@@ -107,7 +104,7 @@ class _ChatVideoViewState extends State<ChatVideoView> {
         );
       } else {
         if (null != snapshotUrl && snapshotUrl!.isNotEmpty) {
-          return IconUtil.networkImage(
+          return ImageUtil.networkImage(
             url: snapshotUrl!,
             width: _trulyWidth,
             height: _trulyHeight,
@@ -129,7 +126,7 @@ class _ChatVideoViewState extends State<ChatVideoView> {
         alignment: Alignment.center,
         children: [
           _buildThumbView(),
-          IconUtil.play(),
+          ImageUtil.play(),
           ChatSendProgressView(
             height: _trulyHeight,
             width: _trulyWidth,
@@ -177,5 +174,5 @@ class _ChatVideoViewState extends State<ChatVideoView> {
   }
 
   Widget _errorIcon() =>
-      IconUtil.error(width: _trulyWidth, height: _trulyHeight);
+      ImageUtil.error(width: _trulyWidth, height: _trulyHeight);
 }
