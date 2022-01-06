@@ -1,4 +1,4 @@
-import 'package:animate_do/animate_do.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -237,69 +237,19 @@ class ImageUtil {
     required String url,
     double? width,
     double? height,
-    BoxFit? fit,
-    bool loadProgress = true,
-  }) =>
-      networkImage(
-        url: url,
-        width: width,
-        height: height,
-        fit: fit,
-        cacheWidth: width?.toInt(),
-        cacheHeight: height?.toInt(),
-        loadProgress: loadProgress,
-        clearMemoryCacheWhenDispose: true,
-      );
-
-  static Widget networkImage({
-    required String url,
-    double? width,
-    double? height,
     int? cacheWidth,
     int? cacheHeight,
     BoxFit? fit,
     bool loadProgress = true,
-    bool clearMemoryCacheWhenDispose = false,
   }) =>
-      /*CachedNetworkImage(
-        imageUrl: url,
-        width: width,
-        height: height,
-        fit: fit,
-        memCacheHeight: cacheHeight,
-        memCacheWidth: cacheWidth ?? (1.sw * .75).toInt(),
-        // placeholder: placeholder,
-        progressIndicatorBuilder: (context, url, progress) {
-          final double? value = progress.totalSize != null
-              ? progress.downloaded / progress.totalSize!
-              : null;
-          // CupertinoActivityIndicator()
-          return Container(
-            width: 15.0,
-            height: 15.0,
-            child: loadProgress
-                ? Center(
-                    child: CircularProgressIndicator(
-                      strokeWidth: 1.5,
-                      value: value,
-                    ),
-                  )
-                : null,
-          );
-        },
-        errorWidget: (_, url, error) => error(width: width, height: height),
-        // filterQuality: FilterQuality.medium,
-        // cacheManager: CustomCacheManager.instance,
-      );*/
       ExtendedImage.network(
         url,
         width: width,
         height: height,
         fit: fit,
-        cache: true,
         cacheWidth: cacheWidth ?? (1.sw * .75).toInt(),
         cacheHeight: cacheHeight,
-        clearMemoryCacheWhenDispose: clearMemoryCacheWhenDispose,
+        clearMemoryCacheWhenDispose: true,
         loadStateChanged: (ExtendedImageState state) {
           switch (state.extendedImageLoadState) {
             case LoadState.loading:
@@ -318,29 +268,14 @@ class ImageUtil {
                       ? Center(
                           child: CircularProgressIndicator(
                             strokeWidth: 1.5,
-                            value: progress,
+                            value: progress ?? 0,
                           ),
                         )
                       : null,
                 );
               }
             case LoadState.completed:
-              {
-                ///if you don't want override completed widget
-                ///please return null or state.completedWidget
-                return null;
-                // return state.completedWidget;
-                return FadeIn(
-                  // duration: const Duration(milliseconds: 100),
-                  child: state.completedWidget,
-                  // child: ExtendedRawImage(
-                  //   image: state.extendedImageInfo?.image,
-                  //   width: width,
-                  //   height: height,
-                  //   fit: fit,
-                  // ),
-                );
-              }
+              return null;
             case LoadState.failed:
               //remove memory cached
               state.imageProvider.evict();
@@ -350,56 +285,40 @@ class ImageUtil {
         // border: Border.all(color: Colors.red, width: 1.0),
         // shape: boxShape,
         // borderRadius: BorderRadius.all(Radius.circular(30.0)),
-        //cancelToken: cancellationToken,
+        cancelToken: CancellationToken(),
       );
-/*FadeInImage.memoryNetwork(
-        placeholder: kTransparentImage,
-        image: url,
-        height: height,
-        width: width,
-        fit: fit ?? BoxFit.cover,
-        imageCacheHeight: cacheHeight,
-        imageCacheWidth: cacheWidth,
-        fadeInDuration: const Duration(milliseconds: 100),
-      );*/
-/*Image.network(
-        url,
-        height: height,
-        width: width,
-        fit: fit ?? BoxFit.cover,
-        cacheHeight: cacheHeight,
-        cacheWidth: cacheWidth,
-        loadingBuilder: null != loadingWidget
-            ? (context, child, loadingProgress) => loadingWidget
-            : null,
-        errorBuilder: null != errorWidget
-            ? (context, Object, stackTrace) => errorWidget
-            : null,
-      );*/
 
-/*static Widget networkImage({
+  static Widget networkImage({
     required String url,
     double? width,
     double? height,
+    int? cacheWidth,
+    int? cacheHeight,
     BoxFit? fit,
-    int? memCacheHeight,
-    int? memCacheWidth,
-    PlaceholderWidgetBuilder? placeholder,
-    ProgressIndicatorBuilder? progressIndicatorBuilder,
-    LoadingErrorWidgetBuilder? errorWidget,
+    bool loadProgress = true,
+    // bool clearMemoryCacheWhenDispose = false,
+    bool lowMemory = false,
   }) =>
       CachedNetworkImage(
         imageUrl: url,
         width: width,
         height: height,
         fit: fit,
-        memCacheHeight: memCacheHeight,
-        memCacheWidth: memCacheWidth,
-        placeholder: placeholder,
-        progressIndicatorBuilder: progressIndicatorBuilder,
-        errorWidget: errorWidget,
-        // filterQuality: FilterQuality.medium,
-        // cacheManager: CustomCacheManager.instance,
-      );*/
-
+        memCacheWidth: cacheWidth ?? (lowMemory ? (1.sw * .75).toInt() : null),
+        memCacheHeight: cacheHeight,
+        // placeholder: placeholder,
+        progressIndicatorBuilder: (context, url, progress) => Container(
+          width: 10.0,
+          height: 10.0,
+          child: loadProgress
+              ? Center(
+                  child: CircularProgressIndicator(
+                    strokeWidth: 1.5,
+                    value: progress.progress ?? 0,
+                  ),
+                )
+              : null,
+        ),
+        errorWidget: (_, url, error) => error(width: width, height: height),
+      );
 }

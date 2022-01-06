@@ -9,21 +9,26 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class ChatPicturePreview extends StatelessWidget {
   const ChatPicturePreview({
     Key? key,
-    required this.tag,
+    this.tag,
     this.url,
     this.file,
     this.onDownload,
   }) : super(key: key);
   final String? url;
   final File? file;
-  final String tag;
+  final String? tag;
   final Future<bool> Function(String)? onDownload;
 
   @override
   Widget build(BuildContext context) {
+    var child = _buildChildView(context: context);
     return Material(
       color: Color(0xFF000000),
-      child: Stack(
+      child: tag == null ? child : Hero(tag: tag!, child: child),
+    );
+  }
+
+  Widget _buildChildView({required BuildContext context}) => Stack(
         children: [
           ExtendedImageGesturePageView.builder(
             controller: ExtendedPageController(
@@ -37,7 +42,7 @@ class ChatPicturePreview extends StatelessWidget {
                   url!,
                   fit: BoxFit.contain,
                   mode: ExtendedImageMode.gesture,
-                  clearMemoryCacheWhenDispose: true,
+                  // clearMemoryCacheWhenDispose: true,
                   handleLoadingProgress: true,
                   loadStateChanged: (ExtendedImageState state) {
                     switch (state.extendedImageLoadState) {
@@ -55,7 +60,7 @@ class ChatPicturePreview extends StatelessWidget {
                               width: 20.0,
                               height: 20.0,
                               child: CircularProgressIndicator(
-                                value: progress,
+                                value: progress ?? 0,
                               ),
                             ),
                           );
@@ -228,9 +233,7 @@ class ChatPicturePreview extends StatelessWidget {
               ),
             ),
         ],
-      ),
-    );
-  }
+      );
 
   Widget _errorView() => Container(
         width: 375.w,
