@@ -288,14 +288,12 @@ class _ChatInputBoxViewState extends State<ChatInputBoxView>
   Widget _speakBtn() => _buildBtn(
         icon: ImageUtil.speak(),
         onTap: () {
-          PermissionUtil.microphone(() {
-            setState(() {
-              _leftKeyboardButton = true;
-              _rightKeyboardButton = false;
-              _toolsVisible = false;
-              _emojiVisible = false;
-              unfocus();
-            });
+          setState(() {
+            _leftKeyboardButton = true;
+            _rightKeyboardButton = false;
+            _toolsVisible = false;
+            _emojiVisible = false;
+            unfocus();
           });
         },
       );
