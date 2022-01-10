@@ -33,7 +33,7 @@ class UnreadCountView extends StatelessWidget {
                 height: size,
                 child: QqBadge(
                   text: '${(hot.data ?? 0) > 99 ? '...' : hot.data}',
-                  radius: 7.h,
+                  radius: size / 2,
                   textStyle: TextStyle(
                     fontSize: 8.sp,
                     color: Color(0xFFFFFFFF),
@@ -68,7 +68,7 @@ class UnreadCountView extends StatelessWidget {
                 height: size,
                 child: QqBadge(
                   text: '${count > 99 ? '...' : count}',
-                  radius: 7.h,
+                  radius: size / 2,
                   textStyle: TextStyle(
                     fontSize: 8.sp,
                     color: Color(0xFFFFFFFF),
