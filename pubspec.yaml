@@ -38,8 +38,6 @@ dependencies:
   flutter_svg: ^1.0.0
 #  transparent_image: ^2.0.0
   extended_image: ^6.0.1
-  qq_badge:
-    path: ../qq_badge
   chewie:
     git:
       url: https://github.com/hrxiang/chewie.git
@@ -47,12 +45,17 @@ dependencies:
     git:
       url: https://github.com/letsar/flutter_slidable.git
 #  flutter_openim_sdk: ^1.0.8
-#  flutter_openim_sdk:
-#    git:
-#      url: https://github.com/OpenIMSDK/Open-IM-SDK-Flutter.git
-#      ref: fix-ios-simulator
   flutter_openim_sdk:
-    path: ../flutter_openim_sdk
+    git:
+      url: https://github.com/OpenIMSDK/Open-IM-SDK-Flutter.git
+      ref: fix-ios-simulator
+  qq_badge:
+    git:
+      url: https://github.com/hrxiang/QqBadge.git
+#  flutter_openim_sdk:
+#    path: ../flutter_openim_sdk
+#  qq_badge:
+#    path: ../qq_badge
 
 dev_dependencies:
   flutter_test:

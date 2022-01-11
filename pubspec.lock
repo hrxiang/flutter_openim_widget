@@ -200,9 +200,11 @@ packages:
   flutter_openim_sdk:
     dependency: "direct main"
     description:
-      path: "../flutter_openim_sdk"
-      relative: true
-    source: path
+      path: "."
+      ref: fix-ios-simulator
+      resolved-ref: "026843db880bb804dcaef02c7cdf12f59a98117b"
+      url: "https://github.com/OpenIMSDK/Open-IM-SDK-Flutter.git"
+    source: git
     version: "1.1.0"
   flutter_screenutil:
     dependency: "direct main"
@@ -464,10 +466,12 @@ packages:
   qq_badge:
     dependency: "direct main"
     description:
-      path: "../qq_badge"
-      relative: true
-    source: path
-    version: "0.0.1"
+      path: "."
+      ref: HEAD
+      resolved-ref: "9d6c88c5f3d7651f6a17d5dfbdc5adbd91b16425"
+      url: "https://github.com/hrxiang/QqBadge.git"
+    source: git
+    version: "0.0.2"
   record:
     dependency: "direct main"
     description:
