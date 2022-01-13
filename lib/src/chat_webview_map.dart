@@ -8,13 +8,19 @@ import 'package:flutter_openim_widget/flutter_openim_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sprintf/sprintf.dart';
 
+///
+/// 腾讯h5地图
 class ChatWebViewMap extends StatefulWidget {
   const ChatWebViewMap({
     Key? key,
     this.mapAppKey = "TMNBZ-3CGC6-C6SSL-EJA3B-E2P5Q-V7F6Q",
+    this.mapThumbnailSize = "1200*600",
+    this.mapBackUrl = "http://callback",
   }) : super(key: key);
 
   final String mapAppKey;
+  final String mapThumbnailSize;
+  final String mapBackUrl;
 
   @override
   _ChatWebViewMapState createState() => _ChatWebViewMapState();
@@ -22,9 +28,6 @@ class ChatWebViewMap extends StatefulWidget {
 
 class _ChatWebViewMapState extends State<ChatWebViewMap> {
   final GlobalKey webViewKey = GlobalKey();
-  static final mapKey = "TMNBZ-3CGC6-C6SSL-EJA3B-E2P5Q-V7F6Q";
-  static final mapBackUrl = "http://callback";
-  static final mapThumbnailSize = '600*300';
   InAppWebViewController? webViewController;
   InAppWebViewGroupOptions options = InAppWebViewGroupOptions(
       crossPlatform: InAppWebViewOptions(
@@ -48,15 +51,16 @@ class _ChatWebViewMapState extends State<ChatWebViewMap> {
   double? longitude;
   String? description;
 
-  final mapUrl =
-      "https://apis.map.qq.com/tools/locpicker?search=1&type=0&backurl=$mapBackUrl&key=$mapKey&referer=myapp&policy=1";
-  final mapThumbnailUrl =
-      "https://apis.map.qq.com/ws/staticmap/v2/?center=%s&zoom=18&size=$mapThumbnailSize&maptype=roadmap&markers=size:large|color:0xFFCCFF|label:k|%s&key=$mapKey";
+  late String mapUrl;
+  late String mapThumbnailUrl;
 
   @override
   void initState() {
     super.initState();
-
+    mapUrl =
+        "https://apis.map.qq.com/tools/locpicker?search=1&type=0&backurl=${widget.mapBackUrl}&key=${widget.mapAppKey}&referer=myapp&policy=1";
+    mapThumbnailUrl =
+        "https://apis.map.qq.com/ws/staticmap/v2/?center=%s&zoom=14&size=${widget.mapThumbnailSize}&maptype=roadmap&markers=size:large|color:0xFFCCFF|label:k|%s&key=${widget.mapAppKey}";
     pullToRefreshController = PullToRefreshController(
       options: PullToRefreshOptions(
         color: Colors.blue,
@@ -172,7 +176,7 @@ class _ChatWebViewMapState extends State<ChatWebViewMap> {
               },
               shouldOverrideUrlLoading: (controller, navigationAction) async {
                 var uri = navigationAction.request.url!;
-                if (uri.toString().startsWith(mapBackUrl)) {
+                if (uri.toString().startsWith(widget.mapBackUrl)) {
                   try {
                     print('${uri.queryParameters}');
                     var _result = <String, String>{};
@@ -183,6 +187,7 @@ class _ChatWebViewMapState extends State<ChatWebViewMap> {
                     _result['latitude'] = list[0];
                     _result['longitude'] = list[1];
                     _result['url'] = sprintf(mapThumbnailUrl, [lat, lat]);
+                    print('${_result['url']}');
                     // log('--url:${_result['url']}');
                     latitude = double.tryParse(_result['latitude']!);
                     longitude = double.tryParse(_result['longitude']!);
