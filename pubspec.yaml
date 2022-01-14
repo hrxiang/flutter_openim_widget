@@ -21,7 +21,7 @@ dependencies:
   record: ^3.0.2
   just_audio: ^0.9.18
 #  chewie: ^1.2.2
-  provider: ^6.0.1
+#  provider: ^6.0.1
   video_player: ^2.2.10
   lottie: ^1.2.1
   permission_handler: ^8.3.0
