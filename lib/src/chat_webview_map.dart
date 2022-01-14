@@ -60,7 +60,7 @@ class _ChatWebViewMapState extends State<ChatWebViewMap> {
     mapUrl =
         "https://apis.map.qq.com/tools/locpicker?search=1&type=0&backurl=${widget.mapBackUrl}&key=${widget.mapAppKey}&referer=myapp&policy=1";
     mapThumbnailUrl =
-        "https://apis.map.qq.com/ws/staticmap/v2/?center=%s&zoom=14&size=${widget.mapThumbnailSize}&maptype=roadmap&markers=size:large|color:0xFFCCFF|label:k|%s&key=${widget.mapAppKey}";
+        "https://apis.map.qq.com/ws/staticmap/v2/?center=%s&zoom=18&size=${widget.mapThumbnailSize}&maptype=roadmap&markers=size:large|color:0xFFCCFF|label:k|%s&key=${widget.mapAppKey}";
     pullToRefreshController = PullToRefreshController(
       options: PullToRefreshOptions(
         color: Colors.blue,
