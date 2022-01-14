@@ -121,7 +121,7 @@ class ChatAvatarView extends StatelessWidget {
               height: height,
               fit: BoxFit.cover,
               loadProgress: false,
-              cacheWidth: cacheWidth ?? width.toInt(),
+              cacheWidth: cacheWidth ?? (1.sw * .3).toInt(),
               cacheHeight: cacheHeight,
             )
           : ImageUtil.networkImage(
@@ -130,7 +130,7 @@ class ChatAvatarView extends StatelessWidget {
               height: height,
               fit: BoxFit.cover,
               loadProgress: false,
-              cacheWidth: cacheWidth ?? width.toInt(),
+              cacheWidth: cacheWidth ?? (1.sw * .3).toInt(),
               cacheHeight: cacheHeight,
             );
 
