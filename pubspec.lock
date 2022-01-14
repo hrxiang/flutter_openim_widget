@@ -74,11 +74,9 @@ packages:
   chewie:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "94da39e6bb302a12874cb528cc6880e4dd526384"
-      url: "https://github.com/hrxiang/chewie.git"
-    source: git
+      name: chewie
+      url: "https://pub.flutter-io.cn"
+    source: hosted
     version: "1.2.2"
   clock:
     dependency: transitive
@@ -200,11 +198,9 @@ packages:
   flutter_openim_sdk:
     dependency: "direct main"
     description:
-      path: "."
-      ref: fix-ios-simulator
-      resolved-ref: "026843db880bb804dcaef02c7cdf12f59a98117b"
-      url: "https://github.com/OpenIMSDK/Open-IM-SDK-Flutter.git"
-    source: git
+      name: flutter_openim_sdk
+      url: "https://pub.flutter-io.cn"
+    source: hosted
     version: "1.1.0"
   flutter_screenutil:
     dependency: "direct main"
@@ -460,7 +456,7 @@ packages:
       name: provider
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "6.0.1"
+    version: "5.0.0"
   qq_badge:
     dependency: "direct main"
     description:

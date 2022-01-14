@@ -1,7 +1,9 @@
 # flutter_openim_widget
 
-openim widget.
+###### openim widget.
 
+[![pub package](https://img.shields.io/pub/v/flutter_openim_widget.svg)](https://pub.flutter-io.cn/packages/flutter_openim_widget)
+[![GitHub license](https://img.shields.io/github/license/OpenIMSDK/Open-IM-SDK-Flutter)](https://github.com/OpenIMSDK/Open-IM-SDK-Flutter/blob/main/LICENSE)
 
 ```
 import 'package:flutter/material.dart';
