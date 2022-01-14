@@ -2,7 +2,6 @@ name: flutter_openim_widget
 description: openim widget.
 version: 0.0.1
 homepage: https://github.com/hrxiang/OpenIM-Flutter-Widget
-publish_to: none
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
