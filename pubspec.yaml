@@ -1,7 +1,7 @@
 name: flutter_openim_widget
 description: openim widget.
 version: 0.0.1
-homepage: https://github.com/hrxiang/OpenIM-Flutter-Widget
+homepage: https://github.com/hrxiang/flutter_openim_widget.git
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
@@ -32,18 +32,12 @@ dependencies:
   flutter_svg: ^1.0.0
   extended_image: ^6.0.1
   qq_badge: ^0.0.2
-  flutter_openim_sdk: ^1.1.0
   fijkplayer: ^0.10.1
-#  chewie:
-#    git:
-#      url: https://github.com/brianegan/chewie.git
+  flutter_openim_sdk: ^1.1.0
 #  flutter_openim_sdk:
 #    git:
 #      url: https://github.com/OpenIMSDK/Open-IM-SDK-Flutter.git
 #      ref: fix-ios-simulator
-#  qq_badge:
-#    git:
-#      url: https://github.com/hrxiang/QqBadge.git
 #  flutter_openim_sdk:
 #    path: ../flutter_openim_sdk
 

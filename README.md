@@ -3,7 +3,7 @@
 ###### openim widget.
 
 [![pub package](https://img.shields.io/pub/v/flutter_openim_widget.svg)](https://pub.flutter-io.cn/packages/flutter_openim_widget)
-[![GitHub license](https://img.shields.io/github/license/OpenIMSDK/Open-IM-SDK-Flutter)](https://github.com/OpenIMSDK/Open-IM-SDK-Flutter/blob/main/LICENSE)
+[![GitHub license](https://img.shields.io/github/license/hrxiang/flutter_openim_widget)](https://github.com/hrxiang/flutter_openim_widget/blob/master/LICENSE)
 
 ```
 import 'package:flutter/material.dart';
