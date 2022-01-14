@@ -74,9 +74,11 @@ packages:
   chewie:
     dependency: "direct main"
     description:
-      name: chewie
-      url: "https://pub.flutter-io.cn"
-    source: hosted
+      path: "."
+      ref: HEAD
+      resolved-ref: "94da39e6bb302a12874cb528cc6880e4dd526384"
+      url: "https://github.com/hrxiang/chewie.git"
+    source: git
     version: "1.2.2"
   clock:
     dependency: transitive
@@ -451,12 +453,12 @@ packages:
     source: hosted
     version: "4.2.1"
   provider:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: provider
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "5.0.0"
+    version: "6.0.2"
   qq_badge:
     dependency: "direct main"
     description:
