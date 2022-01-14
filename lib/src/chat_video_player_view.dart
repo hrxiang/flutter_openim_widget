@@ -1,10 +1,8 @@
 import 'dart:io';
 
-import 'package:chewie/chewie.dart';
+import 'package:fijkplayer/fijkplayer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_openim_widget/flutter_openim_widget.dart';
-import 'package:video_player/video_player.dart';
 
 class ChatVideoPlayerView extends StatefulWidget {
   final String? path;
@@ -19,71 +17,42 @@ class ChatVideoPlayerView extends StatefulWidget {
 }
 
 class _ChatVideoPlayerViewState extends State<ChatVideoPlayerView> {
-  VideoPlayerController? videoPlayerController;
-  ChewieController? chewieController;
+  final FijkPlayer player = FijkPlayer();
 
   @override
   void initState() {
-    init();
-    super.initState();
-  }
-
-  void init() async {
+    // init();
+    bool _existPath = false;
     if (null != _path && _path!.isNotEmpty) {
       var file = File(_path!);
       if (file.existsSync()) {
-        videoPlayerController = VideoPlayerController.file(file);
+        _existPath = true;
       }
     }
-    if (null == videoPlayerController) {
-      if (null != _url && _url!.isNotEmpty) {
-        videoPlayerController = VideoPlayerController.network(_url!);
-      }
-    }
-
-    if (null != videoPlayerController) {
-      await videoPlayerController!.initialize();
-
-      chewieController = ChewieController(
-        videoPlayerController: videoPlayerController!,
-        autoPlay: true,
-        looping: false,
-        customControls: CustomCupertinoControls(
-          backgroundColor: Color(0xFF5B5B5B),
-          iconColor: Colors.white,
-          onDownload: () {
-            if (null != _url) {
-              widget.onDownload?.call(_url!);
-            }
-          },
-        ),
-      );
-
-      // chewieController?.addListener(() {});
-      setState(() {});
-    }
+    player.setDataSource(_existPath ? _path! : _url!, autoPlay: true);
+    super.initState();
   }
 
   @override
   void dispose() {
-    videoPlayerController?.dispose();
-    chewieController?.dispose();
+    player.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Material(
-      // backgroundColor: Colors.transparent,
       color: Colors.black,
       child: SafeArea(
         child: Stack(
           children: [
-            if (null == chewieController)
-              Center(
-                child: CircularProgressIndicator(),
+            Container(
+              alignment: Alignment.center,
+              child: FijkView(
+                player: player,
+                color: Colors.transparent,
               ),
-            if (null != chewieController) Chewie(controller: chewieController!),
+            ),
           ],
         ),
       ),

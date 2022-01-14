@@ -22,7 +22,7 @@ dependencies:
   just_audio: ^0.9.18
 #  chewie: ^1.2.2
 #  provider: ^6.0.1
-  video_player: ^2.2.10
+#  video_player: ^2.2.10
   lottie: ^1.2.1
   permission_handler: ^8.3.0
   extended_text_field: ^9.0.3
@@ -34,9 +34,10 @@ dependencies:
   extended_image: ^6.0.1
   qq_badge: ^0.0.2
   flutter_openim_sdk: ^1.1.0
-  chewie:
-    git:
-      url: https://github.com/brianegan/chewie.git
+  fijkplayer: ^0.10.1
+#  chewie:
+#    git:
+#      url: https://github.com/brianegan/chewie.git
 #  flutter_openim_sdk:
 #    git:
 #      url: https://github.com/OpenIMSDK/Open-IM-SDK-Flutter.git
