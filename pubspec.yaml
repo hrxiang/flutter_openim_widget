@@ -36,7 +36,7 @@ dependencies:
   flutter_openim_sdk: ^1.1.0
   chewie:
     git:
-      url: https://github.com/hrxiang/chewie.git
+      url: https://github.com/brianegan/chewie.git
 #  flutter_openim_sdk:
 #    git:
 #      url: https://github.com/OpenIMSDK/Open-IM-SDK-Flutter.git
