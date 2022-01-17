@@ -65,7 +65,6 @@ class AtTextInputFormatter extends TextInputFormatter {
   @override
   TextEditingValue formatEditUpdate(
       TextEditingValue oldValue, TextEditingValue newValue) {
-    String value = newValue.text;
     int end = newValue.selection.end;
     int start = oldValue.selection.baseOffset;
     if (oldValue.text.length <= newValue.text.length) {
@@ -82,10 +81,6 @@ class AtTextInputFormatter extends TextInputFormatter {
         }
       }
     }
-
-    return TextEditingValue(
-      text: value,
-      selection: TextSelection.collapsed(offset: end),
-    );
+    return newValue;
   }
 }
