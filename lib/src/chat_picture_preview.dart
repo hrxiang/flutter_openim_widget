@@ -58,7 +58,7 @@ class ChatPicturePreview extends StatelessWidget {
         info.file!,
         fit: BoxFit.contain,
         mode: ExtendedImageMode.gesture,
-        // clearMemoryCacheWhenDispose: true,
+        clearMemoryCacheWhenDispose: true,
         loadStateChanged: _buildLoadStateChangedView,
         initGestureConfigHandler: _buildGestureConfig,
       );
@@ -67,7 +67,7 @@ class ChatPicturePreview extends StatelessWidget {
         info.url!,
         fit: BoxFit.contain,
         mode: ExtendedImageMode.gesture,
-        // clearMemoryCacheWhenDispose: true,
+        clearMemoryCacheWhenDispose: true,
         handleLoadingProgress: true,
         loadStateChanged: _buildLoadStateChangedView,
         initGestureConfigHandler: _buildGestureConfig,
