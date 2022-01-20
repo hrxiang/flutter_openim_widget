@@ -241,14 +241,15 @@ class ImageUtil {
     BoxFit? fit,
     bool loadProgress = true,
     bool clearMemoryCacheWhenDispose = true,
+    bool lowMemory = true,
   }) =>
       ExtendedImage.network(
         url,
         width: width,
         height: height,
         fit: fit,
-        cacheWidth: cacheWidth ?? (1.sw * .75).toInt(),
-        cacheHeight: cacheHeight,
+        cacheWidth: lowMemory ? cacheWidth ?? (1.sw * .75).toInt() : null,
+        cacheHeight: lowMemory ? cacheHeight : null,
         cache: true,
         clearMemoryCacheWhenDispose: clearMemoryCacheWhenDispose,
         loadStateChanged: (ExtendedImageState state) {
@@ -297,8 +298,8 @@ class ImageUtil {
     int? cacheHeight,
     BoxFit? fit,
     bool loadProgress = true,
-    // bool clearMemoryCacheWhenDispose = false,
-    // bool lowMemory = false,
+    bool clearMemoryCacheWhenDispose = false,
+    bool lowMemory = true,
   }) =>
       lowMemoryNetworkImage(
         url: url,
@@ -308,7 +309,8 @@ class ImageUtil {
         cacheHeight: cacheHeight,
         fit: fit,
         loadProgress: loadProgress,
-        clearMemoryCacheWhenDispose: false,
+        clearMemoryCacheWhenDispose: clearMemoryCacheWhenDispose,
+        lowMemory: lowMemory,
       );
 /*CachedNetworkImage(
         imageUrl: url,

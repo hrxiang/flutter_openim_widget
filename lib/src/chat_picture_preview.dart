@@ -163,19 +163,18 @@ class ChatPicturePreview extends StatelessWidget {
       );
 
   Widget _buildBackBtn({Function()? onTap}) => Positioned(
-        top: 40.h,
+        top: 35.h,
         left: 30.w,
         child: GestureDetector(
           behavior: HitTestBehavior.translucent,
           onTap: onTap,
           child: Container(
-            padding: EdgeInsets.all(5),
+            width: 38,
+            height: 38,
             decoration: BoxDecoration(
-              // color: Color(0xFFFFFFFF).withOpacity(0.23),
-              color: Colors.grey.withOpacity(0.5),
-              // color: Colors.blue,
-              // borderRadius: BorderRadius.circular(16),
-              shape: BoxShape.circle,
+              color: Colors.black87.withOpacity(0.4),
+              shape: BoxShape.rectangle,
+              borderRadius: BorderRadius.circular(10),
             ),
             child: Icon(Icons.close, color: Colors.white),
           ),

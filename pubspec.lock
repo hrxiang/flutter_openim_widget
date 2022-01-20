@@ -29,6 +29,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.1.6+1"
+  better_player:
+    dependency: "direct main"
+    description:
+      name: better_player
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.0.81"
   boolean_selector:
     dependency: transitive
     description:
@@ -92,6 +99,20 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "3.0.1"
+  csslib:
+    dependency: transitive
+    description:
+      name: csslib
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.17.1"
+  cupertino_icons:
+    dependency: transitive
+    description:
+      name: cupertino_icons
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.0.4"
   extended_image:
     dependency: "direct main"
     description:
@@ -134,13 +155,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.1.2"
-  fijkplayer:
-    dependency: "direct main"
-    description:
-      name: fijkplayer
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "0.10.1"
   file:
     dependency: transitive
     description:
@@ -219,6 +233,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_widget_from_html_core:
+    dependency: transitive
+    description:
+      name: flutter_widget_from_html_core
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.8.4"
   focus_detector:
     dependency: "direct main"
     description:
@@ -226,6 +247,20 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.0.0"
+  fwfh_text_style:
+    dependency: transitive
+    description:
+      name: fwfh_text_style
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "2.7.2"
+  html:
+    dependency: transitive
+    description:
+      name: html
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.15.0"
   http:
     dependency: transitive
     description:
@@ -560,6 +595,41 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.2.2"
+  wakelock:
+    dependency: transitive
+    description:
+      name: wakelock
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.5.6"
+  wakelock_macos:
+    dependency: transitive
+    description:
+      name: wakelock_macos
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.4.0"
+  wakelock_platform_interface:
+    dependency: transitive
+    description:
+      name: wakelock_platform_interface
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.3.0"
+  wakelock_web:
+    dependency: transitive
+    description:
+      name: wakelock_web
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.4.0"
+  wakelock_windows:
+    dependency: transitive
+    description:
+      name: wakelock_windows
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.2.0"
   win32:
     dependency: transitive
     description:

@@ -19,9 +19,6 @@ dependencies:
   flutter_image_compress: ^1.1.0
   record: ^3.0.2
   just_audio: ^0.9.18
-#  chewie: ^1.2.2
-#  provider: ^6.0.1
-#  video_player: ^2.2.10
   lottie: ^1.2.1
   permission_handler: ^8.3.0
   extended_text_field: ^9.0.3
@@ -32,7 +29,11 @@ dependencies:
   flutter_svg: ^1.0.0
   extended_image: ^6.0.1
   qq_badge: ^0.0.2
-  fijkplayer: ^0.10.1
+  better_player: ^0.0.81
+#  fijkplayer: ^0.10.1
+#  chewie: ^1.2.2
+#  provider: ^6.0.1
+#  video_player: ^2.2.13
   flutter_openim_sdk: ^1.1.0
 #  flutter_openim_sdk:
 #    git:

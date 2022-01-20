@@ -118,59 +118,27 @@ class _ChatVideoViewState extends State<ChatVideoView> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: _trulyWidth,
-      height: _trulyHeight,
-      color: Color(0xFFB3D7FF),
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          _buildThumbView(),
-          ImageUtil.play(),
-          ChatSendProgressView(
-            height: _trulyHeight,
-            width: _trulyWidth,
-            msgId: widget.msgId,
-            stream: widget.msgSenProgressStream,
-            initProgress: widget.initMsgSendProgress,
+    return Hero(
+        tag: widget.msgId,
+        child: Container(
+          width: _trulyWidth,
+          height: _trulyHeight,
+          // color: Color(0xFFB3D7FF),
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              _buildThumbView(),
+              ImageUtil.play(),
+              ChatSendProgressView(
+                height: _trulyHeight,
+                width: _trulyWidth,
+                msgId: widget.msgId,
+                stream: widget.msgSenProgressStream,
+                initProgress: widget.initMsgSendProgress,
+              ),
+            ],
           ),
-        ],
-      ),
-    );
-    /*return GestureDetector(
-      behavior: HitTestBehavior.translucent,
-      onTap: () {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (BuildContext context) {
-              return ChatVideoPlayerView(
-                path: path,
-                url: url,
-              );
-            },
-          ),
-        );
-      },
-      child: Container(
-        width: _trulyWidth,
-        height: _trulyHeight,
-        color: Color(0xFFB3D7FF),
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            _buildThumbView(),
-            WidgetsUtil.playIcon(),
-            ChatMsgSendProgressView(
-              height: _trulyHeight,
-              width: _trulyWidth,
-              msgId: widget.msgId,
-              stream: widget.msgSenProgressStream,
-              initProgress: widget.initMsgSendProgress,
-            ),
-          ],
-        ),
-      ),
-    );*/
+        ));
   }
 
   Widget _errorIcon() =>
