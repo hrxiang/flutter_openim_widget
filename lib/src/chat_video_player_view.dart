@@ -113,22 +113,24 @@ class _ChatVideoPlayerViewState extends State<ChatVideoPlayerView> {
                       aspectRatio: _aspectRatio,
                       child: BetterPlayer(controller: _betterPlayerController),
                     )
-                  : Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        if (null != widget.coverUrl)
-                          ImageUtil.networkImage(
-                            url: widget.coverUrl!,
-                            clearMemoryCacheWhenDispose: true,
-                            loadProgress: false,
-                            cacheWidth: (1.sw).toInt(),
-                          ),
-                        CircularProgressIndicator(),
-                      ],
-                    ),
+                  : _buildCoverView(),
             )
           ],
         ),
+      );
+
+  Widget _buildCoverView() => Stack(
+        alignment: Alignment.center,
+        children: [
+          if (null != widget.coverUrl)
+            ImageUtil.networkImage(
+              url: widget.coverUrl!,
+              clearMemoryCacheWhenDispose: true,
+              loadProgress: false,
+              cacheWidth: (1.sw).toInt(),
+            ),
+          CircularProgressIndicator(),
+        ],
       );
 
   Widget _buildBackBtn({Function()? onTap}) => Positioned(
