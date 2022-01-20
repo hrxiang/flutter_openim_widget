@@ -1,3 +1,7 @@
+## 0.0.4
+
+* Replace fijkplayer package to better_player
+
 ## 0.0.3
 
 * Fix ios TextField custom filter bug
