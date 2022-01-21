@@ -1,3 +1,7 @@
+## 0.0.5
+
+* Update sdk maven url
+
 ## 0.0.4
 
 * Replace fijkplayer package to better_player
