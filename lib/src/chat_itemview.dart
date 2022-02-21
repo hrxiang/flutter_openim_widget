@@ -472,8 +472,8 @@ class _ChatItemViewState extends State<ChatItemView> {
           child = _buildCommonItemView(
             isBubbleBg: false,
             child: ChatCarteView(
-              name: data['name'],
-              url: data['icon'],
+              name: data['nickname'],
+              url: data['faceURL'],
             ),
           );
         }
@@ -485,7 +485,7 @@ class _ChatItemViewState extends State<ChatItemView> {
             var text;
             if (MessageType.revoke == widget.message.contentType) {
               var who = _isFromMsg
-                  ? widget.message.senderNickName
+                  ? widget.message.senderNickname
                   : UILocalizations.you;
               text = '$who ${UILocalizations.revokeAMsg}';
             } else {
@@ -532,9 +532,9 @@ class _ChatItemViewState extends State<ChatItemView> {
         isReceivedMsg: _isFromMsg,
         isSingleChat: widget.isSingleChat,
         avatarSize: widget.avatarSize ?? 42.h,
-        rightAvatar: OpenIM.iMManager.uInfo.icon!,
+        rightAvatar: OpenIM.iMManager.uInfo.faceURL!,
         leftAvatar: widget.message.senderFaceUrl!,
-        leftName: widget.message.senderNickName!,
+        leftName: widget.message.senderNickname!,
         isUnread: !widget.message.isRead!,
         leftBubbleColor: widget.leftBubbleColor,
         rightBubbleColor: widget.rightBubbleColor,

@@ -20,7 +20,7 @@ class ChatQuoteView extends StatelessWidget {
     if (message.contentType == MessageType.quote) {
       var quoteMessage = message.quoteElem?.quoteMessage;
       if (null != quoteMessage) {
-        name = quoteMessage.senderNickName;
+        name = quoteMessage.senderNickname;
         if (quoteMessage.contentType == MessageType.text) {
           content = quoteMessage.content;
         } else if (quoteMessage.contentType == MessageType.picture) {
