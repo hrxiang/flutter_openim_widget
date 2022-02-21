@@ -1,3 +1,7 @@
+## 0.0.6
+
+* Update im sdk to v2.0.0
+
 ## 0.0.5
 
 * Update sdk maven url
