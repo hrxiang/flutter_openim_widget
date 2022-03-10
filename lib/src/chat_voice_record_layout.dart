@@ -36,12 +36,11 @@ class _ChatVoiceRecordLayoutState extends State<ChatVoiceRecordLayout> {
 
   @override
   void initState() {
-    UILocalizations.setLocale(widget.locale);
+    UILocalizations.set(widget.locale);
     super.initState();
   }
 
   void callback(int sec, String path) {
-    print('----path:$path------sec:$sec');
     _sec = sec;
     _path = path;
   }
@@ -67,7 +66,7 @@ class _ChatVoiceRecordLayoutState extends State<ChatVoiceRecordLayout> {
         },
         onLongPressEnd: (details) async {
           await _record.stop();
-          print('---------停止记录--------------');
+          // 停止记录
           setState(() {
             if (_selectedPressArea) {
               _callback();
@@ -98,7 +97,7 @@ class _ChatVoiceRecordLayoutState extends State<ChatVoiceRecordLayout> {
         },
         onLongPressStart: (details) {
           setState(() {
-            print('---------开始记录--------------');
+            // 开始记录
             _record = VoiceRecord(callback);
             _record.start();
             _selectedPressArea = true;
@@ -151,7 +150,6 @@ class _ChatVoiceRecordLayoutState extends State<ChatVoiceRecordLayout> {
   }
 
   void _callback() {
-    print('------------发送------------');
     if (_sec > 0 && null != _path) {
       widget.onCompleted?.call(_sec, _path!);
     }

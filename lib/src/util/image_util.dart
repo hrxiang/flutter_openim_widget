@@ -149,52 +149,55 @@ class ImageUtil {
         height: 48.h,
       );
 
-  static Widget menuCopy() => assetImage(
-        'ic_menu_copy',
-        width: 18.w,
-        height: 18.h,
-      );
+  static Widget menuCopy() =>
+      assetImage('ic_menu_copy', width: 18.w, height: 18.w);
 
   static Widget menuDel() => assetImage(
         'ic_menu_del',
         width: 18.w,
-        height: 18.h,
+        height: 18.w,
       );
 
   static Widget menuForward() => assetImage(
         'ic_menu_forward',
-        width: 18.w,
-        height: 18.h,
+        width: 16.w,
+        height: 16.w,
       );
 
   static Widget menuMultiChoice() => assetImage(
         'ic_menu_multichoice',
         width: 18.w,
-        height: 18.h,
+        height: 18.w,
       );
 
   static Widget menuReply() => assetImage(
         'ic_menu_reply',
         width: 18.w,
-        height: 18.h,
+        height: 18.w,
       );
 
   static Widget menuRevoke() => assetImage(
         'ic_menu_revoke',
         width: 18.w,
-        height: 18.h,
+        height: 18.w,
       );
 
   static Widget menuDownload() => assetImage(
         'ic_menu_download',
         width: 18.w,
-        height: 18.h,
+        height: 18.w,
       );
 
   static Widget menuTranslation() => assetImage(
         'ic_menu_translation',
         width: 18.w,
-        height: 18.h,
+        height: 18.w,
+      );
+
+  static Widget menuAddEmoji() => assetImage(
+        'ic_menu_add_emoji',
+        width: 19.w,
+        height: 19.w,
       );
 
   static Widget file() => assetImage(
@@ -206,7 +209,7 @@ class ImageUtil {
   static Widget delQuote() => assetImage(
         'ic_del_quote',
         width: 14.w,
-        height: 15.h,
+        height: 15.w,
       );
 
   static Widget voiceInputNor() => assetImage(

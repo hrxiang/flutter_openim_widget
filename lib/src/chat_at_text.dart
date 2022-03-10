@@ -4,10 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_openim_widget/flutter_openim_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'chat_emoji_view.dart';
-
 /// message content: @uid1 @uid2 xxxxxxx
 ///
+
+enum ChatTextModel { match, normal }
+
 class ChatAtText extends StatelessWidget {
   final String text;
   final TextStyle? textStyle;
@@ -17,46 +18,33 @@ class ChatAtText extends StatelessWidget {
   final TextAlign textAlign;
   final TextOverflow overflow;
   final int? maxLines;
+  final double textScaleFactor;
 
   /// all user info
   /// key:userid
   /// value:username
   final Map<String, String> allAtMap;
   final List<MatchPattern> patterns;
+  final ChatTextModel model;
 
   // final TextAlign textAlign;
   const ChatAtText({
     Key? key,
     required this.text,
-    required this.allAtMap,
+    this.allAtMap = const <String, String>{},
     this.prefixSpan,
     this.patterns = const <MatchPattern>[],
     this.textAlign = TextAlign.left,
     this.overflow = TextOverflow.clip,
-    // this.textAlign = TextAlign.start,
     this.textStyle,
     this.maxLines,
+    this.textScaleFactor = 1.0,
+    this.model = ChatTextModel.match,
   }) : super(key: key);
 
   static var _textStyle = TextStyle(
     fontSize: 14.sp,
     color: Color(0xFF333333),
-  );
-
-  static var _atTextStyle = TextStyle(
-    color: Color(0xFF1B72EC),
-    fontSize: 14.sp,
-  );
-
-  static var _urlTextStyle = TextStyle(
-    color: Color(0xFF1B72EC),
-    fontSize: 14.sp,
-    decoration: TextDecoration.underline,
-  );
-
-  static var _linkTextStyle = TextStyle(
-    color: Color(0xFF1B72EC),
-    fontSize: 14.sp,
   );
 
   @override
@@ -65,6 +53,30 @@ class ChatAtText extends StatelessWidget {
 
     if (prefixSpan != null) children.add(prefixSpan!);
 
+    if (model == ChatTextModel.normal) {
+      _normalModel(children);
+    } else {
+      _matchModel(children);
+    }
+
+    return Container(
+      constraints: BoxConstraints(maxWidth: 0.5.sw),
+      child: RichText(
+        textAlign: textAlign,
+        overflow: overflow,
+        maxLines: maxLines,
+        textScaleFactor: textScaleFactor,
+        text: TextSpan(children: children),
+      ),
+    );
+  }
+
+  _normalModel(List<InlineSpan> children) {
+    var style = textStyle ?? _textStyle;
+    children.add(TextSpan(text: text, style: style));
+  }
+
+  _matchModel(List<InlineSpan> children) {
     var style = textStyle ?? _textStyle;
 
     final _mapping = Map<String, MatchPattern>();
@@ -101,8 +113,6 @@ class ChatAtText extends StatelessWidget {
       pattern = regexEmoji;
     }
 
-    // final pattern = '(${_mapping.keys.toList().join('|')})';
-
     // match  text
     text.splitMapJoin(
       RegExp(pattern),
@@ -138,8 +148,8 @@ class ChatAtText extends StatelessWidget {
               recognizer: mapping.onTap == null
                   ? null
                   : (TapGestureRecognizer()
-                    ..onTap = () => mapping.onTap!(
-                        _getUrl(value, mapping.type), mapping.type)),
+                ..onTap = () => mapping.onTap!(
+                    _getUrl(value, mapping.type), mapping.type)),
             );
           }
         } else {
@@ -152,16 +162,6 @@ class ChatAtText extends StatelessWidget {
         children.add(TextSpan(text: text, style: style));
         return '';
       },
-    );
-
-    return Container(
-      constraints: BoxConstraints(maxWidth: 0.5.sw),
-      child: RichText(
-        textAlign: textAlign,
-        overflow: overflow,
-        maxLines: maxLines,
-        text: TextSpan(children: children),
-      ),
     );
   }
 

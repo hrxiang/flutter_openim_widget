@@ -22,55 +22,114 @@ const emojiFaces = <String, String>{
   '[哭泣]': 'ic_face_16',
 };
 
-class ChatEmojiView extends StatelessWidget {
+class ChatEmojiView extends StatefulWidget {
   const ChatEmojiView({
     Key? key,
     this.onAddEmoji,
     this.onDeleteEmoji,
+    this.favoriteList = const [],
+    this.onAddFavorite,
+    this.onSelectedFavorite,
   }) : super(key: key);
   final Function()? onDeleteEmoji;
   final Function(String emoji)? onAddEmoji;
+  final List<String> favoriteList;
+  final Function()? onAddFavorite;
+  final Function(int index, String url)? onSelectedFavorite;
+
+  @override
+  _ChatEmojiViewState createState() => _ChatEmojiViewState();
+}
+
+class _ChatEmojiViewState extends State<ChatEmojiView> {
+  var _index = 0;
 
   @override
   Widget build(BuildContext context) {
     return FadeInUp(
       duration: Duration(milliseconds: 200),
       child: Container(
-        height: 190.h,
-        child: Stack(
+        // height: 190.h,
+        color: Colors.white,
+        child: Column(
           children: [
-            _buildEmojiLayout(),
-            Positioned(
-              bottom: 20.h,
-              right: 10.w,
-              child: Material(
-                child: Ink(
-                  child: InkWell(
-                    onTap: onDeleteEmoji,
-                    child: Container(
-                      width: 25.w,
-                      height: 25.h,
-                      // color: Colors.black45.withOpacity(0.4),
-                      child: Center(
-                        child: ImageUtil.assetImage(
-                          'ic_del_face',
-                          width: 18.w,
-                          height: 16.h,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+            Stack(
+              children: [
+                if (_index == 0) _buildEmojiLayout(),
+                if (_index == 1) _buildFavoriteLayout(),
+              ],
             ),
+            _buildTabView(),
           ],
         ),
       ),
     );
   }
 
+  Widget _buildTabView() => Container(
+        padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 9.w),
+        decoration: BoxDecoration(
+          border: BorderDirectional(
+            top: BorderSide(
+              color: const Color(0xFFEAEAEA),
+              width: 1.h,
+            ),
+          ),
+        ),
+        child: Row(
+          children: [
+            _buildTabSelectedBgView(selected: _index == 0, index: 0),
+            _buildTabSelectedBgView(selected: _index == 1, index: 1),
+            Spacer(),
+            if (_index == 0) _buildFaceDelBtn(),
+          ],
+        ),
+      );
+
+  Widget _buildFaceDelBtn() => GestureDetector(
+        onTap: widget.onDeleteEmoji,
+        child: Container(
+          // width: 25.w,
+          // height: 25.h,
+          padding: EdgeInsets.symmetric(vertical: 5.h, horizontal: 13.w),
+          child: Center(
+            child: ImageUtil.assetImage(
+              'ic_del_face',
+              width: 18.w,
+              height: 16.h,
+            ),
+          ),
+        ),
+      );
+
+  Widget _buildTabSelectedBgView({
+    bool selected = false,
+    int index = 0,
+  }) =>
+      GestureDetector(
+        onTap: () {
+          setState(() {
+            _index = index;
+          });
+        },
+        child: Container(
+          padding: EdgeInsets.symmetric(vertical: 5.h, horizontal: 13.w),
+          decoration: BoxDecoration(
+            color: selected ? Color(0xFF000000).withOpacity(0.06) : null,
+            borderRadius: BorderRadius.circular(6),
+          ),
+          child: ImageUtil.assetImage(
+              index == 0
+                  ? (selected ? 'ic_face_sel' : 'ic_face_nor')
+                  : (selected ? 'ic_favorite_sel' : 'ic_favorite_nor'),
+              width: 19,
+              height: 19),
+        ),
+      );
+
   Widget _buildEmojiLayout() => Container(
-        color: Colors.white,
+        // color: Colors.white,
+        height: 190.h,
         child: GridView.builder(
           padding: EdgeInsets.symmetric(horizontal: 22.w, vertical: 10.h),
           itemCount: emojiFaces.length,
@@ -82,10 +141,11 @@ class ChatEmojiView extends StatelessWidget {
           ),
           itemBuilder: (BuildContext context, int index) {
             return Material(
+              color: Colors.transparent,
               child: Ink(
                 child: InkWell(
                   onTap: () =>
-                      onAddEmoji?.call(emojiFaces.keys.elementAt(index)),
+                      widget.onAddEmoji?.call(emojiFaces.keys.elementAt(index)),
                   child: Center(
                     child: ImageUtil.assetImage(
                       emojiFaces.values.elementAt(index),
@@ -93,6 +153,42 @@ class ChatEmojiView extends StatelessWidget {
                       height: 30.h,
                     ),
                   ),
+                ),
+              ),
+            );
+          },
+        ),
+      );
+
+  Widget _buildFavoriteLayout() => Container(
+        // color: Colors.white,
+        height: 190.h,
+        child: GridView.builder(
+          padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
+          itemCount: widget.favoriteList.length + 1,
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 4,
+            childAspectRatio: 1,
+            mainAxisSpacing: 20.h,
+            crossAxisSpacing: 37.w,
+          ),
+          itemBuilder: (BuildContext context, int index) {
+            if (index == 0) {
+              return GestureDetector(
+                onTap: widget.onAddFavorite,
+                child: Center(
+                  child: ImageUtil.assetImage('ic_add_emoji'),
+                ),
+              );
+            }
+            var url = widget.favoriteList.elementAt(index - 1);
+            return GestureDetector(
+              onTap: () => widget.onSelectedFavorite?.call(index - 1, url),
+              child: Center(
+                child: ImageUtil.lowMemoryNetworkImage(
+                  url: url,
+                  width: 60.w,
+                  cacheWidth: 60.w.toInt(),
                 ),
               ),
             );

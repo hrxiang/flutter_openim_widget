@@ -57,15 +57,15 @@ class _ChatPictureViewState extends State<ChatPictureView> {
     var w = widget.width ?? 1.0;
     var h = widget.height ?? 1.0;
 
-    _trulyWidth = widget.widgetWidth;
-    _trulyHeight = _trulyWidth * h / w;
-    /*if (widget.widgetWidth > w) {
+    // _trulyWidth = widget.widgetWidth;
+    // _trulyHeight = _trulyWidth * h / w;
+    if (widget.widgetWidth > w) {
       _trulyWidth = w;
       _trulyHeight = h;
     } else {
       _trulyWidth = widget.widgetWidth;
       _trulyHeight = _trulyWidth * h / w;
-    }*/
+    }
 
     //
     /*if (!_isNotNull(_snapshotPath) && _isNotNull(_sourcePath)) {

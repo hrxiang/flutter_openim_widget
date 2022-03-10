@@ -39,6 +39,7 @@ export 'src/chat_webview_map.dart';
 export 'src/conversation_itemview.dart';
 export 'src/copy_custom_pop_up_menu.dart';
 export 'src/custom_chawie_controls.dart';
+export 'src/favorite_emoji_listview.dart';
 export 'src/pop_button.dart';
 export 'src/title_bar.dart';
 export 'src/unread_count_view.dart';

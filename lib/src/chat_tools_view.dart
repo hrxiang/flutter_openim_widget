@@ -86,6 +86,7 @@ class _ChatToolsViewState extends State<ChatToolsView>
     );*/
     return Container(
       height: 190.h,
+      color: Colors.white,
       child: Stack(
         children: [
           FadeInUp(

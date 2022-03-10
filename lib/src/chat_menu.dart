@@ -120,19 +120,40 @@ class ChatLongPressMenu extends StatelessWidget {
             horizontal: menuStyle.crossAxisSpacing / 2,
             vertical: menuStyle.mainAxisSpacing / 2,
           ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              icon,
-              SizedBox(height: 3.h),
-              Text(
-                label,
-                // maxLines: 1,
-                // overflow: TextOverflow.ellipsis,
-                style: style,
-              ),
-            ],
-          ),
+          child: _ItemView(icon: icon, label: label, style: style),
         ),
       );
+}
+
+class _ItemView extends StatelessWidget {
+  const _ItemView({
+    Key? key,
+    required this.icon,
+    required this.label,
+    this.style,
+  }) : super(key: key);
+  final Widget icon;
+  final String label;
+  final TextStyle? style;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            height: 20.w,
+            child: icon,
+          ),
+          Text(
+            label,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: style,
+          ),
+        ],
+      ),
+    );
+  }
 }

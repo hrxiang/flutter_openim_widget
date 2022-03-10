@@ -75,7 +75,8 @@ class CommonUtil {
     var result = await FlutterImageCompress.compressAndGetFile(
       file.absolute.path,
       targetPath,
-      quality: 50,
+      quality: 70,
+      inSampleSize: 2,
       minWidth: minWidth,
       minHeight: minHeight,
       format: format,

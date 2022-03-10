@@ -3,9 +3,12 @@ import 'package:flutter/material.dart';
 class UILocalizations {
   UILocalizations._();
 
-  static void setLocale(Locale? locale) {
-    UILocalizations._locale = locale ?? const Locale('zh');
+  static void set(Locale? locale) {
+    _locale = locale ?? const Locale('zh');
   }
+
+  static String _value({required String key}) =>
+      _localizedValues[_locale.languageCode]![key] ?? key;
 
   static Locale _locale = const Locale('zh');
 
@@ -47,10 +50,11 @@ class UILocalizations {
       "you": "You",
       "revokeAMsg": "revoke a message",
       "picLoadError": "Image failed to load",
-      "fileSize": "File size:%s",
+      "fileSize": "File size: %s",
       "fileUnavailable": "The file has expired or has been cleaned up",
       "send": 'Send',
       "unsupportedMessage": '[Message types not supported]',
+      "add": 'Add',
     },
     'zh': {
       'top': '置顶',
@@ -93,6 +97,7 @@ class UILocalizations {
       "fileUnavailable": "文件已过期或已被清理",
       "send": '发送',
       "unsupportedMessage": '[暂不支持的消息类型]',
+      "add": '添加',
     },
   };
 
@@ -180,6 +185,5 @@ class UILocalizations {
 
   static String get unsupportedMessage => _value(key: 'unsupportedMessage');
 
-  static String _value({required String key}) =>
-      _localizedValues[_locale.languageCode]![key] ?? key;
+  static String get add => _value(key: 'add');
 }
