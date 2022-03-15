@@ -728,7 +728,8 @@ class _ChatItemViewState extends State<ChatItemView> {
 
   bool get _showEmojiAddMenu =>
       widget.enabledAddEmojiMenu ??
-      widget.message.contentType == MessageType.picture;
+      widget.message.contentType == MessageType.picture ||
+          widget.message.contentType == MessageType.custom_face;
 
   String get _who =>
       _isFromMsg ? widget.message.senderNickname ?? '' : UILocalizations.you;
