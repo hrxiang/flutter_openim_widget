@@ -526,9 +526,11 @@ class _ChatItemViewState extends State<ChatItemView> {
                 var content = json.decode(widget.message.content!);
                 text = content['defaultTips'];
               } catch (e) {
+                print('------------->e:$e');
                 text = json.encode(widget.message);
               }
             }
+            if (null == text) _isHintMsg = false;
             child = _buildCommonItemView(
               isBubbleBg: null == text,
               isHintMsg: null != text,
@@ -545,7 +547,7 @@ class _ChatItemViewState extends State<ChatItemView> {
           break;
       }
     } catch (e) {
-      print('e:$e');
+      print('------------->e:$e');
       child = _buildCommonItemView(
         child: ChatAtText(
           text: UILocalizations.unsupportedMessage,
