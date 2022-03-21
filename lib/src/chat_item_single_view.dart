@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_openim_widget/flutter_openim_widget.dart';
 import 'package:flutter_openim_widget/src/timing_view.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:sprintf/sprintf.dart';
 
 class ChatSingleLayout extends StatelessWidget {
   final CustomPopupMenuController popupCtrl;
@@ -38,6 +39,10 @@ class ChatSingleLayout extends StatelessWidget {
   final bool enabledReadStatus;
   final Function()? onStartDestroy;
   final int readingDuration;
+  final int groupHaveReadCount;
+  final int groupMemberCount;
+  final Function()? viewMessageReadStatus;
+  final Function()? failedResend;
 
   const ChatSingleLayout({
     Key? key,
@@ -74,6 +79,10 @@ class ChatSingleLayout extends StatelessWidget {
     this.enabledReadStatus = true,
     this.readingDuration = 0,
     this.onStartDestroy,
+    this.groupHaveReadCount = 0,
+    this.groupMemberCount = 0,
+    this.viewMessageReadStatus,
+    this.failedResend,
   }) : super(key: key);
 
   @override
@@ -180,9 +189,12 @@ class ChatSingleLayout extends StatelessWidget {
             isReceived: isReceivedMsg,
             stream: sendStatusStream,
             isSendFailed: isSendFailed,
+            onFailedResend: failedResend,
           ),
           if (isSingleChat && !isSendFailed && !isSending && enabledReadStatus)
             _buildReadStatusView(),
+          if (!isSingleChat && !isSendFailed && !isSending && enabledReadStatus)
+            _buildGroupReadStatusView(),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
@@ -270,6 +282,7 @@ class ChatSingleLayout extends StatelessWidget {
         size: avatarSize,
       );
 
+  /// 单聊
   Widget _buildReadStatusView() {
     bool read = !isUnread!;
     return Visibility(
@@ -283,6 +296,25 @@ class ChatSingleLayout extends StatelessWidget {
               UILocalizations.unread,
               style: unread,
             ),
+    );
+  }
+
+  /// 群聊
+  Widget _buildGroupReadStatusView() {
+    int unreadCount = groupMemberCount - groupHaveReadCount;
+    bool isAllRead = unreadCount <= 0;
+    return Visibility(
+      visible: !isReceivedMsg,
+      child: GestureDetector(
+        onTap: viewMessageReadStatus,
+        behavior: HitTestBehavior.translucent,
+        child: Text(
+          isAllRead
+              ? UILocalizations.allRead
+              : sprintf(UILocalizations.groupUnread, [unreadCount]),
+          style: haveRead,
+        ),
+      ),
     );
   }
 

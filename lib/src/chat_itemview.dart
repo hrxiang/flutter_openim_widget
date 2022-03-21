@@ -213,6 +213,15 @@ class ChatItemView extends StatefulWidget {
   /// 阅读时长
   final int readingDuration;
 
+  /// 群成员数
+  final int groupMemberCount;
+
+  /// 预览群消息已读状态
+  final Function()? onViewMessageReadStatus;
+
+  /// 失败重发
+  final Function()? onFailedResend;
+
   const ChatItemView({
     Key? key,
     required this.index,
@@ -268,6 +277,9 @@ class ChatItemView extends StatefulWidget {
     this.enabledReadStatus = true,
     this.readingDuration = 0,
     this.onDestroyMessage,
+    this.groupMemberCount = 0,
+    this.onViewMessageReadStatus,
+    this.onFailedResend,
   }) : super(key: key);
 
   @override
@@ -598,6 +610,12 @@ class _ChatItemViewState extends State<ChatItemView> {
         enabledReadStatus: widget.enabledReadStatus,
         onStartDestroy: widget.onDestroyMessage,
         readingDuration: widget.readingDuration,
+        groupMemberCount: widget.groupMemberCount,
+        groupHaveReadCount: widget.message.attachedInfoElem?.groupHasReadInfo
+                ?.hasReadUserIDList?.length ??
+            0,
+        viewMessageReadStatus: widget.onViewMessageReadStatus,
+        failedResend: widget.onFailedResend,
       );
 
   Widget _menuBuilder() => ChatLongPressMenu(

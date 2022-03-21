@@ -29,7 +29,10 @@ class UILocalizations {
       "carte": "Contact Card",
       "voiceInput": "Voice Input",
       'haveRead': 'Have read',
+      'groupHaveRead': '%s people have read',
       'unread': 'Unread',
+      'groupUnread': '%s unread',
+      'allRead': 'All read',
       'copy': 'Copy',
       "delete": "Delete",
       "forward": "Forward",
@@ -72,7 +75,10 @@ class UILocalizations {
       "carte": "名片",
       "voiceInput": "语音输入",
       'haveRead': '已读',
+      'groupHaveRead': '%s人已读',
       'unread': '未读',
+      'groupUnread': '%s人未读',
+      'allRead': '全部已读',
       'copy': '复制',
       "delete": "删除",
       "forward": "转发",
@@ -132,6 +138,12 @@ class UILocalizations {
   static String get haveRead => _value(key: 'haveRead');
 
   static String get unread => _value(key: 'unread');
+
+  static String get groupHaveRead => _value(key: 'groupHaveRead');
+
+  static String get groupUnread => _value(key: 'groupUnread');
+
+  static String get allRead => _value(key: 'allRead');
 
   static String get copy => _value(key: 'copy');
 
