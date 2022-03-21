@@ -1,6 +1,6 @@
 name: flutter_openim_widget
 description: The public ui library is used with the openim demo, and you can directly use it for secondary development.
-version: 0.0.7
+version: 0.0.8
 homepage: https://github.com/hrxiang/flutter_openim_widget.git
 
 environment:
@@ -30,8 +30,10 @@ dependencies:
   extended_image: ^6.0.1
   qq_badge: ^0.0.2
   better_player: ^0.0.81
-  flutter_openim_sdk: ^2.0.0+1
+  flutter_openim_sdk: ^2.0.0+3
+#  flutter_openim_sdk:
 #    path: ../flutter_openim_sdk
+
 
 dev_dependencies:
   flutter_test:
