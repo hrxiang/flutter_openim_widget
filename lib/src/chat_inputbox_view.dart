@@ -23,6 +23,8 @@ class ChatInputBoxView extends StatefulWidget {
     this.onClearQuote,
     this.multiMode = false,
     this.inputFormatters,
+    this.showEmojiButton = true,
+    this.showToolsButton = true,
   }) : super(key: key);
   final AtTextCallback? atCallback;
   final Map<String, String> allAtMap;
@@ -40,6 +42,8 @@ class ChatInputBoxView extends StatefulWidget {
   final Function()? onClearQuote;
   final bool multiMode;
   final List<TextInputFormatter>? inputFormatters;
+  final bool showEmojiButton;
+  final bool showToolsButton;
 
   @override
   _ChatInputBoxViewState createState() => _ChatInputBoxViewState();
@@ -121,6 +125,25 @@ class _ChatInputBoxViewState extends State<ChatInputBoxView>
 
   unfocus() => FocusScope.of(context).requestFocus(FocusNode());
 
+  EdgeInsetsGeometry get emojiButtonPadding {
+    if (widget.showToolsButton) {
+      return EdgeInsets.only(left: 10.w, right: 5.w);
+    } else {
+      return EdgeInsets.only(left: 10.w, right: 10.w);
+    }
+  }
+
+  EdgeInsetsGeometry get toolsButtonPadding {
+    if (widget.showEmojiButton) {
+      return EdgeInsets.only(left: 5.w, right: 10.w);
+    } else {
+      return EdgeInsets.only(left: 10.w, right: 10.w);
+    }
+  }
+
+  SizedBox get spaceView => SizedBox(
+      width: widget.showEmojiButton || widget.showToolsButton ? 0 : 10.w);
+
   Widget _buildMsgInputField({required BuildContext context}) => Column(
         children: [
           Container(
@@ -164,12 +187,14 @@ class _ChatInputBoxViewState extends State<ChatInputBoxView>
                         ],
                       ),
                     ),
-                    _rightKeyboardButton ? _keyboardRightBtn() : _emojiBtn(),
-                    _toolsBtn(),
+                    if (widget.showEmojiButton)
+                      _rightKeyboardButton ? _keyboardRightBtn() : _emojiBtn(),
+                    if (widget.showToolsButton) _toolsBtn(),
+                    spaceView,
                     Visibility(
                       visible: !_leftKeyboardButton || !_rightKeyboardButton,
                       child: Container(
-                        width: 60.0 * (1.0 - _animation.value),
+                        width: 60.0.w * (1.0 - _animation.value),
                         child: _buildSendButton(),
                       ),
                     ),
@@ -208,6 +233,7 @@ class _ChatInputBoxViewState extends State<ChatInputBoxView>
           ),
           child: Text(
             UILocalizations.send,
+            maxLines: 1,
             style: TextStyle(
               fontSize: 14.sp,
               color: Color(0xFFFFFFFF),
@@ -311,7 +337,8 @@ class _ChatInputBoxViewState extends State<ChatInputBoxView>
       );
 
   Widget _keyboardRightBtn() => _buildBtn(
-        padding: EdgeInsets.only(left: 10.w, right: 5.w),
+        padding: emojiButtonPadding,
+        // padding: EdgeInsets.only(left: 10.w, right: 5.w),
         icon: ImageUtil.keyboard(),
         onTap: () {
           setState(() {
@@ -324,8 +351,9 @@ class _ChatInputBoxViewState extends State<ChatInputBoxView>
       );
 
   Widget _toolsBtn() => _buildBtn(
-        icon: ImageUtil.tools(),
-        padding: EdgeInsets.only(left: 5.w, right: 10.w),
+    icon: ImageUtil.tools(),
+        // padding: EdgeInsets.only(left: 5.w, right: 10.w),
+        padding: toolsButtonPadding,
         onTap: () {
           setState(() {
             _toolsVisible = !_toolsVisible;
@@ -342,7 +370,8 @@ class _ChatInputBoxViewState extends State<ChatInputBoxView>
       );
 
   Widget _emojiBtn() => _buildBtn(
-        padding: EdgeInsets.only(left: 10.w, right: 5.w),
+        padding: emojiButtonPadding,
+        // padding: EdgeInsets.only(left: 10.w, right: 5.w),
         icon: ImageUtil.emoji(),
         onTap: () {
           setState(() {
