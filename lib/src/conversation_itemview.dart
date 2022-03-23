@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_openim_widget/flutter_openim_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 
 final pinColors = [Color(0xFF87C0FF), Color(0xFF0060E7)];
 final deleteColors = [Color(0xFFFFC84C), Color(0xFFFFA93C)];
@@ -32,6 +31,7 @@ class ConversationItemView extends StatelessWidget {
   final Function()? onTap;
   final bool notDisturb;
   final double extentRatio;
+  final bool isUserGroup;
 
   // final bool isPinned;
 
@@ -58,6 +58,7 @@ class ConversationItemView extends StatelessWidget {
     this.onTap,
     this.notDisturb = false,
     this.extentRatio = 0.5,
+    this.isUserGroup = false,
     // this.isPinned = false,
     this.titleStyle = const TextStyle(
       fontSize: 16,
@@ -102,6 +103,7 @@ class ConversationItemView extends StatelessWidget {
         timeStyle: timeStyle,
         onTap: onTap,
         notDisturb: notDisturb,
+        isUserGroup: isUserGroup,
       ),
       endActionPane: ActionPane(
         motion: DrawerMotion(),
@@ -138,6 +140,7 @@ class _ConversationView extends StatelessWidget {
     this.contentPrefixStyle,
     this.onTap,
     this.notDisturb = false,
+    this.isUserGroup = false,
   }) : super(key: key);
   final double avatarSize;
   final String? avatarUrl;
@@ -161,6 +164,7 @@ class _ConversationView extends StatelessWidget {
   final List<MatchPattern> patterns;
   final Function()? onTap;
   final bool notDisturb;
+  final bool isUserGroup;
 
   @override
   Widget build(BuildContext context) {
@@ -180,6 +184,7 @@ class _ConversationView extends StatelessWidget {
                   url: avatarUrl,
                   isCircle: isCircleAvatar ?? false,
                   borderRadius: avatarBorderRadius,
+                  isUserGroup: isUserGroup,
                 ),
                 SizedBox(width: 12.w),
                 Flexible(

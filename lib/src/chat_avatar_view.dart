@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_openim_widget/flutter_openim_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 List<String> get indexAvatarList => [
       'ic_avatar_01',
@@ -26,6 +27,7 @@ class ChatAvatarView extends StatelessWidget {
     this.lowMemory = false,
     this.isNineGrid = false,
     this.nineGridUrls = const [],
+    this.isUserGroup = false,
   }) : super(key: key);
   final bool visible;
   final double? size;
@@ -39,6 +41,7 @@ class ChatAvatarView extends StatelessWidget {
   final bool lowMemory;
   final List<String> nineGridUrls;
   final bool isNineGrid;
+  final bool isUserGroup;
 
   double get _size => size ?? 42.h;
 
@@ -90,10 +93,17 @@ class ChatAvatarView extends StatelessWidget {
   Widget _defaultAvatar({required double size, String? text}) => Container(
         color: Color(0xFF5496EB),
         child: null == text
-            ? Icon(
+            ? /*Icon(
                 Icons.person,
                 color: Colors.white,
                 size: size - (size / 4),
+              )*/
+            FaIcon(
+                isUserGroup
+                    ? FontAwesomeIcons.userGroup
+                    : FontAwesomeIcons.solidUser,
+                color: Colors.white,
+                // size: size - (size / 2),
               )
             : Text(
                 text,

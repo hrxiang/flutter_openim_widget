@@ -198,9 +198,9 @@ packages:
   flutter_openim_sdk:
     dependency: "direct main"
     description:
-      name: flutter_openim_sdk
-      url: "https://pub.flutter-io.cn"
-    source: hosted
+      path: "../flutter_openim_sdk"
+      relative: true
+    source: path
     version: "2.0.0+3"
   flutter_screenutil:
     dependency: "direct main"
@@ -247,6 +247,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.0.1"
+  font_awesome_flutter:
+    dependency: "direct main"
+    description:
+      name: font_awesome_flutter
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "10.0.0"
   fwfh_text_style:
     dependency: transitive
     description:

@@ -148,8 +148,8 @@ class ChatAtText extends StatelessWidget {
               recognizer: mapping.onTap == null
                   ? null
                   : (TapGestureRecognizer()
-                ..onTap = () => mapping.onTap!(
-                    _getUrl(value, mapping.type), mapping.type)),
+                    ..onTap = () => mapping.onTap!(
+                        _getUrl(value, mapping.type), mapping.type)),
             );
           }
         } else {
