@@ -103,7 +103,7 @@ class ChatAvatarView extends StatelessWidget {
                     ? FontAwesomeIcons.userGroup
                     : FontAwesomeIcons.solidUser,
                 color: Colors.white,
-                // size: size - (size / 2),
+                size: size - (size / 2),
               )
             : Text(
                 text,

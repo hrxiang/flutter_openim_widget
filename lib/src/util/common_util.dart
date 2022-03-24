@@ -1,6 +1,9 @@
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:mime_type/mime_type.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sprintf/sprintf.dart';
 
@@ -144,5 +147,35 @@ class CommonUtil {
     } else {
       return sprintf("%d B", [bytes]);
     }
+  }
+
+  static IconData fileIcon(String fileName) {
+    var mimeType = mime(fileName) ?? '';
+    if (mimeType == 'application/pdf') {
+      return FontAwesomeIcons.solidFilePdf;
+    } else if (mimeType == 'application/msword' ||
+        mimeType ==
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
+      return FontAwesomeIcons.solidFileWord;
+    } else if (mimeType == 'application/vnd.ms-excel' ||
+        mimeType ==
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
+      return FontAwesomeIcons.solidFileExcel;
+    } else if (mimeType == 'application/vnd.ms-powerpoint') {
+      return FontAwesomeIcons.solidFilePowerpoint;
+    } else if (mimeType.startsWith('audio/')) {
+    } else if (mimeType == 'application/zip' ||
+        mimeType == 'application/x-rar-compressed') {
+      return FontAwesomeIcons.solidFileZipper;
+    } else if (mimeType.startsWith('audio/')) {
+      return FontAwesomeIcons.solidFileAudio;
+    } else if (mimeType.startsWith('video/')) {
+      return FontAwesomeIcons.solidFileVideo;
+    } else if (mimeType.startsWith('image/')) {
+      return FontAwesomeIcons.solidFileImage;
+    } else if (mimeType == 'text/plain') {
+      return FontAwesomeIcons.solidFileCode;
+    }
+    return FontAwesomeIcons.solidFileLines;
   }
 }
