@@ -39,8 +39,8 @@ class ChatSingleLayout extends StatelessWidget {
   final bool enabledReadStatus;
   final Function()? onStartDestroy;
   final int readingDuration;
-  final int groupHaveReadCount;
-  final int groupMemberCount;
+  final int haveReadCount;
+  final int needReadCount;
   final Function()? viewMessageReadStatus;
   final Function()? failedResend;
 
@@ -79,8 +79,8 @@ class ChatSingleLayout extends StatelessWidget {
     this.enabledReadStatus = true,
     this.readingDuration = 0,
     this.onStartDestroy,
-    this.groupHaveReadCount = 0,
-    this.groupMemberCount = 0,
+    this.haveReadCount = 0,
+    this.needReadCount = 0,
     this.viewMessageReadStatus,
     this.failedResend,
   }) : super(key: key);
@@ -301,7 +301,7 @@ class ChatSingleLayout extends StatelessWidget {
 
   /// 群聊
   Widget _buildGroupReadStatusView() {
-    int unreadCount = groupMemberCount - groupHaveReadCount;
+    int unreadCount = needReadCount - haveReadCount;
     bool isAllRead = unreadCount <= 0;
     return Visibility(
       visible: !isReceivedMsg,
