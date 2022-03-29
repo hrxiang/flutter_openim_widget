@@ -8,11 +8,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 class ImageUtil {
   ImageUtil._();
 
+  static final _package = "flutter_openim_widget";
+
   static String imageResStr(var name) => "assets/images/$name.webp";
 
   static AssetImage emojiImage(String key) => AssetImage(
         ImageUtil.imageResStr(emojiFaces[key]),
-        package: 'flutter_openim_widget',
+        package: _package,
       );
 
   static Widget svg(
@@ -27,7 +29,7 @@ class ImageUtil {
       width: width,
       height: height,
       color: color,
-      package: 'flutter_openim_widget',
+      package: _package,
     );
   }
 
@@ -44,9 +46,8 @@ class ImageUtil {
       height: height,
       fit: fit,
       color: color,
-      // cacheHeight: height?.toInt(),
       // cacheWidth: width?.toInt(),
-      package: 'flutter_openim_widget',
+      package: _package,
     );
   }
 
@@ -245,6 +246,57 @@ class ImageUtil {
     bool loadProgress = true,
     bool clearMemoryCacheWhenDispose = true,
     bool lowMemory = true,
+    Widget? errorWidget,
+  }) =>
+      _extendedImage(
+        url: url,
+        width: width,
+        height: height,
+        cacheWidth: cacheHeight,
+        cacheHeight: cacheHeight,
+        fit: fit,
+        loadProgress: loadProgress,
+        clearMemoryCacheWhenDispose: clearMemoryCacheWhenDispose,
+        lowMemory: lowMemory,
+        errorWidget: errorWidget,
+      );
+
+  static Widget networkImage({
+    required String url,
+    double? width,
+    double? height,
+    int? cacheWidth,
+    int? cacheHeight,
+    BoxFit? fit,
+    bool loadProgress = true,
+    bool clearMemoryCacheWhenDispose = false,
+    bool lowMemory = true,
+    Widget? errorWidget,
+  }) =>
+      lowMemoryNetworkImage(
+        url: url,
+        width: width,
+        height: height,
+        cacheWidth: cacheWidth,
+        cacheHeight: cacheHeight,
+        fit: fit,
+        loadProgress: loadProgress,
+        clearMemoryCacheWhenDispose: clearMemoryCacheWhenDispose,
+        lowMemory: lowMemory,
+        errorWidget: errorWidget,
+      );
+
+  static Widget _extendedImage({
+    required String url,
+    double? width,
+    double? height,
+    int? cacheWidth,
+    int? cacheHeight,
+    BoxFit? fit,
+    bool loadProgress = true,
+    bool clearMemoryCacheWhenDispose = true,
+    bool lowMemory = true,
+    Widget? errorWidget,
   }) =>
       ExtendedImage.network(
         url,
@@ -282,18 +334,14 @@ class ImageUtil {
             case LoadState.completed:
               return null;
             case LoadState.failed:
-              //remove memory cached
+              // remove memory cached
               state.imageProvider.evict();
-              return error(width: width, height: height);
+              return errorWidget ?? error(width: width, height: height);
           }
         },
-        // border: Border.all(color: Colors.red, width: 1.0),
-        // shape: boxShape,
-        // borderRadius: BorderRadius.all(Radius.circular(30.0)),
-        // cancelToken: CancellationToken(),
       );
 
-  static Widget networkImage({
+/*static Widget _cachedNetworkImage({
     required String url,
     double? width,
     double? height,
@@ -301,21 +349,11 @@ class ImageUtil {
     int? cacheHeight,
     BoxFit? fit,
     bool loadProgress = true,
-    bool clearMemoryCacheWhenDispose = false,
+    bool clearMemoryCacheWhenDispose = true,
     bool lowMemory = true,
+    Widget? errorWidget,
   }) =>
-      lowMemoryNetworkImage(
-        url: url,
-        width: width,
-        height: height,
-        cacheWidth: cacheWidth,
-        cacheHeight: cacheHeight,
-        fit: fit,
-        loadProgress: loadProgress,
-        clearMemoryCacheWhenDispose: clearMemoryCacheWhenDispose,
-        lowMemory: lowMemory,
-      );
-/*CachedNetworkImage(
+      CachedNetworkImage(
         imageUrl: url,
         width: width,
         height: height,
@@ -335,6 +373,7 @@ class ImageUtil {
                 )
               : null,
         ),
-        errorWidget: (_, url, error) => error(width: width, height: height),
+        errorWidget: (_, url, er) =>
+            errorWidget ?? error(width: width, height: height),
       );*/
 }

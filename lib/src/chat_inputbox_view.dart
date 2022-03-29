@@ -351,7 +351,7 @@ class _ChatInputBoxViewState extends State<ChatInputBoxView>
       );
 
   Widget _toolsBtn() => _buildBtn(
-    icon: ImageUtil.tools(),
+        icon: ImageUtil.tools(),
         // padding: EdgeInsets.only(left: 5.w, right: 10.w),
         padding: toolsButtonPadding,
         onTap: () {
