@@ -207,10 +207,13 @@ class ChatItemView extends StatefulWidget {
   /// 显示消息已读
   final bool enabledReadStatus;
 
+  /// 是否开启阅后即焚
+  final bool isPrivateChat;
+
   /// 阅后即焚回调
   final Function()? onDestroyMessage;
 
-  /// 阅读时长
+  /// 阅读时长s
   final int readingDuration;
 
   /// 该条群消息需要阅读的人数
@@ -275,9 +278,10 @@ class ChatItemView extends StatefulWidget {
     this.patterns = const [],
     this.delaySendingStatus = false,
     this.enabledReadStatus = true,
-    this.readingDuration = 0,
+    this.readingDuration = 30,
+    this.isPrivateChat = false,
     this.onDestroyMessage,
-    this.needReadCount = 1,
+    this.needReadCount = 0,
     this.onViewMessageReadStatus,
     this.onFailedResend,
   }) : super(key: key);
@@ -608,6 +612,7 @@ class _ChatItemViewState extends State<ChatItemView> {
         onRadioChanged: widget.onMultiSelChanged,
         delaySendingStatus: widget.delaySendingStatus,
         enabledReadStatus: widget.enabledReadStatus,
+        isPrivateChat: widget.isPrivateChat,
         onStartDestroy: widget.onDestroyMessage,
         readingDuration: widget.readingDuration,
         needReadCount: widget.needReadCount,

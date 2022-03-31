@@ -84,28 +84,32 @@ class ImageUtil {
         height: 16.h,
       );
 
-  static Widget speak() => svg(
+  static Widget speak({Color? color}) => svg(
         'ic_speak',
         width: 26.h,
         height: 26.h,
+        color: color,
       );
 
-  static Widget tools() => svg(
+  static Widget tools({Color? color}) => svg(
         'ic_tools',
         width: 26.h,
         height: 26.h,
+        color: color,
       );
 
-  static Widget emoji() => svg(
+  static Widget emoji({Color? color}) => svg(
         'ic_emoji',
         width: 26.h,
         height: 26.h,
+        color: color,
       );
 
-  static Widget keyboard() => svg(
+  static Widget keyboard({Color? color}) => svg(
         'ic_keyboard',
         width: 26.h,
         height: 26.h,
+        color: color,
       );
 
   static Widget toolsAlbum() => assetImage(

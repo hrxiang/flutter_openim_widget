@@ -13,6 +13,7 @@ class ChatTextField extends StatelessWidget {
   final TextStyle? style;
   final TextStyle? atStyle;
   final List<TextInputFormatter>? inputFormatters;
+  final bool enabled;
 
   const ChatTextField({
     Key? key,
@@ -24,6 +25,7 @@ class ChatTextField extends StatelessWidget {
     this.style,
     this.atStyle,
     this.inputFormatters,
+    this.enabled = true,
   }) : super(key: key);
 
   @override
@@ -38,6 +40,7 @@ class ChatTextField extends StatelessWidget {
       focusNode: focusNode,
       controller: controller,
       keyboardType: TextInputType.multiline,
+      enabled: enabled,
       autofocus: false,
       minLines: 1,
       maxLines: 4,

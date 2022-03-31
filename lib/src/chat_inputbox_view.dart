@@ -25,6 +25,8 @@ class ChatInputBoxView extends StatefulWidget {
     this.inputFormatters,
     this.showEmojiButton = true,
     this.showToolsButton = true,
+    this.isGroupMuted = false,
+    this.muteEndTime = 0,
   }) : super(key: key);
   final AtTextCallback? atCallback;
   final Map<String, String> allAtMap;
@@ -44,6 +46,8 @@ class ChatInputBoxView extends StatefulWidget {
   final List<TextInputFormatter>? inputFormatters;
   final bool showEmojiButton;
   final bool showToolsButton;
+  final bool isGroupMuted;
+  final int muteEndTime;
 
   @override
   _ChatInputBoxViewState createState() => _ChatInputBoxViewState();
@@ -275,28 +279,45 @@ class _ChatInputBoxViewState extends State<ChatInputBoxView>
       );
 
   Widget _buildTextFiled() => Container(
-        alignment: Alignment.center,
+    alignment: Alignment.center,
         constraints: BoxConstraints(minHeight: 40.h),
-        // padding: EdgeInsets.symmetric(
-        //   horizontal: 4.w,
-        //   vertical: 4.h,
-        // ),
         decoration: BoxDecoration(
           color: Color(0xFFFFFFFF),
           borderRadius: BorderRadius.circular(4),
         ),
-        child: ChatTextField(
-          style: widget.style ?? textStyle,
-          atStyle: widget.atStyle ?? atStyle,
-          atCallback: widget.atCallback,
-          allAtMap: widget.allAtMap,
-          focusNode: widget.focusNode,
-          controller: widget.controller,
-          inputFormatters: widget.inputFormatters,
-          // onSubmitted: (value) {
-          //   focus();
-          //   if (null != widget.onSubmitted) widget.onSubmitted!(value);
-          // },
+        child: Stack(
+          children: [
+            ChatTextField(
+              style: widget.style ?? textStyle,
+              atStyle: widget.atStyle ?? atStyle,
+              atCallback: widget.atCallback,
+              allAtMap: widget.allAtMap,
+              focusNode: widget.focusNode,
+              controller: widget.controller,
+              enabled: !_isMuted,
+              inputFormatters: widget.inputFormatters,
+              // onSubmitted: (value) {
+              //   focus();
+              //   if (null != widget.onSubmitted) widget.onSubmitted!(value);
+              // },
+            ),
+            Visibility(
+              visible: _isMuted,
+              child: Container(
+                alignment: Alignment.center,
+                constraints: BoxConstraints(minHeight: 40.h),
+                child: Text(
+                  widget.isGroupMuted
+                      ? UILocalizations.groupMuted
+                      : UILocalizations.youMuted,
+                  style: TextStyle(
+                    fontSize: 12.sp,
+                    color: Color(0xFF999999),
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       );
 
@@ -311,82 +332,100 @@ class _ChatInputBoxViewState extends State<ChatInputBoxView>
     textBaseline: TextBaseline.alphabetic,
   );
 
+  bool get _isMuted => widget.isGroupMuted || _isUserMuted;
+
+  bool get _isUserMuted =>
+      widget.muteEndTime > 0 ||
+      widget.muteEndTime * 1000 > DateTime.now().microsecondsSinceEpoch;
+
+  Color? get _mutedColor => _isMuted ? Color(0xFFbdbdbd) : null;
+
   Widget _speakBtn() => _buildBtn(
-        icon: ImageUtil.speak(),
-        onTap: () {
-          setState(() {
-            _leftKeyboardButton = true;
-            _rightKeyboardButton = false;
-            _toolsVisible = false;
-            _emojiVisible = false;
-            unfocus();
-          });
-        },
+        icon: ImageUtil.speak(color: _mutedColor),
+        onTap: _isMuted
+            ? null
+            : () {
+                setState(() {
+                  _leftKeyboardButton = true;
+                  _rightKeyboardButton = false;
+                  _toolsVisible = false;
+                  _emojiVisible = false;
+                  unfocus();
+                });
+              },
       );
 
   Widget _keyboardLeftBtn() => _buildBtn(
-        icon: ImageUtil.keyboard(),
-        onTap: () {
-          setState(() {
-            _leftKeyboardButton = false;
-            _toolsVisible = false;
-            _emojiVisible = false;
-            focus();
-          });
-        },
+        icon: ImageUtil.keyboard(color: _mutedColor),
+        onTap: _isMuted
+            ? null
+            : () {
+                setState(() {
+                  _leftKeyboardButton = false;
+                  _toolsVisible = false;
+                  _emojiVisible = false;
+                  focus();
+                });
+              },
       );
 
   Widget _keyboardRightBtn() => _buildBtn(
-        padding: emojiButtonPadding,
+    padding: emojiButtonPadding,
         // padding: EdgeInsets.only(left: 10.w, right: 5.w),
-        icon: ImageUtil.keyboard(),
-        onTap: () {
-          setState(() {
-            _rightKeyboardButton = false;
-            _toolsVisible = false;
-            _emojiVisible = false;
-            focus();
-          });
-        },
+        icon: ImageUtil.keyboard(color: _mutedColor),
+        onTap: _isMuted
+            ? null
+            : () {
+                setState(() {
+                  _rightKeyboardButton = false;
+                  _toolsVisible = false;
+                  _emojiVisible = false;
+                  focus();
+                });
+              },
       );
 
   Widget _toolsBtn() => _buildBtn(
-        icon: ImageUtil.tools(),
+    icon: ImageUtil.tools(color: _mutedColor),
         // padding: EdgeInsets.only(left: 5.w, right: 10.w),
         padding: toolsButtonPadding,
-        onTap: () {
-          setState(() {
-            _toolsVisible = !_toolsVisible;
-            _emojiVisible = false;
-            _leftKeyboardButton = false;
-            _rightKeyboardButton = false;
-            if (_toolsVisible) {
-              unfocus();
-            } else {
-              focus();
-            }
-          });
-        },
+        onTap: _isMuted
+            ? null
+            : () {
+                setState(() {
+                  _toolsVisible = !_toolsVisible;
+                  _emojiVisible = false;
+                  _leftKeyboardButton = false;
+                  _rightKeyboardButton = false;
+                  if (_toolsVisible) {
+                    unfocus();
+                  } else {
+                    focus();
+                  }
+                });
+              },
       );
 
   Widget _emojiBtn() => _buildBtn(
-        padding: emojiButtonPadding,
+    padding: emojiButtonPadding,
         // padding: EdgeInsets.only(left: 10.w, right: 5.w),
-        icon: ImageUtil.emoji(),
-        onTap: () {
-          setState(() {
-            _rightKeyboardButton = true;
-            _leftKeyboardButton = false;
-            _emojiVisible = true;
-            _toolsVisible = false;
-            unfocus();
-          });
-        },
+        icon: ImageUtil.emoji(color: _mutedColor),
+        onTap: _isMuted
+            ? null
+            : () {
+                setState(() {
+                  _rightKeyboardButton = true;
+                  _leftKeyboardButton = false;
+                  _emojiVisible = true;
+                  _toolsVisible = false;
+                  unfocus();
+                });
+              },
       );
 
   Widget _buildBtn({
     required Widget icon,
-    required Function() onTap,
+    Function()? onTap,
     EdgeInsetsGeometry? padding,
   }) =>
       GestureDetector(

@@ -50,7 +50,7 @@ class _TimingViewState extends State<TimingView> {
         '$_sec s',
         style: TextStyle(
           fontSize: 10.sp,
-          color: Color(0xFF999999),
+          color: Color(0xFF006AFF),
         ),
       ),
     );

@@ -58,6 +58,8 @@ class UILocalizations {
       "send": 'Send',
       "unsupportedMessage": '[Message types not supported]',
       "add": 'Add',
+      "youMuted": 'You have been muted',
+      "groupMuted": 'Enable group mute',
     },
     'zh': {
       'top': '置顶',
@@ -104,6 +106,8 @@ class UILocalizations {
       "send": '发送',
       "unsupportedMessage": '[暂不支持的消息类型]',
       "add": '添加',
+      "youMuted": '你已被禁言',
+      "groupMuted": '已开启群禁言',
     },
   };
 
@@ -196,6 +200,10 @@ class UILocalizations {
   static String get send => _value(key: 'send');
 
   static String get unsupportedMessage => _value(key: 'unsupportedMessage');
+
+  static String get youMuted => _value(key: 'youMuted');
+
+  static String get groupMuted => _value(key: 'groupMuted');
 
   static String get add => _value(key: 'add');
 }
