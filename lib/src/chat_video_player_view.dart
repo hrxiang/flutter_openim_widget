@@ -53,11 +53,11 @@ class _ChatVideoPlayerViewState extends State<ChatVideoPlayerView> {
     if (null != file) {
       _videoPlayerController = VideoPlayerController.file(file);
     } else {
-      file = await DefaultCacheManager().getSingleFile(_url!).timeout(
-            Duration(seconds: 60),
-          );
-      _videoPlayerController = VideoPlayerController.file(file);
-      // _videoPlayerController = VideoPlayerController.network(_url!);
+      // file = await DefaultCacheManager().getSingleFile(_url!).timeout(
+      //       Duration(seconds: 60),
+      //     );
+      // _videoPlayerController = VideoPlayerController.file(file);
+      _videoPlayerController = VideoPlayerController.network(_url!);
     }
     await Future.wait([
       _videoPlayerController.initialize(),

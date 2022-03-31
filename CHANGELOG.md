@@ -1,3 +1,8 @@
+## 0.0.9
+
+* Update im sdk to v2.0.0+4 <br>
+* Replace better_player package to video_player
+
 ## 0.0.8
 
 * Update im sdk to v2.0.0+3

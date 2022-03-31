@@ -279,7 +279,7 @@ class _ChatInputBoxViewState extends State<ChatInputBoxView>
       );
 
   Widget _buildTextFiled() => Container(
-    alignment: Alignment.center,
+        alignment: Alignment.center,
         constraints: BoxConstraints(minHeight: 40.h),
         decoration: BoxDecoration(
           color: Color(0xFFFFFFFF),
@@ -370,7 +370,7 @@ class _ChatInputBoxViewState extends State<ChatInputBoxView>
       );
 
   Widget _keyboardRightBtn() => _buildBtn(
-    padding: emojiButtonPadding,
+        padding: emojiButtonPadding,
         // padding: EdgeInsets.only(left: 10.w, right: 5.w),
         icon: ImageUtil.keyboard(color: _mutedColor),
         onTap: _isMuted
@@ -386,7 +386,7 @@ class _ChatInputBoxViewState extends State<ChatInputBoxView>
       );
 
   Widget _toolsBtn() => _buildBtn(
-    icon: ImageUtil.tools(color: _mutedColor),
+        icon: ImageUtil.tools(color: _mutedColor),
         // padding: EdgeInsets.only(left: 5.w, right: 10.w),
         padding: toolsButtonPadding,
         onTap: _isMuted
@@ -407,7 +407,7 @@ class _ChatInputBoxViewState extends State<ChatInputBoxView>
       );
 
   Widget _emojiBtn() => _buildBtn(
-    padding: emojiButtonPadding,
+        padding: emojiButtonPadding,
         // padding: EdgeInsets.only(left: 10.w, right: 5.w),
         icon: ImageUtil.emoji(color: _mutedColor),
         onTap: _isMuted
