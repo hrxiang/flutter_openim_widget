@@ -90,14 +90,19 @@ class ChatSingleLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: showRadio ? () => onRadioChanged?.call(!checked) : null,
+      onTap: isPrivateChat
+          ? null
+          : showRadio
+              ? () => onRadioChanged?.call(!checked)
+              : null,
       behavior: HitTestBehavior.translucent,
       child: IgnorePointer(
         ignoring: showRadio,
         child: Row(
           // mainAxisAlignment: _layoutAlignment(),
           children: [
-            if (!isHintMsg) ChatRadio(checked: checked, showRadio: showRadio),
+            if (!isHintMsg && !isPrivateChat)
+              ChatRadio(checked: checked, showRadio: showRadio),
             Expanded(
               child: Column(
                 children: [
@@ -155,27 +160,18 @@ class ChatSingleLayout extends StatelessWidget {
                       ),
                     ),
                   ),
-                  CopyCustomPopupMenu(
-                    controller: popupCtrl,
-                    barrierColor: Colors.transparent,
-                    arrowColor: Color(0xFF666666),
-                    verticalMargin: 0,
-                    // horizontalMargin: 0,
-                    child: isBubbleBg
-                        ? GestureDetector(
-                            onTap: () => _onItemClick?.add(index),
-                            child: ChatBubble(
-                              constraints:
-                                  BoxConstraints(minHeight: avatarSize),
-                              bubbleType: BubbleType.receiver,
-                              child: child,
-                              backgroundColor: _bubbleColor(),
-                            ),
-                          )
-                        : _noBubbleBgView(),
-                    menuBuilder: menuBuilder,
-                    pressType: PressType.longPress,
-                  ),
+                  isPrivateChat
+                      ? _buildChildView(BubbleType.receiver)
+                      : CopyCustomPopupMenu(
+                          controller: popupCtrl,
+                          barrierColor: Colors.transparent,
+                          arrowColor: Color(0xFF666666),
+                          verticalMargin: 0,
+                          // horizontalMargin: 0,
+                          child: _buildChildView(BubbleType.receiver),
+                          menuBuilder: menuBuilder,
+                          pressType: PressType.longPress,
+                        ),
                 ],
               ),
               if (isSingleChat) _buildDestroyAfterReadingView(),
@@ -183,6 +179,18 @@ class ChatSingleLayout extends StatelessWidget {
           )
         ],
       );
+
+  Widget _buildChildView(BubbleType type) => isBubbleBg
+      ? GestureDetector(
+          onTap: () => _onItemClick?.add(index),
+          child: ChatBubble(
+            constraints: BoxConstraints(minHeight: avatarSize),
+            bubbleType: type,
+            child: child,
+            backgroundColor: _bubbleColor(),
+          ),
+        )
+      : _noBubbleBgView();
 
   Widget _isToWidget() => Row(
         mainAxisAlignment: _layoutAlignment(),
@@ -209,26 +217,18 @@ class ChatSingleLayout extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              CopyCustomPopupMenu(
-                controller: popupCtrl,
-                barrierColor: Colors.transparent,
-                arrowColor: Color(0xFF666666),
-                verticalMargin: 0,
-                // horizontalMargin: 0,
-                child: isBubbleBg
-                    ? GestureDetector(
-                        onTap: () => _onItemClick?.add(index),
-                        child: ChatBubble(
-                          constraints: BoxConstraints(minHeight: avatarSize),
-                          bubbleType: BubbleType.send,
-                          child: child,
-                          backgroundColor: _bubbleColor(),
-                        ),
-                      )
-                    : _noBubbleBgView(),
-                menuBuilder: menuBuilder,
-                pressType: PressType.longPress,
-              ),
+              isPrivateChat
+                  ? _buildChildView(BubbleType.send)
+                  : CopyCustomPopupMenu(
+                      controller: popupCtrl,
+                      barrierColor: Colors.transparent,
+                      arrowColor: Color(0xFF666666),
+                      verticalMargin: 0,
+                      // horizontalMargin: 0,
+                      child: _buildChildView(BubbleType.send),
+                      menuBuilder: menuBuilder,
+                      pressType: PressType.longPress,
+                    ),
               // _buildSendFailView(isReceivedMsg, fail: !isSenSuccess),
               _buildAvatar(
                 rightAvatar,

@@ -10,6 +10,7 @@ class ConversationItemView extends StatelessWidget {
   final List<SlideItemInfo> slideActions;
   final double avatarSize;
   final String? avatarUrl;
+  final CustomAvatarBuilder? avatarBuilder;
   final bool? isCircleAvatar;
   final BorderRadius? avatarBorderRadius;
   final String title;
@@ -45,6 +46,7 @@ class ConversationItemView extends StatelessWidget {
     this.contentPrefixStyle,
     this.avatarSize = 48,
     this.avatarUrl,
+    this.avatarBuilder,
     this.isCircleAvatar,
     this.avatarBorderRadius,
     this.backgroundColor = const Color(0xFFFFFF),
@@ -88,6 +90,7 @@ class ConversationItemView extends StatelessWidget {
         contentPrefixStyle: contentPrefixStyle,
         avatarSize: avatarSize,
         avatarUrl: avatarUrl,
+        avatarBuilder: avatarBuilder,
         isCircleAvatar: isCircleAvatar,
         avatarBorderRadius: avatarBorderRadius,
         backgroundColor: backgroundColor,
@@ -134,6 +137,7 @@ class _ConversationView extends StatelessWidget {
     required this.contentStyle,
     required this.timeStyle,
     this.avatarUrl,
+    this.avatarBuilder,
     this.isCircleAvatar,
     this.avatarBorderRadius,
     this.contentPrefix,
@@ -144,6 +148,7 @@ class _ConversationView extends StatelessWidget {
   }) : super(key: key);
   final double avatarSize;
   final String? avatarUrl;
+  final CustomAvatarBuilder? avatarBuilder;
   final bool? isCircleAvatar;
   final BorderRadius? avatarBorderRadius;
   final String title;
@@ -182,6 +187,7 @@ class _ConversationView extends StatelessWidget {
                 ChatAvatarView(
                   size: avatarSize,
                   url: avatarUrl,
+                  builder: avatarBuilder,
                   isCircle: isCircleAvatar ?? false,
                   borderRadius: avatarBorderRadius,
                   isUserGroup: isUserGroup,

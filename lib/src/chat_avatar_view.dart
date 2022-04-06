@@ -12,6 +12,8 @@ List<String> get indexAvatarList => [
       'ic_avatar_06',
     ];
 
+typedef CustomAvatarBuilder = Widget? Function();
+
 class ChatAvatarView extends StatelessWidget {
   const ChatAvatarView({
     Key? key,
@@ -19,6 +21,7 @@ class ChatAvatarView extends StatelessWidget {
     this.size,
     this.onTap,
     this.url,
+    this.builder,
     this.onLongPress,
     this.isCircle = false,
     this.borderRadius,
@@ -34,6 +37,7 @@ class ChatAvatarView extends StatelessWidget {
   final Function()? onTap;
   final Function()? onLongPress;
   final String? url;
+  final CustomAvatarBuilder? builder;
   final bool isCircle;
   final BorderRadius? borderRadius;
   final String? text;
@@ -49,7 +53,8 @@ class ChatAvatarView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var child = isNineGrid ? _nineGridAvatar() : _normalAvatar();
+    var child =
+        builder?.call() ?? (isNineGrid ? _nineGridAvatar() : _normalAvatar());
     return Visibility(
       visible: visible,
       child: isCircle
