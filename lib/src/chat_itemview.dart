@@ -27,6 +27,19 @@ typedef ItemVisibilityChange = void Function(
   bool visible,
 );
 
+/// MessageType.custom
+typedef CustomMessageBuilder = Widget? Function(
+  BuildContext context,
+  bool isReceivedMsg,
+  int index,
+  Message message,
+  Map<String, String> allAtMap,
+  double textScaleFactor,
+  List<MatchPattern> patterns,
+  Subject<MsgStreamEv<int>> msgSendProgressSubject,
+  Subject<int> clickSubject,
+);
+
 ///  chat item
 ///
 class ChatItemView extends StatefulWidget {
@@ -225,6 +238,9 @@ class ChatItemView extends StatefulWidget {
   /// 失败重发
   final Function()? onFailedResend;
 
+  /// MessageType.custom
+  final CustomMessageBuilder? customMessageBuilder;
+
   const ChatItemView({
     Key? key,
     required this.index,
@@ -284,6 +300,7 @@ class ChatItemView extends StatefulWidget {
     this.needReadCount = 0,
     this.onViewMessageReadStatus,
     this.onFailedResend,
+    this.customMessageBuilder,
   }) : super(key: key);
 
   @override
@@ -528,6 +545,29 @@ class _ChatItemViewState extends State<ChatItemView> {
                 data: face?.data,
                 widgetWidth: 100.w,
               ),
+            );
+          }
+          break;
+        case MessageType.custom:
+          {
+            child = _buildCommonItemView(
+              isBubbleBg: widget.isBubbleMsg,
+              child: widget.customMessageBuilder?.call(
+                    context,
+                    _isFromMsg,
+                    widget.index,
+                    widget.message,
+                    widget.allAtMap,
+                    widget.textScaleFactor,
+                    widget.patterns,
+                    widget.msgSendProgressSubject,
+                    widget.clickSubject,
+                  ) ??
+                  ChatAtText(
+                    text: UILocalizations.unsupportedMessage,
+                    textStyle: widget.textStyle,
+                    textScaleFactor: widget.textScaleFactor,
+                  ),
             );
           }
           break;
