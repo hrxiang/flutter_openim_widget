@@ -31,6 +31,7 @@ class ChatAvatarView extends StatelessWidget {
     this.isNineGrid = false,
     this.nineGridUrls = const [],
     this.isUserGroup = false,
+    this.color,
   }) : super(key: key);
   final bool visible;
   final double? size;
@@ -46,6 +47,7 @@ class ChatAvatarView extends StatelessWidget {
   final List<String> nineGridUrls;
   final bool isNineGrid;
   final bool isUserGroup;
+  final Color? color;
 
   double get _size => size ?? 42.h;
 
@@ -96,25 +98,24 @@ class ChatAvatarView extends StatelessWidget {
       );
 
   Widget _defaultAvatar({required double size, String? text}) => Container(
-        color: Color(0xFF5496EB),
-        child: null == text
-            ? /*Icon(
-                Icons.person,
-                color: Colors.white,
-                size: size - (size / 4),
-              )*/
-            FaIcon(
-                isUserGroup
-                    ? FontAwesomeIcons.userGroup
-                    : FontAwesomeIcons.solidUser,
+        color: color ?? Color(0xFF5496EB),
+        child: isUserGroup
+            ? FaIcon(
+                FontAwesomeIcons.userGroup,
                 color: Colors.white,
                 size: size - (size / 2),
               )
-            : Text(
-                text,
-                style: textStyle ??
-                    TextStyle(fontSize: 10.sp, color: Colors.white),
-              ),
+            : null == text
+                ? FaIcon(
+                    FontAwesomeIcons.solidUser,
+                    color: Colors.white,
+                    size: size - (size / 2),
+                  )
+                : Text(
+                    text,
+                    style: textStyle ??
+                        TextStyle(fontSize: 14.sp, color: Colors.white),
+                  ),
         width: size,
         height: size,
         alignment: Alignment.center,
