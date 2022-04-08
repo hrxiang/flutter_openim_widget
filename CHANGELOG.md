@@ -1,3 +1,7 @@
+## 0.0.10
+
+* Update im sdk to v2.0.0+5 <br>
+
 ## 0.0.9
 
 * Update im sdk to v2.0.0+4 <br>

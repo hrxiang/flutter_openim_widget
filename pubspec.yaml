@@ -1,6 +1,6 @@
 name: flutter_openim_widget
 description: The public ui library is used with the openim demo, and you can directly use it for secondary development.
-version: 0.0.9
+version: 0.0.10
 homepage: https://github.com/hrxiang/flutter_openim_widget.git
 
 environment:
@@ -35,7 +35,7 @@ dependencies:
   video_player: ^2.3.0
   flutter_cache_manager: ^3.3.0
   mime_type: ^1.0.0
-  flutter_openim_sdk: ^2.0.0+4
+  flutter_openim_sdk: ^2.0.0+5
 #  flutter_openim_sdk:
 #    path: ../flutter_openim_sdk
 
