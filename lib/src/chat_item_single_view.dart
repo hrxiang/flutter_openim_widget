@@ -44,6 +44,8 @@ class ChatSingleLayout extends StatelessWidget {
   final int needReadCount;
   final Function()? viewMessageReadStatus;
   final Function()? failedResend;
+  final CustomAvatarBuilder? customLeftAvatarBuilder;
+  final CustomAvatarBuilder? customRightAvatarBuilder;
 
   const ChatSingleLayout({
     Key? key,
@@ -85,6 +87,8 @@ class ChatSingleLayout extends StatelessWidget {
     this.needReadCount = 0,
     this.viewMessageReadStatus,
     this.failedResend,
+    this.customLeftAvatarBuilder,
+    this.customRightAvatarBuilder,
   }) : super(key: key);
 
   @override
@@ -138,6 +142,7 @@ class ChatSingleLayout extends StatelessWidget {
             isReceivedMsg,
             onTap: onTapLeftAvatar,
             onLongPress: onLongPressLeftAvatar,
+            builder: customLeftAvatarBuilder,
           ),
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -235,6 +240,7 @@ class ChatSingleLayout extends StatelessWidget {
                 !isReceivedMsg,
                 onTap: onTapRightAvatar,
                 onLongPress: onLongPressRightAvatar,
+                builder: customRightAvatarBuilder,
               )
             ],
           ),
@@ -283,6 +289,7 @@ class ChatSingleLayout extends StatelessWidget {
     bool show, {
     final Function()? onTap,
     final Function()? onLongPress,
+    CustomAvatarBuilder? builder,
   }) =>
       ChatAvatarView(
         url: url,
@@ -290,6 +297,7 @@ class ChatSingleLayout extends StatelessWidget {
         onTap: onTap,
         onLongPress: onLongPress,
         size: avatarSize,
+        builder: builder,
       );
 
   /// 单聊

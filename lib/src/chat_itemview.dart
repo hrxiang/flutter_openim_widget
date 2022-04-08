@@ -241,6 +241,10 @@ class ChatItemView extends StatefulWidget {
   /// MessageType.custom
   final CustomMessageBuilder? customMessageBuilder;
 
+  /// 自定义头像
+  final CustomAvatarBuilder? customLeftAvatarBuilder;
+  final CustomAvatarBuilder? customRightAvatarBuilder;
+
   const ChatItemView({
     Key? key,
     required this.index,
@@ -301,6 +305,8 @@ class ChatItemView extends StatefulWidget {
     this.onViewMessageReadStatus,
     this.onFailedResend,
     this.customMessageBuilder,
+    this.customLeftAvatarBuilder,
+    this.customRightAvatarBuilder,
   }) : super(key: key);
 
   @override
@@ -659,6 +665,8 @@ class _ChatItemViewState extends State<ChatItemView> {
         haveReadCount: _haveReadCount,
         viewMessageReadStatus: widget.onViewMessageReadStatus,
         failedResend: widget.onFailedResend,
+        customLeftAvatarBuilder: widget.customLeftAvatarBuilder,
+        customRightAvatarBuilder: widget.customRightAvatarBuilder,
       );
 
   Widget _menuBuilder() => ChatLongPressMenu(
