@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_openim_widget/flutter_openim_widget.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ChatPictureView extends StatefulWidget {
   const ChatPictureView({
@@ -65,6 +66,13 @@ class _ChatPictureViewState extends State<ChatPictureView> {
     } else {
       _trulyWidth = widget.widgetWidth;
       _trulyHeight = _trulyWidth * h / w;
+    }
+
+    final widgetHeight = widget.widgetWidth * 1.sh / 1.sw;
+
+    // 超长图显示为方形
+    if (_trulyHeight > 2 * widgetHeight) {
+      _trulyHeight = _trulyWidth;
     }
 
     //

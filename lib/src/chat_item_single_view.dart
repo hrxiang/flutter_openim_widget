@@ -308,11 +308,11 @@ class ChatSingleLayout extends StatelessWidget {
       child: read
           ? Text(
               UILocalizations.haveRead,
-              style: haveRead,
+              style: haveReadStyle,
             )
           : Text(
-              UILocalizations.unread,
-              style: unread,
+        UILocalizations.unread,
+              style: unreadStyle,
             ),
     );
   }
@@ -331,7 +331,7 @@ class ChatSingleLayout extends StatelessWidget {
           isAllRead
               ? UILocalizations.allRead
               : sprintf(UILocalizations.groupUnread, [unreadCount]),
-          style: haveRead,
+          style: isAllRead ? haveReadStyle : unreadStyle,
         ),
       ),
     );
@@ -353,13 +353,13 @@ class ChatSingleLayout extends StatelessWidget {
     );
   }
 
-  static var haveRead = TextStyle(
-    fontSize: 12.sp,
-    color: Color(0xFF006AFF),
-  );
-  static var unread = TextStyle(
+  static var haveReadStyle = TextStyle(
     fontSize: 12.sp,
     color: Color(0xFF999999),
+  );
+  static var unreadStyle = TextStyle(
+    fontSize: 12.sp,
+    color: Color(0xFF006AFF),
   );
 
   Widget _delayedStatusView() => FutureBuilder(
