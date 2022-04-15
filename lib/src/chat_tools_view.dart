@@ -17,6 +17,7 @@ class ChatToolsView extends StatefulWidget {
   final Function()? onTapCarte;
   final Function()? onStartVoiceInput;
   final Function()? onStopVoiceInput;
+  final bool showVoiceInput;
 
   const ChatToolsView({
     Key? key,
@@ -30,7 +31,7 @@ class ChatToolsView extends StatefulWidget {
     this.onTapCarte,
     this.onStartVoiceInput,
     this.onStopVoiceInput,
-    // this.shrinkWrap = false,
+    this.showVoiceInput = true,
   }) : super(key: key);
 
   @override
@@ -166,19 +167,20 @@ class _ChatToolsViewState extends State<ChatToolsView>
                 SizedBox(
                   height: 14.h,
                 ),
-                _toolsOption(ToolsItem(
-                  label: UILocalizations.voiceInput,
-                  style: toolsTextStyle,
-                  image: _buildBtn(
-                    icon: ImageUtil.toolsVoiceInput(),
-                    onTap: () {
-                      setState(() {
-                        _enabledVoiceInput = true;
-                        _controller.forward();
-                      });
-                    },
-                  ),
-                )),
+                if (widget.showVoiceInput)
+                  _toolsOption(ToolsItem(
+                    label: UILocalizations.voiceInput,
+                    style: toolsTextStyle,
+                    image: _buildBtn(
+                      icon: ImageUtil.toolsVoiceInput(),
+                      onTap: () {
+                        setState(() {
+                          _enabledVoiceInput = true;
+                          _controller.forward();
+                        });
+                      },
+                    ),
+                  )),
               ],
             ),
             Spacer(),
