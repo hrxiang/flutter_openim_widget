@@ -64,8 +64,12 @@ class ChatAvatarView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var child =
-        builder?.call() ?? (isNineGrid ? _nineGridAvatar() : _normalAvatar());
+    var child = InkWell(
+      onTap: onTap,
+      onLongPress: onLongPress,
+      child:
+          builder?.call() ?? (isNineGrid ? _nineGridAvatar() : _normalAvatar()),
+    );
     return Visibility(
       visible: visible,
       child: isCircle
@@ -77,11 +81,7 @@ class ChatAvatarView extends StatelessWidget {
     );
   }
 
-  Widget _normalAvatar() => InkWell(
-        onTap: onTap,
-        onLongPress: onLongPress,
-        child: _avatarView(),
-      );
+  Widget _normalAvatar() => _avatarView();
 
   Widget _avatarView() => null == url || url!.isEmpty
       ? _defaultAvatar()

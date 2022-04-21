@@ -17,16 +17,144 @@ class ChatQuoteView extends StatelessWidget {
     var child;
     var name;
     var content;
+    name = message.senderNickname;
+    if (message.contentType == MessageType.text) {
+      content = message.content;
+    } else if (message.contentType == MessageType.picture) {
+      var url1 = message.pictureElem?.snapshotPicture?.url;
+      var url2 = message.pictureElem?.sourcePicture?.url;
+      var path = message.pictureElem?.sourcePath;
+      if (url1 != null && url1.isNotEmpty) {
+        child = ImageUtil.networkImage(
+          url: url1,
+          width: 42.h,
+          height: 42.h,
+          fit: BoxFit.fill,
+        );
+      } else if (url2 != null && url2.isNotEmpty) {
+        child = ImageUtil.networkImage(
+          url: url2,
+          width: 42.h,
+          height: 42.h,
+          fit: BoxFit.fill,
+        );
+      } else if (path != null && path.isNotEmpty) {
+        child = Image(
+          image: FileImage(File(path)),
+          height: 42.h,
+          width: 42.h,
+          fit: BoxFit.fill,
+        );
+      }
+    } else if (message.contentType == MessageType.video) {
+      var url = message.videoElem?.snapshotUrl;
+      var path = message.videoElem?.snapshotPath;
+      if (url != null && url.isNotEmpty) {
+        child = _playIcon(
+          child: ImageUtil.networkImage(
+            url: url,
+            width: 42.h,
+            height: 42.h,
+            fit: BoxFit.fill,
+          ),
+        );
+      } else if (path != null && path.isNotEmpty) {
+        child = _playIcon(
+          child: Image(
+            image: FileImage(File(path)),
+            height: 42.h,
+            width: 42.h,
+            fit: BoxFit.fill,
+          ),
+        );
+      }
+    } else if (message.contentType == MessageType.location) {
+      var location = message.locationElem;
+      if (null != location) {
+        var map = _decoder.convert(location.description!);
+        var url = map['url'];
+        var name = map['name'];
+        var addr = map['addr'];
+        content = '$name($addr)';
+        child = ImageUtil.networkImage(
+          url: url,
+          width: 42.h,
+          height: 42.h,
+          fit: BoxFit.fill,
+        );
+      }
+    } else if (message.contentType == MessageType.file) {}
+
+    return GestureDetector(
+      behavior: HitTestBehavior.translucent,
+      onTap: onTap,
+      child: Container(
+        padding: EdgeInsets.all(6),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              constraints: BoxConstraints(maxWidth: 150.w),
+              child: ChatAtText(
+                text: '$name：${content ?? ''}',
+                textStyle: TextStyle(
+                  fontSize: 12.sp,
+                  color: Color(0xFF666666),
+                ),
+              ),
+              // child: Text(
+              //   '$name：${content ?? ''}',
+              //   style: TextStyle(
+              //     fontSize: 12.sp,
+              //     color: Color(0xFF666666),
+              //   ),
+              // ),
+            ),
+            Container(
+              child: child,
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _playIcon({required Widget child}) => Stack(
+        alignment: Alignment.center,
+        children: [
+          child,
+          ImageUtil.assetImage(
+            'ic_video_play_small',
+            width: 15.w,
+            height: 15.h,
+          ),
+        ],
+      );
+}
+
+/*
+class ChatQuoteView extends StatelessWidget {
+  ChatQuoteView({Key? key, required this.message, this.onTap})
+      : super(key: key);
+  final Message message;
+  final Function()? onTap;
+  final _decoder = JsonDecoder();
+
+  @override
+  Widget build(BuildContext context) {
+    var child;
+    var name;
+    var content;
     if (message.contentType == MessageType.quote) {
-      var quoteMessage = message.quoteElem?.quoteMessage;
-      if (null != quoteMessage) {
-        name = quoteMessage.senderNickname;
-        if (quoteMessage.contentType == MessageType.text) {
-          content = quoteMessage.content;
-        } else if (quoteMessage.contentType == MessageType.picture) {
-          var url1 = quoteMessage.pictureElem?.snapshotPicture?.url;
-          var url2 = quoteMessage.pictureElem?.sourcePicture?.url;
-          var path = quoteMessage.pictureElem?.sourcePath;
+      var message = message.quoteElem?.message;
+      if (null != message) {
+        name = message.senderNickname;
+        if (message.contentType == MessageType.text) {
+          content = message.content;
+        } else if (message.contentType == MessageType.picture) {
+          var url1 = message.pictureElem?.snapshotPicture?.url;
+          var url2 = message.pictureElem?.sourcePicture?.url;
+          var path = message.pictureElem?.sourcePath;
           if (url1 != null && url1.isNotEmpty) {
             child = ImageUtil.networkImage(
               url: url1,
@@ -49,9 +177,9 @@ class ChatQuoteView extends StatelessWidget {
               fit: BoxFit.fill,
             );
           }
-        } else if (quoteMessage.contentType == MessageType.video) {
-          var url = quoteMessage.videoElem?.snapshotUrl;
-          var path = quoteMessage.videoElem?.snapshotPath;
+        } else if (message.contentType == MessageType.video) {
+          var url = message.videoElem?.snapshotUrl;
+          var path = message.videoElem?.snapshotPath;
           if (url != null && url.isNotEmpty) {
             child = _playIcon(
               child: ImageUtil.networkImage(
@@ -71,8 +199,8 @@ class ChatQuoteView extends StatelessWidget {
               ),
             );
           }
-        } else if (quoteMessage.contentType == MessageType.location) {
-          var location = quoteMessage.locationElem;
+        } else if (message.contentType == MessageType.location) {
+          var location = message.locationElem;
           if (null != location) {
             var map = _decoder.convert(location.description!);
             var url = map['url'];
@@ -86,7 +214,7 @@ class ChatQuoteView extends StatelessWidget {
               fit: BoxFit.fill,
             );
           }
-        } else if (quoteMessage.contentType == MessageType.file) {}
+        } else if (message.contentType == MessageType.file) {}
       }
     }
 
@@ -118,14 +246,14 @@ class ChatQuoteView extends StatelessWidget {
   }
 
   Widget _playIcon({required Widget child}) => Stack(
-        alignment: Alignment.center,
-        children: [
-          child,
-          ImageUtil.assetImage(
-            'ic_video_play_small',
-            width: 15.w,
-            height: 15.h,
-          ),
-        ],
-      );
-}
+    alignment: Alignment.center,
+    children: [
+      child,
+      ImageUtil.assetImage(
+        'ic_video_play_small',
+        width: 15.w,
+        height: 15.h,
+      ),
+    ],
+  );
+}*/

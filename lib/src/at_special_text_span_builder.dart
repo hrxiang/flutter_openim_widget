@@ -2,7 +2,6 @@ import 'package:extended_text_field/extended_text_field.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_openim_widget/flutter_openim_widget.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'chat_emoji_view.dart';
 
@@ -59,11 +58,17 @@ class AtSpecialTextSpanBuilder extends SpecialTextSpanBuilder {
             String id = value.replaceFirst("@", "").trim();
             if (allAtMap.containsKey(id)) {
               var name = allAtMap[id]!;
-              inlineSpan = ExtendedWidgetSpan(
-                child: Text('@$name ', style: atStyle),
-                style: atStyle,
+              // inlineSpan = ExtendedWidgetSpan(
+              //   child: Text('@$name ', style: atStyle),
+              //   style: atStyle,
+              //   actualText: '$value',
+              //   start: m.start,
+              // );
+              inlineSpan = SpecialTextSpan(
+                text: '@$name ',
                 actualText: '$value',
                 start: m.start,
+                style: atStyle,
               );
               buffer.write('@$name ');
             } else {
@@ -73,8 +78,8 @@ class AtSpecialTextSpanBuilder extends SpecialTextSpanBuilder {
           } else if (emojiReg.hasMatch(value)) {
             inlineSpan = ImageSpan(
               ImageUtil.emojiImage(value),
-              imageWidth: 15.h,
-              imageHeight: 15.h,
+              imageWidth: atStyle!.fontSize!,
+              imageHeight: atStyle!.fontSize!,
               start: m.start,
               actualText: '$value',
             );

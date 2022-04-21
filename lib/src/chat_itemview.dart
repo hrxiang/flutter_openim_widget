@@ -764,12 +764,30 @@ class _ChatItemViewState extends State<ChatItemView> {
     color: Color(0xFFFFFFFF),
   );
 
-  Widget? get _quoteView => widget.message.contentType == MessageType.quote
-      ? ChatQuoteView(
-          message: widget.message,
+  // Widget? get _quoteView => widget.message.contentType == MessageType.quote
+  //     ? ChatQuoteView(
+  //         message: widget.message,
+  //         onTap: widget.onTapQuoteMsg,
+  //       )
+  //     : null;
+
+  Widget? get _quoteView {
+    if (widget.message.contentType == MessageType.quote) {
+      return ChatQuoteView(
+        message: widget.message.quoteElem!.quoteMessage!,
+        onTap: widget.onTapQuoteMsg,
+      );
+    } else if (widget.message.contentType == MessageType.at_text) {
+      var message = widget.message.atElem!.quoteMessage;
+      if (message != null) {
+        return ChatQuoteView(
+          message: message,
           onTap: widget.onTapQuoteMsg,
-        )
-      : null;
+        );
+      }
+    }
+    return null;
+  }
 
   bool get _showCopyMenu =>
       widget.enabledCopyMenu ?? widget.message.contentType == MessageType.text;

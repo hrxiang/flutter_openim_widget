@@ -335,8 +335,7 @@ class _ChatInputBoxViewState extends State<ChatInputBoxView>
   bool get _isMuted => widget.isGroupMuted || _isUserMuted;
 
   bool get _isUserMuted =>
-      widget.muteEndTime > 0 ||
-      widget.muteEndTime * 1000 > DateTime.now().microsecondsSinceEpoch;
+      widget.muteEndTime * 1000 > DateTime.now().millisecondsSinceEpoch;
 
   Color? get _mutedColor => _isMuted ? Color(0xFFbdbdbd) : null;
 
