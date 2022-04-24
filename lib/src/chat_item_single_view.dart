@@ -17,9 +17,9 @@ class ChatSingleLayout extends StatelessWidget {
   final Function()? onLongPressLeftAvatar;
   final Function()? onTapRightAvatar;
   final Function()? onLongPressRightAvatar;
-  final String leftAvatar;
+  final String? leftAvatar;
   final String? leftName;
-  final String rightAvatar;
+  final String? rightAvatar;
   final double avatarSize;
   final bool isReceivedMsg;
   final bool? isUnread;
@@ -58,8 +58,8 @@ class ChatSingleLayout extends StatelessWidget {
     required this.sendStatusStream,
     required this.popupCtrl,
     required this.isReceivedMsg,
-    required this.rightAvatar,
-    required this.leftAvatar,
+    this.rightAvatar,
+    this.leftAvatar,
     required this.leftName,
     this.avatarSize = 42.0,
     this.isUnread,
@@ -311,7 +311,7 @@ class ChatSingleLayout extends StatelessWidget {
               style: haveReadStyle,
             )
           : Text(
-        UILocalizations.unread,
+              UILocalizations.unread,
               style: unreadStyle,
             ),
     );

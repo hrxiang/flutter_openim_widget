@@ -588,7 +588,7 @@ class _ChatItemViewState extends State<ChatItemView> {
                 var content = json.decode(widget.message.content!);
                 text = content['defaultTips'];
               } catch (e) {
-                print('------------->e:$e');
+                print('--------message content parse error----->e:$e');
                 text = json.encode(widget.message);
               }
             }
@@ -609,7 +609,7 @@ class _ChatItemViewState extends State<ChatItemView> {
           break;
       }
     } catch (e) {
-      print('------------->e:$e');
+      print('--------message parse error----->e:$e');
       child = _buildCommonItemView(
         child: ChatAtText(
           text: UILocalizations.unsupportedMessage,
@@ -637,9 +637,9 @@ class _ChatItemViewState extends State<ChatItemView> {
         isReceivedMsg: _isFromMsg,
         isSingleChat: widget.isSingleChat,
         avatarSize: widget.avatarSize ?? 42.h,
-        rightAvatar: OpenIM.iMManager.uInfo.faceURL!,
-        leftAvatar: widget.message.senderFaceUrl!,
-        leftName: widget.message.senderNickname!,
+        rightAvatar: OpenIM.iMManager.uInfo.faceURL,
+        leftAvatar: widget.message.senderFaceUrl,
+        leftName: widget.message.senderNickname ?? '',
         isUnread: !widget.message.isRead!,
         leftBubbleColor: widget.leftBubbleColor,
         rightBubbleColor: widget.rightBubbleColor,

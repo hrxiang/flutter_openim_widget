@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_openim_widget/flutter_openim_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ChatMergeMsgView extends StatelessWidget {
@@ -26,9 +27,9 @@ class ChatMergeMsgView extends StatelessWidget {
         ),
       ));
     for (var s in summaryList) {
-      list.add(Text(
-        s.trim(),
-        style: TextStyle(
+      list.add(ChatAtText(
+        text: s.trim(),
+        textStyle: TextStyle(
           color: Color(0xFF666666),
           fontSize: 11.sp,
         ),

@@ -27,6 +27,7 @@ class ChatInputBoxView extends StatefulWidget {
     this.showToolsButton = true,
     this.isGroupMuted = false,
     this.muteEndTime = 0,
+    this.background,
   }) : super(key: key);
   final AtTextCallback? atCallback;
   final Map<String, String> allAtMap;
@@ -48,6 +49,7 @@ class ChatInputBoxView extends StatefulWidget {
   final bool showToolsButton;
   final bool isGroupMuted;
   final int muteEndTime;
+  final Color? background;
 
   @override
   _ChatInputBoxViewState createState() => _ChatInputBoxViewState();
@@ -153,7 +155,7 @@ class _ChatInputBoxViewState extends State<ChatInputBoxView>
           Container(
             padding: EdgeInsets.symmetric(vertical: 12.h),
             decoration: BoxDecoration(
-              color: Color(0xFFE8F2FF),
+              color: widget.background ?? Color(0xFFE8F2FF),
               boxShadow: [
                 BoxShadow(
                   color: Color(0xFF000000).withOpacity(0.12),

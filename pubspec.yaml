@@ -36,9 +36,11 @@ dependencies:
   flutter_cache_manager: ^3.3.0
   mime_type: ^1.0.0
 #  flutter_openim_sdk: ^2.0.0+5
+#  flutter_openim_sdk:
+#    path: ../flutter_openim_sdk
   flutter_openim_sdk:
-    path: ../flutter_openim_sdk
-
+    git:
+      url: https://github.com/OpenIMSDK/Open-IM-SDK-Flutter.git
 
 dev_dependencies:
   flutter_test:
