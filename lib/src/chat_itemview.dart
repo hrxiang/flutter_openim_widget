@@ -244,6 +244,7 @@ class ChatItemView extends StatefulWidget {
   /// 自定义头像
   final CustomAvatarBuilder? customLeftAvatarBuilder;
   final CustomAvatarBuilder? customRightAvatarBuilder;
+  final Color? highlightColor;
 
   const ChatItemView({
     Key? key,
@@ -307,6 +308,7 @@ class ChatItemView extends StatefulWidget {
     this.customMessageBuilder,
     this.customLeftAvatarBuilder,
     this.customRightAvatarBuilder,
+    this.highlightColor,
   }) : super(key: key);
 
   @override
@@ -335,6 +337,11 @@ class _ChatItemViewState extends State<ChatItemView> {
   }
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     Widget? child;
     // custom view
@@ -360,6 +367,7 @@ class _ChatItemViewState extends State<ChatItemView> {
             ),
         margin: widget.margin,
         child: child,
+        color: widget.highlightColor,
       ),
       onVisibilityLost: () {
         if (widget.visibilityChange != null) {
@@ -631,6 +639,7 @@ class _ChatItemViewState extends State<ChatItemView> {
         msgId: widget.message.clientMsgID!,
         index: widget.index,
         menuBuilder: _menuBuilder,
+        haveUsableMenu: _haveUsableMenu,
         clickSink: widget.clickSubject.sink,
         sendStatusStream: widget.msgSendStatusSubject.stream,
         popupCtrl: _popupCtrl,
@@ -827,4 +836,14 @@ class _ChatItemViewState extends State<ChatItemView> {
       widget.message.attachedInfoElem?.groupHasReadInfo?.hasReadUserIDList
           ?.length ??
       0;
+
+  bool get _haveUsableMenu =>
+      _showCopyMenu ||
+      _showDelMenu ||
+      _showForwardMenu ||
+      _showReplyMenu ||
+      _showRevokeMenu ||
+      _showMultiChoiceMenu ||
+      _showTranslationMenu ||
+      _showEmojiAddMenu;
 }

@@ -92,6 +92,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.0.4"
+  dio:
+    dependency: "direct main"
+    description:
+      name: dio
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "4.0.6"
   extended_image:
     dependency: "direct main"
     description:
@@ -112,7 +119,7 @@ packages:
       name: extended_text_field
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "10.0.0"
+    version: "10.0.1"
   extended_text_library:
     dependency: transitive
     description:
@@ -170,11 +177,9 @@ packages:
   flutter_openim_sdk:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "6edf9b74fa27a372116195c6533ce8cb2d8dbf9e"
-      url: "https://github.com/OpenIMSDK/Open-IM-SDK-Flutter.git"
-    source: git
+      path: "../flutter_openim_sdk"
+      relative: true
+    source: path
     version: "2.0.0+6"
   flutter_screenutil:
     dependency: "direct main"

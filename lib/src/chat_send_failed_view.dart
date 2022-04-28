@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_openim_widget/flutter_openim_widget.dart';
 
@@ -23,11 +25,12 @@ class ChatSendFailedView extends StatefulWidget {
 
 class _ChatSendFailedViewState extends State<ChatSendFailedView> {
   late bool _failed;
+  StreamSubscription? _statusSubs;
 
   @override
   void initState() {
     _failed = widget.isSendFailed;
-    widget.stream?.listen((event) {
+    _statusSubs = widget.stream?.listen((event) {
       if (!mounted) return;
       if (widget.msgId == event.msgId) {
         setState(() {
@@ -36,6 +39,12 @@ class _ChatSendFailedViewState extends State<ChatSendFailedView> {
       }
     });
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _statusSubs?.cancel();
+    super.dispose();
   }
 
   @override

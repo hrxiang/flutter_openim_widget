@@ -46,6 +46,7 @@ class ChatSingleLayout extends StatelessWidget {
   final Function()? failedResend;
   final CustomAvatarBuilder? customLeftAvatarBuilder;
   final CustomAvatarBuilder? customRightAvatarBuilder;
+  final bool haveUsableMenu;
 
   const ChatSingleLayout({
     Key? key,
@@ -89,6 +90,7 @@ class ChatSingleLayout extends StatelessWidget {
     this.failedResend,
     this.customLeftAvatarBuilder,
     this.customRightAvatarBuilder,
+    this.haveUsableMenu = true,
   }) : super(key: key);
 
   @override
@@ -168,7 +170,7 @@ class ChatSingleLayout extends StatelessWidget {
                   isPrivateChat
                       ? _buildChildView(BubbleType.receiver)
                       : CopyCustomPopupMenu(
-                          controller: popupCtrl,
+                    controller: popupCtrl,
                           barrierColor: Colors.transparent,
                           arrowColor: Color(0xFF666666),
                           verticalMargin: 0,
@@ -176,6 +178,7 @@ class ChatSingleLayout extends StatelessWidget {
                           child: _buildChildView(BubbleType.receiver),
                           menuBuilder: menuBuilder,
                           pressType: PressType.longPress,
+                          showArrow: haveUsableMenu,
                         ),
                 ],
               ),
@@ -225,7 +228,7 @@ class ChatSingleLayout extends StatelessWidget {
               isPrivateChat
                   ? _buildChildView(BubbleType.send)
                   : CopyCustomPopupMenu(
-                      controller: popupCtrl,
+                controller: popupCtrl,
                       barrierColor: Colors.transparent,
                       arrowColor: Color(0xFF666666),
                       verticalMargin: 0,
@@ -233,6 +236,7 @@ class ChatSingleLayout extends StatelessWidget {
                       child: _buildChildView(BubbleType.send),
                       menuBuilder: menuBuilder,
                       pressType: PressType.longPress,
+                      showArrow: haveUsableMenu,
                     ),
               // _buildSendFailView(isReceivedMsg, fail: !isSenSuccess),
               _buildAvatar(
@@ -311,7 +315,7 @@ class ChatSingleLayout extends StatelessWidget {
               style: haveReadStyle,
             )
           : Text(
-              UILocalizations.unread,
+        UILocalizations.unread,
               style: unreadStyle,
             ),
     );

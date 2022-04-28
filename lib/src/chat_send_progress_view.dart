@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_openim_widget/flutter_openim_widget.dart';
 
@@ -24,11 +26,12 @@ class ChatSendProgressView extends StatefulWidget {
 
 class _ChatSendProgressViewState extends State<ChatSendProgressView> {
   int _progress = 0;
+  StreamSubscription? _progressSubs;
 
   @override
   void initState() {
     _progress = widget.initProgress;
-    widget.stream?.listen((event) {
+    _progressSubs = widget.stream?.listen((event) {
       if (!mounted) return;
       if (widget.msgId == event.msgId) {
         setState(() {
@@ -41,6 +44,7 @@ class _ChatSendProgressViewState extends State<ChatSendProgressView> {
 
   @override
   void dispose() {
+    _progressSubs?.cancel();
     super.dispose();
   }
 

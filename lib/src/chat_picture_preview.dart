@@ -1,11 +1,13 @@
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_openim_widget/flutter_openim_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:path_provider/path_provider.dart';
 
 class PicInfo {
   final String? url;
@@ -21,7 +23,9 @@ class ChatPicturePreview extends StatelessWidget {
     required this.picList,
     this.index = 0,
     this.tag,
-    this.onDownload,
+    this.dio,
+    this.onStartDownload,
+    this.onDownloadFinished,
   })  : this.controller = ExtendedPageController(
           initialPage: index,
           pageSpacing: 10,
@@ -31,7 +35,23 @@ class ChatPicturePreview extends StatelessWidget {
   final int index;
   final String? tag;
   final ExtendedPageController controller;
-  final Future<bool> Function(String)? onDownload;
+  final Dio? dio;
+  final Function(String url, String cachePath)? onStartDownload;
+  final Function(String url, String cachePath)? onDownloadFinished;
+
+  void _startDownload(int index) async {
+    var url = picList.elementAt(index).url!;
+    var name = url.substring(url.lastIndexOf('/'));
+    var dir = await getTemporaryDirectory();
+    String savePath = dir.path + name;
+    onStartDownload?.call(url, savePath);
+    await dio?.download(
+      picList.elementAt(index).url!,
+      savePath,
+      options: Options(receiveTimeout: 120 * 1000),
+    );
+    onDownloadFinished?.call(url, savePath);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +62,8 @@ class ChatPicturePreview extends StatelessWidget {
         _buildToolsBtn(onDownload: () {
           int index = controller.page?.toInt() ?? 0;
           if (index < picList.length) {
-            onDownload?.call(picList.elementAt(index).url!);
+            _startDownload(index);
+            // onDownload?.call(picList.elementAt(index).url!);
           }
         }),
       ],

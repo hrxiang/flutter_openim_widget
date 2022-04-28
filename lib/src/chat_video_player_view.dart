@@ -1,11 +1,12 @@
 import 'dart:io';
 
 import 'package:chewie/chewie.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_openim_widget/flutter_openim_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:video_player/video_player.dart';
 
 class ChatVideoPlayerView extends StatefulWidget {
@@ -13,11 +14,20 @@ class ChatVideoPlayerView extends StatefulWidget {
   final String? url;
   final String? coverUrl;
   final String? tag;
-  final Function(String url)? onDownload;
+  final Dio? dio;
+  final Function(String url, String path)? onStartDownload;
+  final Function(String url, String path)? onDownloadFinished;
 
-  const ChatVideoPlayerView(
-      {Key? key, this.path, this.url, this.coverUrl, this.tag, this.onDownload})
-      : super(key: key);
+  const ChatVideoPlayerView({
+    Key? key,
+    this.path,
+    this.url,
+    this.coverUrl,
+    this.tag,
+    this.dio,
+    this.onDownloadFinished,
+    this.onStartDownload,
+  }) : super(key: key);
 
   @override
   _ChatVideoPlayerViewState createState() => _ChatVideoPlayerViewState();
@@ -26,6 +36,19 @@ class ChatVideoPlayerView extends StatefulWidget {
 class _ChatVideoPlayerViewState extends State<ChatVideoPlayerView> {
   late VideoPlayerController _videoPlayerController;
   ChewieController? _chewieController;
+
+  _startDownload() async {
+    var dir = await getTemporaryDirectory();
+    var name = widget.url!.substring(widget.url!.lastIndexOf('/'));
+    String savePath = dir.path + name;
+    widget.onStartDownload?.call(widget.url!, savePath);
+    await widget.dio?.download(
+      widget.url!,
+      savePath,
+      options: Options(receiveTimeout: 120 * 1000),
+    );
+    widget.onDownloadFinished?.call(widget.url!, savePath);
+  }
 
   @override
   void initState() {

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -31,6 +32,7 @@ class _ChatVoiceViewState extends State<ChatVoiceView> {
   bool _isPlaying = false;
   bool _isExistSource = false;
   var _voicePlayer = AudioPlayer();
+  StreamSubscription? _clickSubs;
 
   @override
   void initState() {
@@ -53,7 +55,7 @@ class _ChatVoiceViewState extends State<ChatVoiceView> {
       }
     });
     _initSource();
-    widget.clickStream?.listen((i) {
+    _clickSubs = widget.clickStream?.listen((i) {
       if (!mounted) return;
       print('click:$i    $_isExistSource');
       if (_isExistSource) {
@@ -112,6 +114,7 @@ class _ChatVoiceViewState extends State<ChatVoiceView> {
   @override
   void dispose() {
     _voicePlayer.dispose();
+    _clickSubs?.cancel();
     super.dispose();
   }
 
