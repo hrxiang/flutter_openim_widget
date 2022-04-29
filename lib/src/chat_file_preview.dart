@@ -108,10 +108,10 @@ class _ChatFilePreviewState extends State<ChatFilePreview> {
           ),
           widget.available
               ? Positioned(
-            top: 496.h,
-            width: 375.w,
-            child: Container(
-              alignment: Alignment.center,
+                  top: 496.h,
+                  width: 375.w,
+                  child: Container(
+                    alignment: Alignment.center,
                     child: GestureDetector(
                       onTap: _start ? null : _startDownload,
                       behavior: HitTestBehavior.translucent,
@@ -139,19 +139,19 @@ class _ChatFilePreviewState extends State<ChatFilePreview> {
                       ),
                     ),
                   ),
-          )
+                )
               : Positioned(
-            top: 510.h,
-            width: 375.w,
-            child: Text(
-              UILocalizations.fileUnavailable,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 16.sp,
-                color: Color(0xFFDD000F),
-              ),
-            ),
-          ),
+                  top: 510.h,
+                  width: 375.w,
+                  child: Text(
+                    UILocalizations.fileUnavailable,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 16.sp,
+                      color: Color(0xFFDD000F),
+                    ),
+                  ),
+                ),
         ],
       ),
     );

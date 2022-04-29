@@ -2,9 +2,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:extended_image/extended_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_openim_widget/flutter_openim_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:path_provider/path_provider.dart';
@@ -26,6 +24,7 @@ class ChatPicturePreview extends StatelessWidget {
     this.dio,
     this.onStartDownload,
     this.onDownloadFinished,
+    this.background,
   })  : this.controller = ExtendedPageController(
           initialPage: index,
           pageSpacing: 10,
@@ -38,6 +37,7 @@ class ChatPicturePreview extends StatelessWidget {
   final Dio? dio;
   final Function(String url, String cachePath)? onStartDownload;
   final Function(String url, String cachePath)? onDownloadFinished;
+  final Color? background;
 
   void _startDownload(int index) async {
     var url = picList.elementAt(index).url!;
@@ -69,7 +69,7 @@ class ChatPicturePreview extends StatelessWidget {
       ],
     );
     return Material(
-      color: Color(0xFF000000),
+      color: background ?? Color(0xFF000000),
       child: tag == null ? child : Hero(tag: tag!, child: child),
     );
   }

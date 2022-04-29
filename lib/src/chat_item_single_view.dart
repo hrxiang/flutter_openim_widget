@@ -170,7 +170,7 @@ class ChatSingleLayout extends StatelessWidget {
                   isPrivateChat
                       ? _buildChildView(BubbleType.receiver)
                       : CopyCustomPopupMenu(
-                    controller: popupCtrl,
+                          controller: popupCtrl,
                           barrierColor: Colors.transparent,
                           arrowColor: Color(0xFF666666),
                           verticalMargin: 0,
@@ -228,7 +228,7 @@ class ChatSingleLayout extends StatelessWidget {
               isPrivateChat
                   ? _buildChildView(BubbleType.send)
                   : CopyCustomPopupMenu(
-                controller: popupCtrl,
+                      controller: popupCtrl,
                       barrierColor: Colors.transparent,
                       arrowColor: Color(0xFF666666),
                       verticalMargin: 0,
@@ -315,7 +315,7 @@ class ChatSingleLayout extends StatelessWidget {
               style: haveReadStyle,
             )
           : Text(
-        UILocalizations.unread,
+              UILocalizations.unread,
               style: unreadStyle,
             ),
     );
