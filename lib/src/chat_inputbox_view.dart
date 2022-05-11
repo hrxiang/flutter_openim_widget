@@ -28,6 +28,7 @@ class ChatInputBoxView extends StatefulWidget {
     this.isGroupMuted = false,
     this.muteEndTime = 0,
     this.background,
+    this.isInBlacklist = false,
   }) : super(key: key);
   final AtTextCallback? atCallback;
   final Map<String, String> allAtMap;
@@ -49,6 +50,7 @@ class ChatInputBoxView extends StatefulWidget {
   final bool showToolsButton;
   final bool isGroupMuted;
   final int muteEndTime;
+  final bool isInBlacklist;
   final Color? background;
 
   @override
@@ -309,9 +311,11 @@ class _ChatInputBoxViewState extends State<ChatInputBoxView>
                 alignment: Alignment.center,
                 constraints: BoxConstraints(minHeight: 40.h),
                 child: Text(
-                  widget.isGroupMuted
-                      ? UILocalizations.groupMuted
-                      : UILocalizations.youMuted,
+                  widget.isInBlacklist
+                      ? UILocalizations.inBlacklist
+                      : (widget.isGroupMuted
+                          ? UILocalizations.groupMuted
+                          : UILocalizations.youMuted),
                   style: TextStyle(
                     fontSize: 12.sp,
                     color: Color(0xFF999999),
@@ -334,7 +338,8 @@ class _ChatInputBoxViewState extends State<ChatInputBoxView>
     textBaseline: TextBaseline.alphabetic,
   );
 
-  bool get _isMuted => widget.isGroupMuted || _isUserMuted;
+  bool get _isMuted =>
+      widget.isGroupMuted || _isUserMuted || widget.isInBlacklist;
 
   bool get _isUserMuted =>
       widget.muteEndTime * 1000 > DateTime.now().millisecondsSinceEpoch;

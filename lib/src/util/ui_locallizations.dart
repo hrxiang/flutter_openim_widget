@@ -60,6 +60,7 @@ class UILocalizations {
       "add": 'Add',
       "youMuted": 'You have been muted',
       "groupMuted": 'Enable group mute',
+      "inBlacklist": 'The other party has been blacklisted',
     },
     'zh': {
       'top': '置顶',
@@ -108,6 +109,7 @@ class UILocalizations {
       "add": '添加',
       "youMuted": '你已被禁言',
       "groupMuted": '已开启群禁言',
+      "inBlacklist": '对方已被拉入黑名单',
     },
   };
 
@@ -206,4 +208,6 @@ class UILocalizations {
   static String get groupMuted => _value(key: 'groupMuted');
 
   static String get add => _value(key: 'add');
+
+  static String get inBlacklist => _value(key: 'inBlacklist');
 }
