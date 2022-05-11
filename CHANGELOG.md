@@ -1,3 +1,7 @@
+## 2.0.8
+
+* Update im sdk to 2.0.8<br>
+
 ## 0.0.11
 
 * Update im sdk to v2.0.0+6 <br>
