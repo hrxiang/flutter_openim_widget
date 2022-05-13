@@ -177,6 +177,17 @@ class _ChatVoiceViewState extends State<ChatVoiceView> {
 
   @override
   Widget build(BuildContext context) {
-    return _buildVoiceAnimView();
+    return Container(
+      margin: EdgeInsets.only(
+        left: widget.isReceived ? 0 : _margin,
+        right: widget.isReceived ? _margin : 0,
+      ),
+      child: _buildVoiceAnimView(),
+    );
+  }
+
+  double get _margin {
+    double diff = ((widget.duration ?? 0) / 5) * 6.w;
+    return diff > 60.w ? 60.w : diff;
   }
 }

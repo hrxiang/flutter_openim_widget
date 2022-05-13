@@ -114,10 +114,10 @@ class ChatLongPressMenu extends StatelessWidget {
         },
         behavior: HitTestBehavior.translucent,
         child: Container(
-          width: 35.w,
+          width: 45.w,
           // constraints: BoxConstraints(maxWidth: 35.w, minWidth: 30.w),
           padding: EdgeInsets.symmetric(
-            horizontal: menuStyle.crossAxisSpacing / 2,
+            // horizontal: menuStyle.crossAxisSpacing / 2,
             vertical: menuStyle.mainAxisSpacing / 2,
           ),
           child: _ItemView(icon: icon, label: label, style: style),

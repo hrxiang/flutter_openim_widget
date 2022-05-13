@@ -180,7 +180,7 @@ packages:
       name: flutter_openim_sdk
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "2.0.0+6"
+    version: "2.0.8"
   flutter_screenutil:
     dependency: "direct main"
     description:

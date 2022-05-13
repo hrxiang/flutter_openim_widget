@@ -6,10 +6,10 @@ class ChatCarteView extends StatelessWidget {
   const ChatCarteView({
     Key? key,
     required this.name,
-    required this.url,
+    this.url,
   }) : super(key: key);
   final String name;
-  final String url;
+  final String? url;
 
   @override
   Widget build(BuildContext context) {

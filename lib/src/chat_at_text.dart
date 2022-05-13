@@ -114,7 +114,7 @@ class ChatAtText extends StatelessWidget {
     }
 
     // match  text
-    text.splitMapJoin(
+    stripHtmlIfNeeded(text).splitMapJoin(
       RegExp(pattern),
       onMatch: (Match match) {
         var matchText = match[0]!;
@@ -179,6 +179,10 @@ class ChatAtText extends StatelessWidget {
       default:
         return text;
     }
+  }
+
+  static String stripHtmlIfNeeded(String text) {
+    return text.replaceAll(RegExp(r'<[^>]*>|&[^;]+;'), ' ');
   }
 }
 
