@@ -68,91 +68,91 @@ class _ChatFilePreviewState extends State<ChatFilePreview> {
     return Scaffold(
       appBar: TitleBar.back(context),
       backgroundColor: Color(0xFFF6F6F6),
-      body: Stack(
-        children: [
-          Positioned(
-            top: 136.h,
-            width: 375.w,
-            child: ImageUtil.assetImage(
-              'ic_file_grey',
-              width: 56.w,
-              height: 56.h,
-            ),
-          ),
-          Positioned(
-            top: 224.h,
-            width: 375.w,
-            child: Text(
-              widget.name,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 20.sp,
-                color: Color(0xFF333333),
+      body: SingleChildScrollView(
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 22.w),
+          child: Column(
+            children: [
+              SizedBox(
+                height: 88.h,
               ),
-            ),
-          ),
-          Positioned(
-            top: 258.h,
-            width: 375.w,
-            child: Text(
-              sprintf(
-                UILocalizations.fileSize,
-                [CommonUtil.formatBytes(widget.size)],
+              ImageUtil.assetImage(
+                'ic_file_grey',
+                width: 56.w,
+                height: 56.h,
               ),
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 16.sp,
-                color: Color(0xFF333333),
+              SizedBox(
+                height: 40.h,
               ),
-            ),
-          ),
-          widget.available
-              ? Positioned(
-                  top: 496.h,
-                  width: 375.w,
-                  child: Container(
-                    alignment: Alignment.center,
-                    child: GestureDetector(
-                      onTap: _start ? null : _startDownload,
-                      behavior: HitTestBehavior.translucent,
+              Text(
+                widget.name,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 20.sp,
+                  color: Color(0xFF333333),
+                ),
+              ),
+              SizedBox(
+                height: 34.h,
+              ),
+              Text(
+                sprintf(
+                  UILocalizations.fileSize,
+                  [CommonUtil.formatBytes(widget.size)],
+                ),
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 16.sp,
+                  color: Color(0xFF333333),
+                ),
+              ),
+              widget.available
+                  ? Container(
+                      margin: EdgeInsets.only(top: 120.h),
                       child: Container(
-                        width: 50.w,
-                        height: 50.h,
-                        child: Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            CircularProgressIndicator(
-                              backgroundColor: Color(0xFFCCCCCC),
-                              color: Color(0xFF1D6BED),
-                              strokeWidth: 3,
-                              value: _value,
+                        alignment: Alignment.center,
+                        child: GestureDetector(
+                          onTap: _start ? null : _startDownload,
+                          behavior: HitTestBehavior.translucent,
+                          child: Container(
+                            width: 50.w,
+                            height: 50.h,
+                            child: Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                CircularProgressIndicator(
+                                  backgroundColor: Color(0xFFCCCCCC),
+                                  color: Color(0xFF1D6BED),
+                                  strokeWidth: 3,
+                                  value: _value,
+                                ),
+                                ImageUtil.assetImage(
+                                  _start
+                                      ? 'ic_download_continue'
+                                      : 'ic_download_stop',
+                                  width: 23.w,
+                                  height: 23.h,
+                                )
+                              ],
                             ),
-                            ImageUtil.assetImage(
-                              _start
-                                  ? 'ic_download_continue'
-                                  : 'ic_download_stop',
-                              width: 23.w,
-                              height: 23.h,
-                            )
-                          ],
+                          ),
+                        ),
+                      ),
+                    )
+                  : Container(
+                      margin: EdgeInsets.only(top: 120.h),
+                      child: Text(
+                        UILocalizations.fileUnavailable,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 16.sp,
+                          color: Color(0xFFDD000F),
                         ),
                       ),
                     ),
-                  ),
-                )
-              : Positioned(
-                  top: 510.h,
-                  width: 375.w,
-                  child: Text(
-                    UILocalizations.fileUnavailable,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 16.sp,
-                      color: Color(0xFFDD000F),
-                    ),
-                  ),
-                ),
-        ],
+            ],
+          ),
+        ),
       ),
     );
   }

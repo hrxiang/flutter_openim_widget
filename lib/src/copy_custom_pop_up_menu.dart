@@ -8,6 +8,11 @@ enum PressType {
   singleClick,
 }
 
+enum PreferredPosition {
+  top,
+  bottom,
+}
+
 class CustomPopupMenuController extends ChangeNotifier {
   bool menuIsShowing = false;
 
@@ -27,6 +32,8 @@ class CustomPopupMenuController extends ChangeNotifier {
   }
 }
 
+Rect _menuRect = Rect.zero;
+
 class CopyCustomPopupMenu extends StatefulWidget {
   CopyCustomPopupMenu({
     required this.child,
@@ -39,6 +46,9 @@ class CopyCustomPopupMenu extends StatefulWidget {
     this.arrowSize = 10.0,
     this.horizontalMargin = 10.0,
     this.verticalMargin = 10.0,
+    this.position,
+    this.menuOnChange,
+    this.enablePassEvent = true,
   });
 
   final Widget child;
@@ -51,16 +61,23 @@ class CopyCustomPopupMenu extends StatefulWidget {
   final double arrowSize;
   final CustomPopupMenuController? controller;
   final Widget Function() menuBuilder;
+  final PreferredPosition? position;
+  final void Function(bool)? menuOnChange;
+
+  /// Pass tap event to the widgets below the mask.
+  /// It only works when [barrierColor] is transparent.
+  final bool enablePassEvent;
 
   @override
-  _CopyCustomPopupMenuState createState() => _CopyCustomPopupMenuState();
+  _CustomPopupMenuState createState() => _CustomPopupMenuState();
 }
 
-class _CopyCustomPopupMenuState extends State<CopyCustomPopupMenu> {
+class _CustomPopupMenuState extends State<CopyCustomPopupMenu> {
   RenderBox? _childBox;
   RenderBox? _parentBox;
   OverlayEntry? _overlayEntry;
   CustomPopupMenuController? _controller;
+  bool _canResponse = true;
 
   _showMenu() {
     Widget arrow = ClipPath(
@@ -72,64 +89,86 @@ class _CopyCustomPopupMenuState extends State<CopyCustomPopupMenu> {
       clipper: _ArrowClipper(),
     );
 
+    final viewInsets = EdgeInsets.fromWindowPadding(
+      WidgetsBinding.instance!.window.viewInsets,
+      WidgetsBinding.instance!.window.devicePixelRatio,
+    );
+
+    var keyboardHeight = viewInsets.bottom;
+
     _overlayEntry = OverlayEntry(
       builder: (context) {
-        return Stack(
-          children: <Widget>[
-            GestureDetector(
-              // onTap: () => _hideMenu(),
-              onPanDown: (detail) => _hideMenu(),
-              behavior: HitTestBehavior.translucent,
-              child: Container(
-                color: widget.barrierColor,
-              ),
+        Widget menu = Center(
+          child: Container(
+            constraints: BoxConstraints(
+              maxWidth: _parentBox!.size.width - 2 * widget.horizontalMargin,
+              minWidth: 0,
             ),
-            Center(
-              child: Container(
-                constraints: BoxConstraints(
-                  maxWidth:
-                      _parentBox!.size.width - 2 * widget.horizontalMargin,
-                  minWidth: 0,
+            child: CustomMultiChildLayout(
+              delegate: _MenuLayoutDelegate(
+                anchorSize: _childBox!.size,
+                anchorOffset: _childBox!.localToGlobal(
+                  Offset(-widget.horizontalMargin, 0),
                 ),
-                child: CustomMultiChildLayout(
-                  delegate: _MenuLayoutDelegate(
-                    anchorSize: _childBox!.size,
-                    anchorOffset: _childBox!.localToGlobal(
-                      Offset(-widget.horizontalMargin, 0),
-                    ),
-                    verticalMargin: widget.verticalMargin,
+                keyboardHeight: keyboardHeight,
+                verticalMargin: widget.verticalMargin,
+                position: widget.position,
+              ),
+              children: <Widget>[
+                if (widget.showArrow)
+                  LayoutId(
+                    id: _MenuLayoutId.arrow,
+                    child: arrow,
                   ),
-                  children: <Widget>[
-                    if (widget.showArrow)
-                      LayoutId(
-                        id: _MenuLayoutId.arrow,
-                        child: arrow,
-                      ),
-                    if (widget.showArrow)
-                      LayoutId(
-                        id: _MenuLayoutId.downArrow,
-                        child: Transform.rotate(
-                          angle: math.pi,
-                          child: arrow,
-                        ),
-                      ),
-                    LayoutId(
-                      id: _MenuLayoutId.content,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          Material(
-                            child: widget.menuBuilder(),
-                            color: Colors.transparent,
-                          ),
-                        ],
-                      ),
+                if (widget.showArrow)
+                  LayoutId(
+                    id: _MenuLayoutId.downArrow,
+                    child: Transform.rotate(
+                      angle: math.pi,
+                      child: arrow,
                     ),
-                  ],
+                  ),
+                LayoutId(
+                  id: _MenuLayoutId.content,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Material(
+                        child: widget.menuBuilder(),
+                        color: Colors.transparent,
+                      ),
+                    ],
+                  ),
                 ),
-              ),
+              ],
             ),
-          ],
+          ),
+        );
+        return Listener(
+          behavior: widget.enablePassEvent
+              ? HitTestBehavior.translucent
+              : HitTestBehavior.opaque,
+          onPointerDown: (PointerDownEvent event) {
+            Offset offset = event.localPosition;
+            // If tap position in menu
+            if (_menuRect.contains(
+                Offset(offset.dx - widget.horizontalMargin, offset.dy))) {
+              return;
+            }
+            _controller?.hideMenu();
+            // When [enablePassEvent] works and we tap the [child] to [hideMenu],
+            // but the passed event would trigger [showMenu] again.
+            // So, we use time threshold to solve this bug.
+            _canResponse = false;
+            Future.delayed(Duration(milliseconds: 300))
+                .then((_) => _canResponse = true);
+          },
+          child: widget.barrierColor == Colors.transparent
+              ? menu
+              : Container(
+                  color: widget.barrierColor,
+                  child: menu,
+                ),
         );
       },
     );
@@ -146,7 +185,9 @@ class _CopyCustomPopupMenuState extends State<CopyCustomPopupMenu> {
   }
 
   _updateView() {
-    if (_controller?.menuIsShowing ?? false) {
+    bool menuIsShowing = _controller?.menuIsShowing ?? false;
+    widget.menuOnChange?.call(menuIsShowing);
+    if (menuIsShowing) {
       _showMenu();
     } else {
       _hideMenu();
@@ -160,10 +201,11 @@ class _CopyCustomPopupMenuState extends State<CopyCustomPopupMenu> {
     if (_controller == null) _controller = CustomPopupMenuController();
     _controller?.addListener(_updateView);
     WidgetsBinding.instance?.addPostFrameCallback((call) {
-      if (!mounted) return;
-      _childBox = context.findRenderObject() as RenderBox?;
-      _parentBox =
-          Overlay.of(context)!.context.findRenderObject() as RenderBox?;
+      if (mounted) {
+        _childBox = context.findRenderObject() as RenderBox?;
+        _parentBox =
+            Overlay.of(context)?.context.findRenderObject() as RenderBox?;
+      }
     });
   }
 
@@ -183,20 +225,16 @@ class _CopyCustomPopupMenuState extends State<CopyCustomPopupMenu> {
         splashColor: Colors.transparent,
         highlightColor: Colors.transparent,
         child: widget.child,
-        onTap: widget.pressType == PressType.singleClick
-            ? () {
-                if (widget.pressType == PressType.singleClick) {
-                  _showMenu();
-                }
-              }
-            : null,
-        onLongPress: widget.pressType == PressType.longPress
-            ? () {
-                if (widget.pressType == PressType.longPress) {
-                  _showMenu();
-                }
-              }
-            : null,
+        onTap: () {
+          if (widget.pressType == PressType.singleClick && _canResponse) {
+            _controller?.showMenu();
+          }
+        },
+        onLongPress: () {
+          if (widget.pressType == PressType.longPress && _canResponse) {
+            _controller?.showMenu();
+          }
+        },
       ),
       color: Colors.transparent,
     );
@@ -234,11 +272,15 @@ class _MenuLayoutDelegate extends MultiChildLayoutDelegate {
     required this.anchorSize,
     required this.anchorOffset,
     required this.verticalMargin,
+    required this.keyboardHeight,
+    this.position,
   });
 
   final Size anchorSize;
   final Offset anchorOffset;
   final double verticalMargin;
+  final PreferredPosition? position;
+  final double keyboardHeight;
 
   @override
   void performLayout(Size size) {
@@ -272,9 +314,11 @@ class _MenuLayoutDelegate extends MultiChildLayoutDelegate {
     }
 
     bool isTop = false;
-    if (anchorBottomY + verticalMargin + arrowSize.height + contentSize.height >
-        size.height) {
-      isTop = true;
+    if (position == null) {
+      // auto calculate position
+      isTop = anchorBottomY > (size.height - keyboardHeight) / 2;
+    } else {
+      isTop = position == PreferredPosition.top;
     }
     if (anchorCenterX - contentSize.width / 2 < 0) {
       menuPosition = isTop ? _MenuPosition.topLeft : _MenuPosition.bottomLeft;
@@ -346,6 +390,13 @@ class _MenuLayoutDelegate extends MultiChildLayoutDelegate {
     if (hasChild(_MenuLayoutId.content)) {
       positionChild(_MenuLayoutId.content, contentOffset);
     }
+
+    _menuRect = Rect.fromLTWH(
+      contentOffset.dx,
+      contentOffset.dy,
+      contentSize.width,
+      contentSize.height,
+    );
     bool isBottom = false;
     if (_MenuPosition.values.indexOf(menuPosition) < 3) {
       // bottom

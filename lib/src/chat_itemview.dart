@@ -1,6 +1,8 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_openim_widget/flutter_openim_widget.dart';
 import 'package:flutter_openim_widget/src/chat_custom_emoji_view.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -246,6 +248,16 @@ class ChatItemView extends StatefulWidget {
   final CustomAvatarBuilder? customRightAvatarBuilder;
   final Color? highlightColor;
 
+  /// 当前播放的语音消息
+  final bool isPlayingSound;
+
+  final Function(bool show)? onPopMenuShowChanged;
+
+  final String? leftName;
+  final String? leftAvatarUrl;
+  final String? rightName;
+  final String? rightAvatarUrl;
+
   const ChatItemView({
     Key? key,
     required this.index,
@@ -309,6 +321,12 @@ class ChatItemView extends StatefulWidget {
     this.customLeftAvatarBuilder,
     this.customRightAvatarBuilder,
     this.highlightColor,
+    this.isPlayingSound = false,
+    this.onPopMenuShowChanged,
+    this.leftName,
+    this.rightName,
+    this.leftAvatarUrl,
+    this.rightAvatarUrl,
   }) : super(key: key);
 
   @override
@@ -321,6 +339,7 @@ class _ChatItemViewState extends State<ChatItemView> {
   bool get _isFromMsg => widget.message.sendID != OpenIM.iMManager.uid;
 
   bool get _checked => widget.multiList.contains(widget.message);
+  late StreamSubscription<bool> _keyboardSubs;
 
   /// 提示信息样式
   var _isHintMsg = false;
@@ -333,11 +352,26 @@ class _ChatItemViewState extends State<ChatItemView> {
   @override
   void dispose() {
     _popupCtrl.dispose();
+    _keyboardSubs.cancel();
     super.dispose();
   }
 
   @override
   void initState() {
+    var keyboardVisibilityCtrl = KeyboardVisibilityController();
+    // Query
+    print(
+        'Keyboard visibility direct query: ${keyboardVisibilityCtrl.isVisible}');
+
+    // Subscribe
+    _keyboardSubs = keyboardVisibilityCtrl.onChange.listen((bool visible) {
+      print('Keyboard visibility update. Is visible: $visible');
+      _popupCtrl.hideMenu();
+    });
+
+    _popupCtrl.addListener(() {
+      widget.onPopMenuShowChanged?.call(_popupCtrl.menuIsShowing);
+    });
     super.initState();
   }
 
@@ -457,6 +491,7 @@ class _ChatItemViewState extends State<ChatItemView> {
                 soundPath: sound?.soundPath,
                 soundUrl: sound?.sourceUrl,
                 duration: sound?.duration,
+                isPlaying: widget.isPlayingSound,
               ),
             );
           }
@@ -646,9 +681,9 @@ class _ChatItemViewState extends State<ChatItemView> {
         isReceivedMsg: _isFromMsg,
         isSingleChat: widget.isSingleChat,
         avatarSize: widget.avatarSize ?? 42.h,
-        rightAvatar: OpenIM.iMManager.uInfo.faceURL,
-        leftAvatar: widget.message.senderFaceUrl,
-        leftName: widget.message.senderNickname ?? '',
+        rightAvatar: widget.rightAvatarUrl ?? OpenIM.iMManager.uInfo.faceURL,
+        leftAvatar: widget.leftAvatarUrl ?? widget.message.senderFaceUrl,
+        leftName: widget.leftName ?? widget.message.senderNickname ?? '',
         isUnread: !widget.message.isRead!,
         leftBubbleColor: widget.leftBubbleColor,
         rightBubbleColor: widget.rightBubbleColor,

@@ -27,8 +27,14 @@ class ChatCustomEmojiView extends StatelessWidget {
       if (data != null) {
         var map = json.decode(data!);
         var url = map['url'];
-        var w = map['width'] ?? 1;
-        var h = map['height'] ?? 1;
+        var w = map['width'] ?? 1.0;
+        var h = map['height'] ?? 1.0;
+        if (w is int) {
+          w = w.toDouble();
+        }
+        if (h is int) {
+          h = h.toDouble();
+        }
         var trulyWidth;
         var trulyHeight;
         if (widgetWidth < w) {
@@ -38,6 +44,7 @@ class ChatCustomEmojiView extends StatelessWidget {
           trulyWidth = w;
           trulyHeight = h;
         }
+
         return ImageUtil.networkImage(
           url: url,
           width: trulyWidth,
@@ -45,7 +52,9 @@ class ChatCustomEmojiView extends StatelessWidget {
           // cacheWidth: trulyWidth,
         );
       }
-    } catch (e) {}
+    } catch (e) {
+      print('e:$e');
+    }
     // 位置表情
     return Container();
   }
