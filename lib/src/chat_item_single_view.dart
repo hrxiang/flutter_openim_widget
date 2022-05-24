@@ -383,8 +383,11 @@ class ChatSingleLayout extends StatelessWidget {
   /// 阅后即焚
   Widget _buildDestroyAfterReadingView() {
     bool haveRead = !isUnread!;
+    // if (isPrivateChat && haveRead && readingDuration <= 0) {
+    //   onStartDestroy?.call();
+    // }
     return Visibility(
-      visible: haveRead && isPrivateChat && readingDuration > 0,
+      visible: haveRead && isPrivateChat /*&& readingDuration > 0*/,
       child: TimingView(
         sec: readingDuration,
         onFinished: onStartDestroy,

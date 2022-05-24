@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_openim_widget/flutter_openim_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TimingView extends StatefulWidget {
@@ -25,13 +24,18 @@ class _TimingViewState extends State<TimingView> {
   void initState() {
     _sec = widget.sec;
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      if (!mounted) return;
       --_sec;
       if (_sec <= 0) {
         _timer?.cancel();
         _timer = null;
         widget.onFinished?.call();
       }
-      setState(() {});
+      setState(() {
+        if (_sec <= 0) {
+          _sec = 0;
+        }
+      });
     });
     super.initState();
   }
