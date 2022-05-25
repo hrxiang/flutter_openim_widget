@@ -198,9 +198,9 @@ packages:
   flutter_openim_sdk:
     dependency: "direct main"
     description:
-      name: flutter_openim_sdk
-      url: "https://pub.flutter-io.cn"
-    source: hosted
+      path: "../flutter_openim_sdk"
+      relative: true
+    source: path
     version: "2.0.9"
   flutter_screenutil:
     dependency: "direct main"
