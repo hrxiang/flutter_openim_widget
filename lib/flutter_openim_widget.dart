@@ -16,6 +16,7 @@ export 'src/chat_item_group_view.dart';
 export 'src/chat_item_single_view.dart';
 export 'src/chat_itemview.dart';
 export 'src/chat_linear_progress_indicator.dart';
+export 'src/chat_listview.dart';
 export 'src/chat_location_view.dart';
 export 'src/chat_longpress_ripple.dart';
 export 'src/chat_menu.dart';

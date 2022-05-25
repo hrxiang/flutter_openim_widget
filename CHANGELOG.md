@@ -1,3 +1,9 @@
+## 2.0.9
+
+* Fix burning after reading bug<br>
+* Fix the bug of audio playback interruption<br>
+* Fix other bug<br>
+
 ## 2.0.8
 
 * Update im sdk to 2.0.8<br>

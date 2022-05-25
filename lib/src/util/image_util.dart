@@ -228,11 +228,8 @@ class ImageUtil {
     double? width,
     double? height,
   }) =>
-      assetImage(
-        'ic_load_error',
-        height: height,
-        width: width,
-      );
+      assetImage('ic_load_error',
+          height: height, width: width, color: Color(0x8F999999));
 
   static Widget notDisturb() => assetImage(
         'ic_not_disturb',

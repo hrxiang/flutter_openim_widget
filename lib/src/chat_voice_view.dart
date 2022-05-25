@@ -190,6 +190,7 @@ import 'package:lottie/lottie.dart';
 //   }
 // }
 
+/// 去掉语音播放功能
 class ChatVoiceView extends StatefulWidget {
   final int index;
   final Stream<int>? clickStream;
