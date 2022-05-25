@@ -3,6 +3,7 @@
 * Fix burning after reading bug<br>
 * Fix the bug of audio playback interruption<br>
 * Fix other bug<br>
+* Fix menu occlude bug<br>
 
 ## 2.0.8
 
