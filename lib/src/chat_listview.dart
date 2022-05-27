@@ -16,8 +16,14 @@ class CustomChatListView<T> extends StatefulWidget {
 
   final Widget Function(
       BuildContext context, int index, T data, bool isTopListItem) itemBuilder;
+
+  /// 信息消息列表
   final List<T> topList;
+
+  /// 历史消息列表
   final List<T> bottomList;
+
+  ///
   final ScrollController? controller;
 
   /// 往下滚动加载，拉取历史消息
@@ -35,17 +41,21 @@ class CustomChatListView<T> extends StatefulWidget {
 
 class _ChatListViewState extends State<CustomChatListView> {
   final Key centerKey = ValueKey('second-sliver-list');
-  var _scrollDownLoadMore = true;
-  var _scrollUpLoadMore = true;
+
+  /// 还存在历史消息未加载
+  var _scrollDownHasMore = true;
+
+  /// 还存在新消息未加载
+  var _scrollUpHasMore = true;
 
   @override
   void initState() {
     _onScrollDownLoadMore();
     widget.controller?.addListener(() {
-      if (_isBottom) {
+      if (_isBottom && _scrollDownHasMore) {
         print('-------------ChatListView scroll to bottom');
         _onScrollDownLoadMore();
-      } else if (_isTop && widget.enabledScrollUpLoad) {
+      } else if (_isTop && widget.enabledScrollUpLoad && _scrollUpHasMore) {
         _onScrollUpLoadMore();
         print('-------------ChatListView scroll to top');
       }
@@ -54,15 +64,16 @@ class _ChatListViewState extends State<CustomChatListView> {
   }
 
   bool get _isBottom =>
-      widget.controller!.offset >= widget.controller!.position.maxScrollExtent;
+      widget.controller!.offset == widget.controller!.position.maxScrollExtent;
 
-  bool get _isTop => widget.controller!.offset <= 0;
+  bool get _isTop =>
+      widget.controller!.offset == widget.controller!.position.minScrollExtent;
 
   void _onScrollDownLoadMore() {
     widget.onScrollDownLoad?.call().then((hasMore) {
       if (!mounted) return;
       setState(() {
-        _scrollDownLoadMore = hasMore;
+        _scrollDownHasMore = hasMore;
       });
     });
   }
@@ -71,13 +82,14 @@ class _ChatListViewState extends State<CustomChatListView> {
     widget.onScrollUpLoad?.call().then((hasMore) {
       if (!mounted) return;
       setState(() {
-        _scrollUpLoadMore = hasMore;
+        _scrollUpHasMore = hasMore;
       });
     });
   }
 
   Widget _buildLoadMoreView() => Container(
-        height: 20.h,
+        alignment: Alignment.center,
+        height: 60.h,
         child: CupertinoActivityIndicator(
           color: Colors.blueAccent,
         ),
@@ -85,46 +97,46 @@ class _ChatListViewState extends State<CustomChatListView> {
 
   @override
   Widget build(BuildContext context) {
-    print('----------------topList:${widget.topList.length}');
-    print('----------------bottomList:${widget.bottomList.length}');
-    return CustomScrollView(
-      center: centerKey,
-      controller: widget.controller,
-      reverse: true,
-      // shrinkWrap: true,
-      slivers: <Widget>[
-        if (_scrollDownLoadMore)
-          SliverToBoxAdapter(
-            child: _buildLoadMoreView(),
-          ),
-        SliverList(
-          delegate: SliverChildBuilderDelegate(
-            (_, index) => widget.itemBuilder(
-              context,
-              index,
-              widget.topList.elementAt(index),
-              true,
+    return Align(
+      // alignment: Alignment.topCenter,
+      child: CustomScrollView(
+        center: centerKey,
+        controller: widget.controller,
+        reverse: true,
+        slivers: <Widget>[
+          // 底部向上滚动
+          if (_scrollUpHasMore && widget.enabledScrollUpLoad)
+            SliverToBoxAdapter(child: _buildLoadMoreView()),
+          // bottom 加载历史消息
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (_, index) => widget.itemBuilder(
+                context,
+                index,
+                widget.topList.elementAt(index),
+                false,
+              ),
+              childCount: widget.topList.length,
             ),
-            childCount: widget.topList.length,
           ),
-        ),
-        SliverList(
-          key: centerKey,
-          delegate: SliverChildBuilderDelegate(
-            (_, index) => widget.itemBuilder(
-              context,
-              index,
-              widget.bottomList.elementAt(index),
-              true,
+          // top 加载新消息
+          SliverList(
+            key: centerKey,
+            delegate: SliverChildBuilderDelegate(
+              (_, index) => widget.itemBuilder(
+                context,
+                index,
+                widget.bottomList.elementAt(index),
+                true,
+              ),
+              childCount: widget.bottomList.length,
             ),
-            childCount: widget.bottomList.length,
           ),
-        ),
-        if (_scrollUpLoadMore && widget.enabledScrollUpLoad)
-          SliverToBoxAdapter(
-            child: _buildLoadMoreView(),
-          ),
-      ],
+          // 顶部向下滚动
+          if (_scrollDownHasMore)
+            SliverToBoxAdapter(child: _buildLoadMoreView()),
+        ],
+      ),
     );
   }
 }
