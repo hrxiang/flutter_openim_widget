@@ -94,6 +94,12 @@ class _ChatVideoPlayerViewState extends State<ChatVideoPlayerView> {
       videoPlayerController: _videoPlayerController,
       autoPlay: true,
       looping: false,
+      showControlsOnInitialize: false,
+      optionsTranslation: OptionsTranslation(
+        playbackSpeedButtonText: UILocalizations.playSpeed,
+        cancelButtonText: UILocalizations.cancel,
+      ),
+      // showOptions: false,
       // Try playing around with some of these other options:
       // showControls: false,
       // materialProgressColors: ChewieProgressColors(

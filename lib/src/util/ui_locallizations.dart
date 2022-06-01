@@ -61,6 +61,8 @@ class UILocalizations {
       "youMuted": 'You have been muted',
       "groupMuted": 'Enable group mute',
       "inBlacklist": 'The other party has been blacklisted',
+      "playSpeed": 'Play speed',
+      "cancel": 'Cancel',
     },
     'zh': {
       'top': '置顶',
@@ -110,6 +112,8 @@ class UILocalizations {
       "youMuted": '你已被禁言',
       "groupMuted": '已开启群禁言',
       "inBlacklist": '对方已被拉入黑名单',
+      "playSpeed": '播放速度',
+      "cancel": '取消',
     },
   };
 
@@ -210,4 +214,8 @@ class UILocalizations {
   static String get add => _value(key: 'add');
 
   static String get inBlacklist => _value(key: 'inBlacklist');
+
+  static String get playSpeed => _value(key: 'playSpeed');
+
+  static String get cancel => _value(key: 'cancel');
 }
