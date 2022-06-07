@@ -1,3 +1,8 @@
+## 2.0.9+1
+
+* Fix bug<br>
+* Adapt to flutter 3.0<br>
+
 ## 2.0.9
 
 * Fix burning after reading bug<br>
