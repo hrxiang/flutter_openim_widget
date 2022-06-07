@@ -90,8 +90,8 @@ class _CustomPopupMenuState extends State<CopyCustomPopupMenu> {
     );
 
     final viewInsets = EdgeInsets.fromWindowPadding(
-      WidgetsBinding.instance!.window.viewInsets,
-      WidgetsBinding.instance!.window.devicePixelRatio,
+      WidgetsBinding.instance.window.viewInsets,
+      WidgetsBinding.instance.window.devicePixelRatio,
     );
 
     var keyboardHeight = viewInsets.bottom;
@@ -200,7 +200,7 @@ class _CustomPopupMenuState extends State<CopyCustomPopupMenu> {
     _controller = widget.controller;
     if (_controller == null) _controller = CustomPopupMenuController();
     _controller?.addListener(_updateView);
-    WidgetsBinding.instance?.addPostFrameCallback((call) {
+    WidgetsBinding.instance.addPostFrameCallback((call) {
       if (mounted) {
         _childBox = context.findRenderObject() as RenderBox?;
         _parentBox =

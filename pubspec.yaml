@@ -13,17 +13,17 @@ dependencies:
   font_awesome_flutter: ^10.0.0
   rxdart: ^0.27.3
   flutter_screenutil: ^5.3.1
-  flutter_slidable: ^1.2.0
-#  cached_network_image: ^3.2.0
-#  photo_view: ^0.13.0
+  flutter_slidable: ^1.3.0
+  cached_network_image: ^3.2.1
+  photo_view: ^0.14.0
   path_provider: ^2.0.9
   flutter_image_compress: ^1.1.0
   record: ^3.0.2
   just_audio: ^0.9.20
   lottie: ^1.2.2
   permission_handler: ^9.1.0
-  extended_text_field: ^10.0.1
-  extended_image: ^6.0.2+1
+  extended_text_field: ^10.1.0
+#  extended_image: ^6.2.1
   focus_detector: ^2.0.1
   sprintf: ^6.0.0
   flutter_inappwebview: ^5.3.2

@@ -108,7 +108,7 @@ class _ChatListViewState extends State<CustomChatListView> {
         // bottom 加载历史消息
         SliverList(
           delegate: SliverChildBuilderDelegate(
-                (_, index) => widget.itemBuilder(
+            (_, index) => widget.itemBuilder(
               context,
               index,
               widget.topList.elementAt(index),
@@ -120,7 +120,7 @@ class _ChatListViewState extends State<CustomChatListView> {
         SliverList(
           key: centerKey,
           delegate: SliverChildBuilderDelegate(
-                (_, index) => widget.itemBuilder(
+            (_, index) => widget.itemBuilder(
               context,
               index,
               widget.bottomList.elementAt(index),
@@ -129,8 +129,7 @@ class _ChatListViewState extends State<CustomChatListView> {
           ),
         ),
         // 顶部向下滚动
-        if (_scrollDownHasMore)
-          SliverToBoxAdapter(child: _buildLoadMoreView()),
+        if (_scrollDownHasMore) SliverToBoxAdapter(child: _buildLoadMoreView()),
       ],
     );
   }
