@@ -63,6 +63,7 @@ class UILocalizations {
       "inBlacklist": 'The other party has been blacklisted',
       "playSpeed": 'Play speed',
       "cancel": 'Cancel',
+      "groupNotice": 'Group Notice',
     },
     'zh': {
       'top': '置顶',
@@ -114,6 +115,7 @@ class UILocalizations {
       "inBlacklist": '对方已被拉入黑名单',
       "playSpeed": '播放速度',
       "cancel": '取消',
+      "groupNotice": '群公告',
     },
   };
 
@@ -218,4 +220,6 @@ class UILocalizations {
   static String get playSpeed => _value(key: 'playSpeed');
 
   static String get cancel => _value(key: 'cancel');
+
+  static String get groupNotice => _value(key: 'groupNotice');
 }

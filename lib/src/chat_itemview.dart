@@ -6,8 +6,9 @@ import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_openim_widget/flutter_openim_widget.dart';
 import 'package:flutter_openim_widget/src/chat_custom_emoji_view.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:focus_detector/focus_detector.dart';
 import 'package:rxdart/rxdart.dart';
+
+import 'copy_focus_detector.dart';
 
 class MsgStreamEv<T> {
   final String msgId;
@@ -258,6 +259,9 @@ class ChatItemView extends StatefulWidget {
   final String? rightName;
   final String? rightAvatarUrl;
 
+  /// 将公告消息做普通消息显示
+  final bool showNoticeMessage;
+
   const ChatItemView({
     Key? key,
     required this.index,
@@ -327,6 +331,7 @@ class ChatItemView extends StatefulWidget {
     this.rightName,
     this.leftAvatarUrl,
     this.rightAvatarUrl,
+    this.showNoticeMessage = false,
   }) : super(key: key);
 
   @override
@@ -429,6 +434,10 @@ class _ChatItemViewState extends State<ChatItemView> {
   Widget? _buildItemView() {
     Widget? child;
     try {
+      // 公告消息
+      if (widget.showNoticeMessage && null != _noticeView) {
+        return _noticeView;
+      }
       switch (widget.message.contentType) {
         case MessageType.text:
           {
@@ -827,6 +836,39 @@ class _ChatItemViewState extends State<ChatItemView> {
         return ChatQuoteView(
           message: message,
           onTap: widget.onTapQuoteMsg,
+        );
+      }
+    }
+    return null;
+  }
+
+  /// 公告消息
+  Widget? get _noticeView {
+    // 公告消息
+    if (widget.message.contentType! == MessageType.groupInfoSetNotification) {
+      final elem = widget.message.notificationElem!;
+      final map = json.decode(elem.detail!);
+      final notification = GroupNotification.fromJson(map);
+      if (notification.group?.notification != null &&
+          notification.group!.notification!.trim().isNotEmpty) {
+        return _buildCommonItemView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ChatAtText(
+                text: UILocalizations.groupNotice,
+                textStyle: widget.textStyle,
+                textScaleFactor: widget.textScaleFactor,
+                patterns: widget.patterns,
+              ),
+              ChatAtText(
+                text: notification.group!.notification!,
+                textStyle: widget.textStyle,
+                textScaleFactor: widget.textScaleFactor,
+                patterns: widget.patterns,
+              )
+            ],
+          ),
         );
       }
     }

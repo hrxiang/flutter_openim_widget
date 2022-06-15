@@ -24,7 +24,8 @@ dependencies:
   permission_handler: ^9.1.0
   extended_text_field: ^10.1.0
 #  extended_image: ^6.2.1
-  focus_detector: ^2.0.1
+#  focus_detector: ^2.0.1
+  visibility_detector: ^0.3.3
   sprintf: ^6.0.0
   flutter_inappwebview: ^5.3.2
   animate_do: ^2.1.0
