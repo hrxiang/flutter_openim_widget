@@ -319,17 +319,19 @@ class ChatPicturePreview extends StatelessWidget {
             );
           },
           itemCount: picList.length,
-          loadingBuilder: (context, event) => Center(
-            child: Container(
-              width: 20.0,
-              height: 20.0,
-              child: CircularProgressIndicator(
-                value: event == null
-                    ? 0
-                    : event.cumulativeBytesLoaded / event.expectedTotalBytes!,
+          loadingBuilder: (context, event) {
+            return Center(
+              child: Container(
+                width: 20.0,
+                height: 20.0,
+                child: CircularProgressIndicator(
+                  value: (event == null || null == event.expectedTotalBytes)
+                      ? null
+                      : event.cumulativeBytesLoaded / event.expectedTotalBytes!,
+                ),
               ),
-            ),
-          ),
+            );
+          },
           // backgroundDecoration: widget.backgroundDecoration,
           pageController: controller,
           onPageChanged: onPageChanged,
