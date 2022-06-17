@@ -3,8 +3,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_openim_widget/flutter_openim_widget.dart';
 
-import 'chat_emoji_view.dart';
-
 typedef AtTextCallback = Function(String showText, String actualText);
 
 class AtSpecialTextSpanBuilder extends SpecialTextSpanBuilder {

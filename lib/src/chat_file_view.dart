@@ -3,8 +3,6 @@ import 'package:flutter_openim_widget/flutter_openim_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import 'chat_linear_progress_indicator.dart';
-
 /*
 class ChatFileView extends StatefulWidget {
   const ChatFileView({
