@@ -358,8 +358,8 @@ class ImageUtil {
         width: width,
         height: height,
         fit: fit,
-        memCacheWidth: cacheWidth ?? (lowMemory ? (1.sw * .75).toInt() : null),
-        memCacheHeight: cacheHeight,
+        memCacheWidth: _calculateCacheWidth(width),
+        // memCacheHeight: cacheHeight,
         // placeholder: placeholder,
         progressIndicatorBuilder: (context, url, progress) => Container(
           width: 10.0,
@@ -376,4 +376,8 @@ class ImageUtil {
         errorWidget: (_, url, er) =>
             errorWidget ?? error(width: width, height: height),
       );
+
+  static int? _calculateCacheWidth(double? width) {
+    return (width == null ? 1.sw : (width < 1.sw ? width : 1.sw)).toInt();
+  }
 }
