@@ -8,8 +8,6 @@ import 'package:flutter_openim_widget/src/chat_custom_emoji_view.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rxdart/rxdart.dart';
 
-import 'copy_focus_detector.dart';
-
 class MsgStreamEv<T> {
   final String msgId;
   final T value;
@@ -262,6 +260,9 @@ class ChatItemView extends StatefulWidget {
   /// 将公告消息做普通消息显示
   final bool showNoticeMessage;
 
+  /// 显示长按菜单
+  final bool showLongPressMenu;
+
   const ChatItemView({
     Key? key,
     required this.index,
@@ -332,6 +333,7 @@ class ChatItemView extends StatefulWidget {
     this.leftAvatarUrl,
     this.rightAvatarUrl,
     this.showNoticeMessage = false,
+    this.showLongPressMenu = true,
   }) : super(key: key);
 
   @override
@@ -720,6 +722,7 @@ class _ChatItemViewState extends State<ChatItemView> {
         failedResend: widget.onFailedResend,
         customLeftAvatarBuilder: widget.customLeftAvatarBuilder,
         customRightAvatarBuilder: widget.customRightAvatarBuilder,
+        showLongPressMenu: widget.showLongPressMenu,
       );
 
   Widget _menuBuilder() => ChatLongPressMenu(
