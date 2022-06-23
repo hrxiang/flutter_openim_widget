@@ -326,7 +326,7 @@ class ChatSingleLayout extends StatelessWidget {
   /// 群聊
   Widget _buildGroupReadStatusView() {
     if (needReadCount == 0) return SizedBox();
-    int unreadCount = needReadCount - haveReadCount;
+    int unreadCount = needReadCount - haveReadCount - 1;
     bool isAllRead = unreadCount <= 0;
     return Visibility(
       visible: !isReceivedMsg,

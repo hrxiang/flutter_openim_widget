@@ -230,9 +230,6 @@ class ChatItemView extends StatefulWidget {
   /// 阅读时长s
   final int readingDuration;
 
-  /// 该条群消息需要阅读的人数
-  final int needReadCount;
-
   /// 预览群消息已读状态
   final Function()? onViewMessageReadStatus;
 
@@ -319,7 +316,6 @@ class ChatItemView extends StatefulWidget {
     this.readingDuration = 30,
     this.isPrivateChat = false,
     this.onDestroyMessage,
-    this.needReadCount = 0,
     this.onViewMessageReadStatus,
     this.onFailedResend,
     this.customMessageBuilder,
@@ -716,7 +712,7 @@ class _ChatItemViewState extends State<ChatItemView> {
         isPrivateChat: widget.isPrivateChat,
         onStartDestroy: widget.onDestroyMessage,
         readingDuration: widget.readingDuration,
-        needReadCount: widget.needReadCount,
+        needReadCount: _needReadCount,
         haveReadCount: _haveReadCount,
         viewMessageReadStatus: widget.onViewMessageReadStatus,
         failedResend: widget.onFailedResend,
@@ -916,6 +912,9 @@ class _ChatItemViewState extends State<ChatItemView> {
       widget.message.attachedInfoElem?.groupHasReadInfo?.hasReadUserIDList
           ?.length ??
       0;
+
+  int get _needReadCount =>
+      widget.message.attachedInfoElem?.groupHasReadInfo?.groupMemberCount ?? 0;
 
   bool get _haveUsableMenu =>
       _showCopyMenu ||
