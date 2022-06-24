@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:chewie/chewie.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_openim_widget/flutter_openim_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -13,20 +12,22 @@ class ChatVideoPlayerView extends StatefulWidget {
   final String? path;
   final String? url;
   final String? coverUrl;
-  final String? tag;
+  final String? heroTag;
   final Dio? dio;
   final Function(String url, String path)? onStartDownload;
   final Function(String url, String path)? onDownloadFinished;
+  final bool enabledHero;
 
   const ChatVideoPlayerView({
     Key? key,
     this.path,
     this.url,
     this.coverUrl,
-    this.tag,
+    this.heroTag,
     this.dio,
     this.onDownloadFinished,
     this.onStartDownload,
+    this.enabledHero = false,
   }) : super(key: key);
 
   @override
@@ -128,8 +129,9 @@ class _ChatVideoPlayerViewState extends State<ChatVideoPlayerView> {
     ]);
     return Material(
       color: Color(0xFF000000),
-      // child: widget.tag == null ? child : Hero(tag: widget.tag!, child: child),
-      child: child,
+      child: (widget.enabledHero && widget.heroTag != null)
+          ? Hero(tag: widget.heroTag!, child: child)
+          : child,
     );
   }
 

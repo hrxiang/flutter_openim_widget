@@ -225,23 +225,26 @@ class ChatPicturePreview extends StatelessWidget {
     Key? key,
     required this.picList,
     this.index = 0,
-    this.tag,
+    this.heroTag,
     // this.onDownload,
     this.dio,
     this.onStartDownload,
     this.onDownloadFinished,
     this.background,
+    this.enabledHero = false,
   })  : this.controller = PageController(initialPage: index),
         super(key: key);
   final List<PicInfo> picList;
   final int index;
-  final String? tag;
+  final String? heroTag;
   final PageController controller;
+
   // final Future<bool> Function(String)? onDownload;
   final Dio? dio;
   final Function(String url, String cachePath)? onStartDownload;
   final Function(String url, String cachePath)? onDownloadFinished;
   final Color? background;
+  final bool enabledHero;
 
   void _startDownload(int index) async {
     var url = picList.elementAt(index).url!;
@@ -274,8 +277,9 @@ class ChatPicturePreview extends StatelessWidget {
     );
     return Material(
       color: Color(0xFF000000),
-      // child: tag == null ? child : Hero(tag: tag!, child: child),
-      child: child,
+      child: enabledHero && heroTag != null
+          ? Hero(tag: heroTag!, child: child)
+          : child,
     );
   }
 
@@ -291,7 +295,7 @@ class ChatPicturePreview extends StatelessWidget {
   }
 
   PhotoViewHeroAttributes? _heroTag(int index) {
-    var hero = picList.elementAt(index).id ?? tag;
+    var hero = picList.elementAt(index).id ?? heroTag;
     if (hero != null) {
       return PhotoViewHeroAttributes(tag: hero);
     }

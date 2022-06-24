@@ -4,7 +4,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_openim_widget/flutter_openim_widget.dart';
-import 'package:flutter_openim_widget/src/chat_custom_emoji_view.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rxdart/rxdart.dart';
 
