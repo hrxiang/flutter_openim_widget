@@ -274,8 +274,8 @@ class ChatPicturePreview extends StatelessWidget {
     );
     return Material(
       color: Color(0xFF000000),
-      child: tag == null ? child : Hero(tag: tag!, child: child),
-      // child: child,
+      // child: tag == null ? child : Hero(tag: tag!, child: child),
+      child: child,
     );
   }
 
@@ -313,7 +313,7 @@ class ChatPicturePreview extends StatelessWidget {
             // return  Image(image:_provider(index)!);
             return PhotoViewGalleryPageOptions(
               imageProvider: _provider(index),
-              initialScale: PhotoViewComputedScale.contained * 0.8,
+              initialScale: PhotoViewComputedScale.contained /** 0.8*/,
               // heroAttributes: _heroTag(index),
               errorBuilder: (context, error, stackTrace) => _buildErrorView(),
             );

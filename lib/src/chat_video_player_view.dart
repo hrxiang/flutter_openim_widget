@@ -128,7 +128,8 @@ class _ChatVideoPlayerViewState extends State<ChatVideoPlayerView> {
     ]);
     return Material(
       color: Color(0xFF000000),
-      child: widget.tag == null ? child : Hero(tag: widget.tag!, child: child),
+      // child: widget.tag == null ? child : Hero(tag: widget.tag!, child: child),
+      child: child,
     );
   }
 

@@ -35,6 +35,11 @@ class _ChatVoiceRecordBarState extends State<ChatVoiceRecordBar> {
           _pressing = false;
         });
       },
+      onTapCancel: (){
+        setState(() {
+          _pressing = false;
+        });
+      },
       onLongPressStart: (details) {
         HapticFeedback.heavyImpact();
         widget.onLongPressStart(details);
