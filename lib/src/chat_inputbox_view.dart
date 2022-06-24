@@ -4,6 +4,8 @@ import 'package:flutter_openim_widget/flutter_openim_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rxdart/rxdart.dart';
 
+double kVoiceRecordBarHeight = 44.h;
+
 class ChatInputBoxView extends StatefulWidget {
   ChatInputBoxView({
     Key? key,
@@ -284,7 +286,7 @@ class _ChatInputBoxViewState extends State<ChatInputBoxView>
 
   Widget _buildTextFiled() => Container(
         alignment: Alignment.center,
-        constraints: BoxConstraints(minHeight: 40.h),
+        constraints: BoxConstraints(minHeight: kVoiceRecordBarHeight),
         decoration: BoxDecoration(
           color: Color(0xFFFFFFFF),
           borderRadius: BorderRadius.circular(4),

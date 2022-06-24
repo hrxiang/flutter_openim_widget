@@ -35,7 +35,7 @@ class _ChatVoiceRecordBarState extends State<ChatVoiceRecordBar> {
           _pressing = false;
         });
       },
-      onTapCancel: (){
+      onTapCancel: () {
         setState(() {
           _pressing = false;
         });
@@ -62,7 +62,7 @@ class _ChatVoiceRecordBarState extends State<ChatVoiceRecordBar> {
       },
       child: Container(
         // constraints: BoxConstraints(minHeight: 40.h),
-        height: 40.h,
+        height: kVoiceRecordBarHeight,
         alignment: Alignment.center,
         decoration: BoxDecoration(
           color: Color(0xFF1D6BED).withOpacity(_pressing ? 0.3 : 1),
