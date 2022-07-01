@@ -215,7 +215,7 @@ packages:
       path: "../flutter_openim_sdk"
       relative: true
     source: path
-    version: "2.1.0"
+    version: "2.1.0+1"
   flutter_screenutil:
     dependency: "direct main"
     description:
