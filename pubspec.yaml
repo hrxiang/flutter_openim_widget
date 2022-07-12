@@ -38,7 +38,7 @@ dependencies:
   mime_type: ^1.0.0
   dio: ^4.0.6
   flutter_keyboard_visibility: ^5.3.0
-#  flutter_openim_sdk: ^2.1.0
+#  flutter_openim_sdk: ^2.2.0
   flutter_openim_sdk:
     path: ../flutter_openim_sdk
 
