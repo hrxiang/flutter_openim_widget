@@ -64,6 +64,7 @@ class UILocalizations {
       "playSpeed": 'Play speed',
       "cancel": 'Cancel',
       "groupNotice": 'Group Notice',
+      "groupOwnerOrAdminRevokeAMsg": "%s revoked %s' message",
     },
     'zh': {
       'top': '置顶',
@@ -116,6 +117,7 @@ class UILocalizations {
       "playSpeed": '播放速度',
       "cancel": '取消',
       "groupNotice": '群公告',
+      "groupOwnerOrAdminRevokeAMsg": "%s 撤回了 %s 的消息",
     },
   };
 
@@ -222,4 +224,7 @@ class UILocalizations {
   static String get cancel => _value(key: 'cancel');
 
   static String get groupNotice => _value(key: 'groupNotice');
+
+  static String get groupOwnerOrAdminRevokeAMsg =>
+      _value(key: 'groupOwnerOrAdminRevokeAMsg');
 }

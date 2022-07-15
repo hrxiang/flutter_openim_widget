@@ -6,6 +6,7 @@ import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_openim_widget/flutter_openim_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:sprintf/sprintf.dart';
 
 class MsgStreamEv<T> {
   final String msgId;
@@ -629,18 +630,7 @@ class _ChatItemViewState extends State<ChatItemView> {
         default:
           {
             _isHintMsg = true;
-            var text;
-            if (MessageType.revoke == widget.message.contentType) {
-              text = '$_who ${UILocalizations.revokeAMsg}';
-            } else {
-              try {
-                var content = json.decode(widget.message.content!);
-                text = content['defaultTips'];
-              } catch (e) {
-                print('--------message content parse error----->e:$e');
-                text = json.encode(widget.message);
-              }
-            }
+            var text = _parseHintText();
             if (null == text) _isHintMsg = false;
             child = _buildCommonItemView(
               isBubbleBg: null == text,
@@ -924,4 +914,50 @@ class _ChatItemViewState extends State<ChatItemView> {
       _showMultiChoiceMenu ||
       _showTranslationMenu ||
       _showEmojiAddMenu;
+
+  String? _parseHintText() {
+    String? text;
+    if (MessageType.revoke == widget.message.contentType) {
+      text = '$_who ${UILocalizations.revokeAMsg}';
+    } else if (MessageType.advancedRevoke == widget.message.contentType) {
+      if (widget.message.isSingleChat) {
+        // 单聊
+        text = '$_who ${UILocalizations.revokeAMsg}';
+      } else {
+        // 群聊撤回包含：撤回自己消息，群组或管理员撤回其他人消息
+        var map = json.decode(widget.message.content!);
+        var info = RevokedInfo.fromJson(map);
+        if (info.revokerID == info.sourceMessageSendID) {
+          text = '$_who ${UILocalizations.revokeAMsg}';
+        } else {
+          late String revoker;
+          late String sender;
+          if (info.revokerID == OpenIM.iMManager.uid) {
+            revoker = UILocalizations.you;
+          } else {
+            revoker = info.revokerNickname!;
+          }
+          if (info.sourceMessageSendID == OpenIM.iMManager.uid) {
+            sender = UILocalizations.you;
+          } else {
+            sender = info.sourceMessageSenderNickname!;
+          }
+
+          text = sprintf(
+            UILocalizations.groupOwnerOrAdminRevokeAMsg,
+            [revoker, sender],
+          );
+        }
+      }
+    } else {
+      try {
+        var content = json.decode(widget.message.content!);
+        text = content['defaultTips'];
+      } catch (e) {
+        print('--------message content parse error----->e:$e');
+        text = json.encode(widget.message);
+      }
+    }
+    return text;
+  }
 }
