@@ -88,8 +88,8 @@ class _FocusDetectorState extends State<FocusDetector>
 
   @override
   Widget build(BuildContext context) => VisibilityDetector(
-    key: _visibilityDetectorKey,
-    onVisibilityChanged: (visibilityInfo) {
+        key: _visibilityDetectorKey,
+        onVisibilityChanged: (visibilityInfo) {
           try {
             // 当widget高度超过一屏时visibilityInfo.visibleFraction的值达不到1
             final visibleBoundsBottom = visibilityInfo.visibleBounds.bottom;
@@ -101,8 +101,8 @@ class _FocusDetectorState extends State<FocusDetector>
             _notifyVisibilityStatusChange(visibleFraction);
           }
         },
-    child: widget.child,
-  );
+        child: widget.child,
+      );
 
   /// Notifies changes in the widget's visibility.
   void _notifyVisibilityStatusChange(double newVisibleFraction) {

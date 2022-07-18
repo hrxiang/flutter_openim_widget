@@ -178,28 +178,28 @@ class ChatItemView extends StatefulWidget {
   final Function()? onTapAddEmojiMenu;
 
   /// Click the copy button event on the menu
-  final bool? enabledCopyMenu;
+  final bool enabledCopyMenu;
 
   /// Click the delete button event on the menu
-  final bool? enabledDelMenu;
+  final bool enabledDelMenu;
 
   /// Click the forward button event on the menu
-  final bool? enabledForwardMenu;
+  final bool enabledForwardMenu;
 
   /// Click the reply button event on the menu
-  final bool? enabledReplyMenu;
+  final bool enabledReplyMenu;
 
   /// Click the revoke button event on the menu
-  final bool? enabledRevokeMenu;
+  final bool enabledRevokeMenu;
 
   ///
-  final bool? enabledMultiMenu;
+  final bool enabledMultiMenu;
 
   ///
-  final bool? enabledTranslationMenu;
+  final bool enabledTranslationMenu;
 
   ///
-  final bool? enabledAddEmojiMenu;
+  final bool enabledAddEmojiMenu;
 
   /// 当前是否是多选模式
   final bool multiSelMode;
@@ -298,14 +298,14 @@ class ChatItemView extends StatefulWidget {
     this.onTapMultiMenu,
     this.onTapTranslationMenu,
     this.onTapAddEmojiMenu,
-    this.enabledCopyMenu,
-    this.enabledMultiMenu,
-    this.enabledDelMenu,
-    this.enabledForwardMenu,
-    this.enabledReplyMenu,
-    this.enabledRevokeMenu,
-    this.enabledTranslationMenu,
-    this.enabledAddEmojiMenu,
+    this.enabledCopyMenu = true,
+    this.enabledMultiMenu = true,
+    this.enabledDelMenu = true,
+    this.enabledForwardMenu = true,
+    this.enabledReplyMenu = true,
+    this.enabledRevokeMenu = true,
+    this.enabledTranslationMenu = true,
+    this.enabledAddEmojiMenu = true,
     this.multiSelMode = false,
     this.onMultiSelChanged,
     this.multiList = const [],
@@ -746,55 +746,55 @@ class _ChatItemViewState extends State<ChatItemView> {
         MenuInfo(
           icon: ImageUtil.menuCopy(),
           text: UILocalizations.copy,
-          enabled: _showCopyMenu,
+          enabled: widget.enabledCopyMenu,
           textStyle: menuTextStyle,
           onTap: widget.onTapCopyMenu,
         ),
         MenuInfo(
           icon: ImageUtil.menuDel(),
           text: UILocalizations.delete,
-          enabled: _showDelMenu,
+          enabled: widget.enabledDelMenu,
           textStyle: menuTextStyle,
           onTap: widget.onTapDelMenu,
         ),
         MenuInfo(
           icon: ImageUtil.menuForward(),
           text: UILocalizations.forward,
-          enabled: _showForwardMenu,
+          enabled: widget.enabledForwardMenu,
           textStyle: menuTextStyle,
           onTap: widget.onTapForwardMenu,
         ),
         MenuInfo(
           icon: ImageUtil.menuReply(),
           text: UILocalizations.reply,
-          enabled: _showReplyMenu,
+          enabled: widget.enabledReplyMenu,
           textStyle: menuTextStyle,
           onTap: widget.onTapReplyMenu,
         ),
         MenuInfo(
             icon: ImageUtil.menuRevoke(),
             text: UILocalizations.revoke,
-            enabled: _showRevokeMenu,
+            enabled: widget.enabledRevokeMenu,
             textStyle: menuTextStyle,
             onTap: widget.onTapRevokeMenu),
         MenuInfo(
           icon: ImageUtil.menuMultiChoice(),
           text: UILocalizations.multiChoice,
-          enabled: _showMultiChoiceMenu,
+          enabled: widget.enabledMultiMenu,
           textStyle: menuTextStyle,
           onTap: widget.onTapMultiMenu,
         ),
         MenuInfo(
           icon: ImageUtil.menuTranslation(),
           text: UILocalizations.translation,
-          enabled: _showTranslationMenu,
+          enabled: widget.enabledTranslationMenu,
           textStyle: menuTextStyle,
           onTap: widget.onTapTranslationMenu,
         ),
         MenuInfo(
           icon: ImageUtil.menuAddEmoji(),
           text: UILocalizations.add,
-          enabled: _showEmojiAddMenu,
+          enabled: widget.enabledAddEmojiMenu,
           textStyle: menuTextStyle,
           onTap: widget.onTapAddEmojiMenu,
         ),
@@ -863,37 +863,6 @@ class _ChatItemViewState extends State<ChatItemView> {
     return null;
   }
 
-  bool get _showCopyMenu =>
-      widget.enabledCopyMenu ?? widget.message.contentType == MessageType.text;
-
-  bool get _showDelMenu => widget.enabledDelMenu ?? true;
-
-  bool get _showForwardMenu =>
-      widget.enabledForwardMenu ??
-      widget.message.contentType != MessageType.voice;
-
-  bool get _showReplyMenu =>
-      widget.enabledReplyMenu ??
-      widget.message.contentType == MessageType.text ||
-          widget.message.contentType == MessageType.video ||
-          widget.message.contentType == MessageType.picture ||
-          widget.message.contentType == MessageType.location ||
-          widget.message.contentType == MessageType.quote;
-
-  bool get _showRevokeMenu =>
-      widget.enabledRevokeMenu ?? widget.message.sendID == OpenIM.iMManager.uid;
-
-  bool get _showMultiChoiceMenu => widget.enabledMultiMenu ?? true;
-
-  bool get _showTranslationMenu =>
-      widget.enabledTranslationMenu ??
-      widget.message.contentType == MessageType.text;
-
-  bool get _showEmojiAddMenu =>
-      widget.enabledAddEmojiMenu ??
-      widget.message.contentType == MessageType.picture ||
-          widget.message.contentType == MessageType.custom_face;
-
   String get _who =>
       _isFromMsg ? widget.message.senderNickname ?? '' : UILocalizations.you;
 
@@ -906,14 +875,16 @@ class _ChatItemViewState extends State<ChatItemView> {
       widget.message.attachedInfoElem?.groupHasReadInfo?.groupMemberCount ?? 0;
 
   bool get _haveUsableMenu =>
-      _showCopyMenu ||
-      _showDelMenu ||
-      _showForwardMenu ||
-      _showReplyMenu ||
-      _showRevokeMenu ||
-      _showMultiChoiceMenu ||
-      _showTranslationMenu ||
-      _showEmojiAddMenu;
+      widget.enabledCopyMenu ||
+      widget.enabledDelMenu ||
+      widget.enabledForwardMenu ||
+      widget.enabledReplyMenu ||
+      widget.enabledRevokeMenu ||
+      widget.enabledMultiMenu ||
+      widget.enabledTranslationMenu ||
+      widget.enabledAddEmojiMenu;
+
+  // bool get _isNotification => widget.message.contentType! > 1000;
 
   String? _parseHintText() {
     String? text;
