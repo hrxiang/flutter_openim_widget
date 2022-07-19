@@ -30,7 +30,16 @@ class ChatInputBoxView extends StatefulWidget {
     this.isGroupMuted = false,
     this.muteEndTime = 0,
     this.background,
+    this.iconColor,
+    this.mutedIconColor = const Color(0xFFbdbdbd),
     this.isInBlacklist = false,
+    this.speakIcon,
+    this.emojiIcon,
+    this.keyboardIcon,
+    this.toolsIcon,
+    this.buttonColor,
+    this.buttonTextStyle,
+    this.buttonRadius,
   }) : super(key: key);
   final AtTextCallback? atCallback;
   final Map<String, String> allAtMap;
@@ -54,6 +63,15 @@ class ChatInputBoxView extends StatefulWidget {
   final int muteEndTime;
   final bool isInBlacklist;
   final Color? background;
+  final Color? iconColor;
+  final Color mutedIconColor;
+  final Color? buttonColor;
+  final TextStyle? buttonTextStyle;
+  final double? buttonRadius;
+  final Widget? speakIcon;
+  final Widget? keyboardIcon;
+  final Widget? toolsIcon;
+  final Widget? emojiIcon;
 
   @override
   _ChatInputBoxViewState createState() => _ChatInputBoxViewState();
@@ -238,16 +256,17 @@ class _ChatInputBoxViewState extends State<ChatInputBoxView>
           alignment: Alignment.center,
           margin: EdgeInsets.only(right: 10.w),
           decoration: BoxDecoration(
-            color: Color(0xFF1B72EC),
-            borderRadius: BorderRadius.circular(4),
+            color: widget.buttonColor ?? const Color(0xFF1B72EC),
+            borderRadius: BorderRadius.circular(widget.buttonRadius ?? 4),
           ),
           child: Text(
             UILocalizations.send,
             maxLines: 1,
-            style: TextStyle(
-              fontSize: 14.sp,
-              color: Color(0xFFFFFFFF),
-            ),
+            style: widget.buttonTextStyle ??
+                TextStyle(
+                  fontSize: 14.sp,
+                  color: Color(0xFFFFFFFF),
+                ),
           ),
         ),
       );
@@ -274,11 +293,7 @@ class _ChatInputBoxViewState extends State<ChatInputBoxView>
                   ),
                 ),
               ),
-              ImageUtil.assetImage(
-                'ic_del_quote',
-                width: 14.w,
-                height: 15.h,
-              ),
+              ImageUtil.delQuote(),
             ],
           ),
         ),
@@ -334,6 +349,7 @@ class _ChatInputBoxViewState extends State<ChatInputBoxView>
     color: Color(0xFF333333),
     textBaseline: TextBaseline.alphabetic,
   );
+
   static var atStyle = TextStyle(
     fontSize: 14.sp,
     color: Colors.blue,
@@ -346,10 +362,10 @@ class _ChatInputBoxViewState extends State<ChatInputBoxView>
   bool get _isUserMuted =>
       widget.muteEndTime * 1000 > DateTime.now().millisecondsSinceEpoch;
 
-  Color? get _mutedColor => _isMuted ? Color(0xFFbdbdbd) : null;
+  Color? get _color => _isMuted ? widget.mutedIconColor : widget.iconColor;
 
   Widget _speakBtn() => _buildBtn(
-        icon: ImageUtil.speak(color: _mutedColor),
+        icon: widget.speakIcon ?? ImageUtil.speak(color: _color),
         onTap: _isMuted
             ? null
             : () {
@@ -364,7 +380,7 @@ class _ChatInputBoxViewState extends State<ChatInputBoxView>
       );
 
   Widget _keyboardLeftBtn() => _buildBtn(
-        icon: ImageUtil.keyboard(color: _mutedColor),
+        icon: widget.keyboardIcon ?? ImageUtil.keyboard(color: _color),
         onTap: _isMuted
             ? null
             : () {
@@ -379,8 +395,7 @@ class _ChatInputBoxViewState extends State<ChatInputBoxView>
 
   Widget _keyboardRightBtn() => _buildBtn(
         padding: emojiButtonPadding,
-        // padding: EdgeInsets.only(left: 10.w, right: 5.w),
-        icon: ImageUtil.keyboard(color: _mutedColor),
+        icon: widget.keyboardIcon ?? ImageUtil.keyboard(color: _color),
         onTap: _isMuted
             ? null
             : () {
@@ -394,8 +409,7 @@ class _ChatInputBoxViewState extends State<ChatInputBoxView>
       );
 
   Widget _toolsBtn() => _buildBtn(
-        icon: ImageUtil.tools(color: _mutedColor),
-        // padding: EdgeInsets.only(left: 5.w, right: 10.w),
+        icon: widget.toolsIcon ?? ImageUtil.tools(color: _color),
         padding: toolsButtonPadding,
         onTap: _isMuted
             ? null
@@ -416,8 +430,7 @@ class _ChatInputBoxViewState extends State<ChatInputBoxView>
 
   Widget _emojiBtn() => _buildBtn(
         padding: emojiButtonPadding,
-        // padding: EdgeInsets.only(left: 10.w, right: 5.w),
-        icon: ImageUtil.emoji(color: _mutedColor),
+        icon: widget.emojiIcon ?? ImageUtil.emoji(color: _color),
         onTap: _isMuted
             ? null
             : () {

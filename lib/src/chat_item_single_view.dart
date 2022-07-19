@@ -201,6 +201,7 @@ class ChatSingleLayout extends StatelessWidget {
         )
       : _noBubbleBgView();
 
+  // avatarSize + 10
   Widget _isToWidget() => Row(
         mainAxisAlignment: _layoutAlignment(),
         children: [

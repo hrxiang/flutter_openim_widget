@@ -12,11 +12,15 @@ class ChatVoiceRecordLayout extends StatefulWidget {
     required this.builder,
     this.locale,
     this.onCompleted,
+    this.speakTextStyle,
+    this.speakBarColor,
   }) : super(key: key);
 
   final SpeakViewChildBuilder builder;
   final Locale? locale;
   final Function(int sec, String path)? onCompleted;
+  final Color? speakBarColor;
+  final TextStyle? speakTextStyle;
 
   @override
   _ChatVoiceRecordLayoutState createState() => _ChatVoiceRecordLayoutState();
@@ -55,6 +59,8 @@ class _ChatVoiceRecordLayoutState extends State<ChatVoiceRecordLayout> {
   }
 
   ChatVoiceRecordBar _createSpeakBar() => ChatVoiceRecordBar(
+        speakBarColor: widget.speakBarColor,
+        speakTextStyle: widget.speakTextStyle,
         onLongPressMoveUpdate: (details) {
           Offset global = details.globalPosition;
           setState(() {

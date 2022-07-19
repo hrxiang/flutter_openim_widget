@@ -9,10 +9,14 @@ class ChatVoiceRecordBar extends StatefulWidget {
     required this.onLongPressStart,
     required this.onLongPressEnd,
     required this.onLongPressMoveUpdate,
+    this.speakBarColor,
+    this.speakTextStyle,
   }) : super(key: key);
   final Function(LongPressStartDetails details) onLongPressStart;
   final Function(LongPressEndDetails details) onLongPressEnd;
   final Function(LongPressMoveUpdateDetails details) onLongPressMoveUpdate;
+  final Color? speakBarColor;
+  final TextStyle? speakTextStyle;
 
   @override
   _ChatVoiceRecordBarState createState() => _ChatVoiceRecordBarState();
@@ -65,7 +69,8 @@ class _ChatVoiceRecordBarState extends State<ChatVoiceRecordBar> {
         height: kVoiceRecordBarHeight,
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          color: Color(0xFF1D6BED).withOpacity(_pressing ? 0.3 : 1),
+          color: (widget.speakBarColor ?? const Color(0xFF1D6BED))
+              .withOpacity(_pressing ? 0.3 : 1),
           borderRadius: BorderRadius.circular(4),
           boxShadow: [
             BoxShadow(
@@ -78,10 +83,11 @@ class _ChatVoiceRecordBarState extends State<ChatVoiceRecordBar> {
         ),
         child: Text(
           _pressing ? UILocalizations.releaseSend : UILocalizations.pressSpeak,
-          style: TextStyle(
-            fontSize: 12.sp,
-            color: Color(0xFFFFFFFF),
-          ),
+          style: widget.speakTextStyle ??
+              TextStyle(
+                fontSize: 12.sp,
+                color: const Color(0xFFFFFFFF),
+              ),
         ),
       ),
     );

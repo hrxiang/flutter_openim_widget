@@ -260,6 +260,9 @@ class ChatItemView extends StatefulWidget {
   /// 显示长按菜单
   final bool showLongPressMenu;
 
+  final BoxDecoration? timeDecoration;
+  final EdgeInsetsGeometry? timePadding;
+
   const ChatItemView({
     Key? key,
     required this.index,
@@ -330,6 +333,8 @@ class ChatItemView extends StatefulWidget {
     this.rightAvatarUrl,
     this.showNoticeMessage = false,
     this.showLongPressMenu = true,
+    this.timeDecoration,
+    this.timePadding,
   }) : super(key: key);
 
   @override
@@ -730,12 +735,13 @@ class _ChatItemViewState extends State<ChatItemView> {
       );
 
   Widget _buildTimeView() => Container(
-        padding: EdgeInsets.symmetric(vertical: 4.h, horizontal: 2.h),
+        padding: widget.timePadding ??
+            EdgeInsets.symmetric(
+              vertical: 4.h,
+              horizontal: 2.h,
+            ),
         // height: 20.h,
-        // decoration: BoxDecoration(
-        //   borderRadius: BorderRadius.circular(4),
-        //   color: Colors.black.withOpacity(0.2),
-        // ),
+        decoration: widget.timeDecoration,
         child: Text(
           widget.timeStr!,
           style: widget.timeStyle ?? _hintTextStyle,
