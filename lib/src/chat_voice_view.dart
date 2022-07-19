@@ -293,7 +293,7 @@ class _ChatVoiceViewState extends State<ChatVoiceView> {
   }
 
   double get _margin {
-    double diff = ((widget.duration ?? 0) / 5) * 6.w;
-    return diff > 60.w ? 60.w : diff;
+    double diff = (widget.duration ?? 0) * 8.w;
+    return diff > 80.w ? 80.w : diff;
   }
 }

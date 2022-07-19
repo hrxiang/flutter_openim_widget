@@ -713,6 +713,7 @@ class _ChatItemViewState extends State<ChatItemView> {
         customLeftAvatarBuilder: widget.customLeftAvatarBuilder,
         customRightAvatarBuilder: widget.customRightAvatarBuilder,
         showLongPressMenu: widget.showLongPressMenu,
+        isVoiceMessage: widget.message.contentType == MessageType.voice,
       );
 
   Widget _menuBuilder() => ChatLongPressMenu(
