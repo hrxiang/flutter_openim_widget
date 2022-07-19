@@ -260,8 +260,14 @@ class ChatItemView extends StatefulWidget {
   /// 显示长按菜单
   final bool showLongPressMenu;
 
+  /// 时间装饰
   final BoxDecoration? timeDecoration;
+
+  /// 上下间距
   final EdgeInsetsGeometry? timePadding;
+
+  /// 点击系统软键盘返回键关闭菜单
+  final Subject<bool>? popPageCloseMenuSubject;
 
   const ChatItemView({
     Key? key,
@@ -335,6 +341,7 @@ class ChatItemView extends StatefulWidget {
     this.showLongPressMenu = true,
     this.timeDecoration,
     this.timePadding,
+    this.popPageCloseMenuSubject,
   }) : super(key: key);
 
   @override
@@ -348,6 +355,7 @@ class _ChatItemViewState extends State<ChatItemView> {
 
   bool get _checked => widget.multiList.contains(widget.message);
   late StreamSubscription<bool> _keyboardSubs;
+  StreamSubscription<bool>? _closeMenuSubs;
 
   /// 提示信息样式
   var _isHintMsg = false;
@@ -361,6 +369,7 @@ class _ChatItemViewState extends State<ChatItemView> {
   void dispose() {
     _popupCtrl.dispose();
     _keyboardSubs.cancel();
+    _closeMenuSubs?.cancel();
     super.dispose();
   }
 
@@ -379,6 +388,12 @@ class _ChatItemViewState extends State<ChatItemView> {
 
     _popupCtrl.addListener(() {
       widget.onPopMenuShowChanged?.call(_popupCtrl.menuIsShowing);
+    });
+
+    _closeMenuSubs = widget.popPageCloseMenuSubject?.listen((value) {
+      if (value == true) {
+        _popupCtrl.hideMenu();
+      }
     });
     super.initState();
   }

@@ -241,11 +241,15 @@ class _CustomPopupMenuState extends State<CopyCustomPopupMenu> {
     if (Platform.isIOS) {
       return child;
     } else {
+      // android 左滑关闭页面事件
+      bool menuIsShowing = _controller?.menuIsShowing ?? false;
       return WillPopScope(
-        onWillPop: () {
-          _hideMenu();
-          return Future.value(true);
-        },
+        onWillPop: menuIsShowing
+            ? () {
+                _hideMenu();
+                return Future.value(false);
+              }
+            : null,
         child: child,
       );
     }
