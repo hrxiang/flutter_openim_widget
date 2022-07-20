@@ -40,9 +40,10 @@ dependencies:
   flutter_keyboard_visibility: ^5.3.0
 #  flutter_openim_sdk: ^2.2.0
   flutter_openim_sdk:
-    git:
-      url: https://github.com/OpenIMSDK/Open-IM-SDK-Flutter.git
-#    path: ../flutter_openim_sdk
+    path: ../flutter_openim_sdk
+#    git:
+#      url: https://github.com/OpenIMSDK/Open-IM-SDK-Flutter.git
+
 
 
 dev_dependencies:
