@@ -117,11 +117,20 @@ class ChatSingleLayout extends StatelessWidget {
                 children: [
                   if (timeView != null) timeView!,
                   _buildContentView(),
-                  if (quoteView != null)
-                    Row(
-                      mainAxisAlignment: _layoutAlignment(),
-                      children: [_buildQuoteMsgView()],
+                  Container(
+                    margin: EdgeInsets.only(
+                      left: isReceivedMsg ? avatarSize + 10.w : 0,
+                      right: isReceivedMsg ? 0 : avatarSize + 10.w,
                     ),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: _layoutAlignment(),
+                      children: [
+                        if (quoteView != null) _buildQuoteMsgView(),
+                        ..._getReadStatusView(),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -227,10 +236,7 @@ class ChatSingleLayout extends StatelessWidget {
             isSendFailed: isSendFailed,
             onFailedResend: failedResend,
           ),
-          if (isSingleChat && !isSendFailed && !isSending && enabledReadStatus)
-            _buildReadStatusView(),
-          if (!isSingleChat && !isSendFailed && !isSending && enabledReadStatus)
-            _buildGroupReadStatusView(),
+          // ..._getReadStatusView(),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
@@ -369,11 +375,6 @@ class ChatSingleLayout extends StatelessWidget {
   Widget _buildQuoteMsgView() {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 1.h),
-      margin: EdgeInsets.only(
-        left: isReceivedMsg ? avatarSize + 10.w : 0,
-        right: isReceivedMsg ? 0 : avatarSize + 10.w,
-        // top: 2.h,
-      ),
       decoration: BoxDecoration(
         color: Color(0xFFF0F0F0),
         borderRadius: BorderRadius.circular(2),
@@ -417,4 +418,18 @@ class ChatSingleLayout extends StatelessWidget {
       ),
     );
   }
+
+  /// 显示单聊已读状态
+  bool get _showSingleChatReadStatus =>
+      isSingleChat && !isSendFailed && !isSending && enabledReadStatus;
+
+  /// 显示群聊已读状态
+  bool get _showGroupChatReadStatus =>
+      !isSingleChat && !isSendFailed && !isSending && enabledReadStatus;
+
+  /// 读状态
+  List<Widget> _getReadStatusView() => [
+        if (_showSingleChatReadStatus) _buildReadStatusView(),
+        if (_showGroupChatReadStatus) _buildGroupReadStatusView(),
+      ];
 }
