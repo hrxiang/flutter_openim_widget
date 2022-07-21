@@ -14,6 +14,7 @@ class ChatVoiceRecordLayout extends StatefulWidget {
     this.onCompleted,
     this.speakTextStyle,
     this.speakBarColor,
+    this.maxRecordSec = 60,
   }) : super(key: key);
 
   final SpeakViewChildBuilder builder;
@@ -21,6 +22,9 @@ class ChatVoiceRecordLayout extends StatefulWidget {
   final Function(int sec, String path)? onCompleted;
   final Color? speakBarColor;
   final TextStyle? speakTextStyle;
+
+  /// 最大记录时长s
+  final int maxRecordSec;
 
   @override
   _ChatVoiceRecordLayoutState createState() => _ChatVoiceRecordLayoutState();
@@ -37,6 +41,7 @@ class _ChatVoiceRecordLayoutState extends State<ChatVoiceRecordLayout> {
   late VoiceRecord _record;
   String? _path;
   int _sec = 0;
+  var _isInterrupt = false;
 
   @override
   void initState() {
@@ -71,44 +76,10 @@ class _ChatVoiceRecordLayoutState extends State<ChatVoiceRecordLayout> {
           });
         },
         onLongPressEnd: (details) async {
-          await _record.stop();
-          // 停止记录
-          setState(() {
-            if (_selectedPressArea) {
-              _callback();
-            }
-            if (_selectedSoundToWordArea) {
-              if (null != _timer) {
-                _timer?.cancel();
-                _timer = null;
-              }
-              _timer = new Timer(Duration(seconds: 1), () {
-                setState(() {
-                  _showRecognizeFailed = true;
-                  _showSpeechRecognizing = false;
-                });
-              });
-              _showSpeechRecognizing = true;
-              _showVoiceRecordView = true;
-              _selectedPressArea = false;
-              _selectedCancelArea = false;
-              _selectedSoundToWordArea = false;
-            } else {
-              _showVoiceRecordView = false;
-              _selectedPressArea = false;
-              _selectedCancelArea = false;
-              _selectedSoundToWordArea = false;
-            }
-          });
+          if (!_isInterrupt) _stop();
         },
         onLongPressStart: (details) {
-          setState(() {
-            // 开始记录
-            _record = VoiceRecord(callback);
-            _record.start();
-            _selectedPressArea = true;
-            _showVoiceRecordView = true;
-          });
+          _start();
         },
       );
 
@@ -159,5 +130,58 @@ class _ChatVoiceRecordLayoutState extends State<ChatVoiceRecordLayout> {
     if (_sec > 0 && null != _path) {
       widget.onCompleted?.call(_sec, _path!);
     }
+  }
+
+  void _stop() async {
+    if (!_isInterrupt) await _record.stop();
+    // 停止记录
+    setState(() {
+      if (_selectedPressArea) {
+        _callback();
+      }
+      if (_selectedSoundToWordArea) {
+        if (null != _timer) {
+          _timer?.cancel();
+          _timer = null;
+        }
+        _timer = new Timer(Duration(seconds: 1), () {
+          setState(() {
+            _showRecognizeFailed = true;
+            _showSpeechRecognizing = false;
+          });
+        });
+        _showSpeechRecognizing = true;
+        _showVoiceRecordView = true;
+        _selectedPressArea = false;
+        _selectedCancelArea = false;
+        _selectedSoundToWordArea = false;
+      } else {
+        _showVoiceRecordView = false;
+        _selectedPressArea = false;
+        _selectedCancelArea = false;
+        _selectedSoundToWordArea = false;
+      }
+    });
+  }
+
+  void _start() {
+    setState(() {
+      // 开始记录
+      _isInterrupt = false;
+      _record = VoiceRecord(
+        onFinished: (sec, path) {
+          callback.call(sec, path);
+        },
+        onInterrupt: (sec, path) {
+          _isInterrupt = true;
+          callback.call(sec, path);
+          _stop();
+        },
+        maxRecordSec: widget.maxRecordSec,
+      );
+      _record.start();
+      _selectedPressArea = true;
+      _showVoiceRecordView = true;
+    });
   }
 }

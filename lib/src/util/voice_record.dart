@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:path_provider/path_provider.dart';
@@ -9,12 +10,19 @@ class VoiceRecord {
   static const _dir = "voice";
   static const _ext = ".m4a";
   late String _path;
-  int _long = 0;
+  int _startTimestamp = 0;
   late int _tag;
-  RecordFc _callback;
+  final RecordFc onFinished;
+  final RecordFc onInterrupt;
+  final int maxRecordSec;
   final _audioRecorder = Record();
+  Timer? _timer;
 
-  VoiceRecord(this._callback) : _tag = _now();
+  VoiceRecord({
+    required this.maxRecordSec,
+    required this.onInterrupt,
+    required this.onFinished,
+  }) : _tag = _now();
 
   start() async {
     if (await _audioRecorder.hasPermission()) {
@@ -24,16 +32,27 @@ class VoiceRecord {
       if (!(await file.exists())) {
         await file.create(recursive: true);
       }
-      _long = _now();
-      _audioRecorder.start(path: _path);
+      await _audioRecorder.start(path: _path);
+      _startTimestamp = _now();
+      _timer?.cancel();
+      _timer = null;
+      _timer = Timer.periodic(Duration(seconds: 1), (timer) async {
+        // _long = (_now() - _long) ~/ 1000;
+        if (((_now() - _startTimestamp) ~/ 1000) >= maxRecordSec) {
+          await stop(isInterrupt: true);
+          onInterrupt(maxRecordSec, _path);
+        }
+      });
     }
   }
 
-  stop() async {
+  stop({bool isInterrupt = false}) async {
+    _timer?.cancel();
+    _timer = null;
     if (await _audioRecorder.isRecording()) {
-      _long = (_now() - _long) ~/ 1000;
-      _audioRecorder.stop();
-      _callback(_long, _path);
+      await _audioRecorder.stop();
+      if (isInterrupt) return;
+      onFinished((_now() - _startTimestamp) ~/ 1000, _path);
     }
   }
 
