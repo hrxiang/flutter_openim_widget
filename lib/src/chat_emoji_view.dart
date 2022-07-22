@@ -1,7 +1,11 @@
+import 'dart:io';
+
 import 'package:animate_do/animate_do.dart';
+import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_openim_widget/flutter_openim_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:should_rebuild/should_rebuild.dart';
 
 const emojiFaces = <String, String>{
   '[亲亲]': 'ic_face_01',
@@ -30,12 +34,18 @@ class ChatEmojiView extends StatefulWidget {
     this.favoriteList = const [],
     this.onAddFavorite,
     this.onSelectedFavorite,
+    required this.textEditingController,
+    this.height,
+    this.customEmojiLayout,
   }) : super(key: key);
   final Function()? onDeleteEmoji;
   final Function(String emoji)? onAddEmoji;
   final List<String> favoriteList;
   final Function()? onAddFavorite;
   final Function(int index, String url)? onSelectedFavorite;
+  final TextEditingController textEditingController;
+  final double? height;
+  final Widget? customEmojiLayout;
 
   @override
   _ChatEmojiViewState createState() => _ChatEmojiViewState();
@@ -53,10 +63,17 @@ class _ChatEmojiViewState extends State<ChatEmojiView> {
         color: Colors.white,
         child: Column(
           children: [
-            Stack(
+            IndexedStack(
+              index: _index,
               children: [
-                if (_index == 0) _buildEmojiLayout(),
-                if (_index == 1) _buildFavoriteLayout(),
+                widget.customEmojiLayout ??
+                    ShouldRebuild<EmojiLayout>(
+                      shouldRebuild: (oldWidget, newWidget) => false,
+                      child: EmojiLayout(
+                        controller: widget.textEditingController,
+                      ),
+                    ),
+                _buildFavoriteLayout(),
               ],
             ),
             _buildTabView(),
@@ -80,8 +97,8 @@ class _ChatEmojiViewState extends State<ChatEmojiView> {
           children: [
             _buildTabSelectedBgView(selected: _index == 0, index: 0),
             _buildTabSelectedBgView(selected: _index == 1, index: 1),
-            Spacer(),
-            if (_index == 0) _buildFaceDelBtn(),
+            // Spacer(),
+            // if (_index == 0) _buildFaceDelBtn(),
           ],
         ),
       );
@@ -129,7 +146,7 @@ class _ChatEmojiViewState extends State<ChatEmojiView> {
 
   Widget _buildEmojiLayout() => Container(
         // color: Colors.white,
-        height: 190.h,
+        height: widget.height ?? 250.h,
         child: GridView.builder(
           padding: EdgeInsets.symmetric(horizontal: 22.w, vertical: 10.h),
           itemCount: emojiFaces.length,
@@ -162,7 +179,7 @@ class _ChatEmojiViewState extends State<ChatEmojiView> {
 
   Widget _buildFavoriteLayout() => Container(
         // color: Colors.white,
-        height: 190.h,
+        height: widget.height ?? 250.h,
         child: GridView.builder(
           padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
           itemCount: widget.favoriteList.length + 1,
@@ -195,4 +212,66 @@ class _ChatEmojiViewState extends State<ChatEmojiView> {
           },
         ),
       );
+}
+
+class EmojiLayout extends StatelessWidget {
+  const EmojiLayout({
+    Key? key,
+    required this.controller,
+    this.height,
+  }) : super(key: key);
+  final TextEditingController controller;
+  final double? height;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: height ?? 250.h,
+      child: EmojiPicker(
+        onEmojiSelected: (category, emoji) {
+          // Do something when emoji is tapped
+          controller
+            ..text += emoji.emoji
+            ..selection = TextSelection.fromPosition(
+                TextPosition(offset: controller.text.length));
+        },
+        onBackspacePressed: () {
+          // Backspace-Button tapped logic
+          // Remove this line to also remove the button in the UI
+          controller
+            ..text = controller.text.characters.skipLast(1).toString()
+            ..selection = TextSelection.fromPosition(
+                TextPosition(offset: controller.text.length));
+        },
+        config: Config(
+          columns: 7,
+          emojiSizeMax: 28 * (Platform.isIOS ? 1.30 : 1.0),
+          // Issue: https://github.com/flutter/flutter/issues/28894
+          verticalSpacing: 0,
+          horizontalSpacing: 0,
+          gridPadding: EdgeInsets.zero,
+          initCategory: Category.RECENT,
+          bgColor: Color(0xFFFFFFFF),
+          indicatorColor: Colors.blue,
+          iconColor: Colors.grey,
+          iconColorSelected: Colors.blue,
+          progressIndicatorColor: Colors.blue,
+          backspaceColor: Colors.blue,
+          skinToneDialogBgColor: Colors.white,
+          skinToneIndicatorColor: Colors.grey,
+          enableSkinTones: true,
+          showRecentsTab: true,
+          recentsLimit: 28,
+          noRecents: Text(
+            UILocalizations.recentlyUsed,
+            style: TextStyle(fontSize: 16, color: Colors.black26),
+            textAlign: TextAlign.center,
+          ),
+          tabIndicatorAnimDuration: kTabScrollDuration,
+          categoryIcons: const CategoryIcons(),
+          buttonMode: ButtonMode.MATERIAL,
+        ),
+      ),
+    );
+  }
 }
