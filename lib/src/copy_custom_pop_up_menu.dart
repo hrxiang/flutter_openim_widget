@@ -239,10 +239,6 @@ class _CustomPopupMenuState extends State<CopyCustomPopupMenu> {
         },
         onTapDown: (details) {
           _tapDownDetails = details;
-          print(
-              '========onTapDown1:${details.globalPosition.dx} ${details.globalPosition.dy}=======');
-          print(
-              '========onTapDown1:${details.localPosition.dx} ${details.localPosition.dy}=======');
         },
       ),
       color: Colors.transparent,
