@@ -101,6 +101,8 @@ class ChatQuoteView extends StatelessWidget {
                   fontSize: 12.sp,
                   color: Color(0xFF666666),
                 ),
+                maxLines: 3,
+                overflow: TextOverflow.ellipsis,
               ),
               // child: Text(
               //   '$name：${content ?? ''}',

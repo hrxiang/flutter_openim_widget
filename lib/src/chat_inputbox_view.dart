@@ -291,6 +291,8 @@ class _ChatInputBoxViewState extends State<ChatInputBoxView>
                     color: Color(0xFF666666),
                     fontSize: 12.sp,
                   ),
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
               ImageUtil.delQuote(),

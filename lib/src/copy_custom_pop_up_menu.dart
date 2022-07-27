@@ -78,6 +78,7 @@ class _CustomPopupMenuState extends State<CopyCustomPopupMenu> {
   OverlayEntry? _overlayEntry;
   CustomPopupMenuController? _controller;
   bool _canResponse = true;
+  TapDownDetails? _tapDownDetails;
 
   _showMenu() {
     Widget arrow = ClipPath(
@@ -113,6 +114,7 @@ class _CustomPopupMenuState extends State<CopyCustomPopupMenu> {
                 keyboardHeight: keyboardHeight,
                 verticalMargin: widget.verticalMargin,
                 position: widget.position,
+                onTapDownOffset: _tapDownDetails?.globalPosition,
               ),
               children: <Widget>[
                 if (widget.showArrow)
@@ -235,6 +237,13 @@ class _CustomPopupMenuState extends State<CopyCustomPopupMenu> {
             _controller?.showMenu();
           }
         },
+        onTapDown: (details) {
+          _tapDownDetails = details;
+          print(
+              '========onTapDown1:${details.globalPosition.dx} ${details.globalPosition.dy}=======');
+          print(
+              '========onTapDown1:${details.localPosition.dx} ${details.localPosition.dy}=======');
+        },
       ),
       color: Colors.transparent,
     );
@@ -278,6 +287,7 @@ class _MenuLayoutDelegate extends MultiChildLayoutDelegate {
     required this.verticalMargin,
     required this.keyboardHeight,
     this.position,
+    this.onTapDownOffset,
   });
 
   final Size anchorSize;
@@ -285,6 +295,7 @@ class _MenuLayoutDelegate extends MultiChildLayoutDelegate {
   final double verticalMargin;
   final PreferredPosition? position;
   final double keyboardHeight;
+  final Offset? onTapDownOffset;
 
   @override
   void performLayout(Size size) {
@@ -296,6 +307,7 @@ class _MenuLayoutDelegate extends MultiChildLayoutDelegate {
     double anchorCenterX = anchorOffset.dx + anchorSize.width / 2;
     double anchorTopY = anchorOffset.dy;
     double anchorBottomY = anchorTopY + anchorSize.height;
+    double? touchY = onTapDownOffset?.dy;
     _MenuPosition menuPosition = _MenuPosition.bottomCenter;
 
     if (hasChild(_MenuLayoutId.content)) {
@@ -318,12 +330,27 @@ class _MenuLayoutDelegate extends MultiChildLayoutDelegate {
     }
 
     bool isTop = false;
+
     if (position == null) {
       // auto calculate position
       isTop = anchorBottomY > (size.height - keyboardHeight) / 2;
     } else {
       isTop = position == PreferredPosition.top;
     }
+
+    // 修正超过一屏菜单显示问题
+    double minTopMargin = contentSize.height + arrowSize.height;
+    if (null != touchY && anchorTopY < minTopMargin) {
+      if (touchY < minTopMargin) {
+        isTop = false;
+        if (anchorSize.height > size.height * 0.8) {
+          anchorBottomY = touchY;
+        }
+      } else {
+        anchorTopY = touchY;
+      }
+    }
+
     if (anchorCenterX - contentSize.width / 2 < 0) {
       menuPosition = isTop ? _MenuPosition.topLeft : _MenuPosition.bottomLeft;
     } else if (anchorCenterX + contentSize.width / 2 > size.width) {
@@ -345,16 +372,20 @@ class _MenuLayoutDelegate extends MultiChildLayoutDelegate {
         );
         break;
       case _MenuPosition.bottomLeft:
-        arrowOffset = Offset(anchorCenterX - arrowSize.width / 2,
-            anchorBottomY + verticalMargin);
+        arrowOffset = Offset(
+          anchorCenterX - arrowSize.width / 2,
+          anchorBottomY + verticalMargin,
+        );
         contentOffset = Offset(
           0,
           anchorBottomY + verticalMargin + arrowSize.height,
         );
         break;
       case _MenuPosition.bottomRight:
-        arrowOffset = Offset(anchorCenterX - arrowSize.width / 2,
-            anchorBottomY + verticalMargin);
+        arrowOffset = Offset(
+          anchorCenterX - arrowSize.width / 2,
+          anchorBottomY + verticalMargin,
+        );
         contentOffset = Offset(
           size.width - contentSize.width,
           anchorBottomY + verticalMargin + arrowSize.height,
@@ -391,6 +422,8 @@ class _MenuLayoutDelegate extends MultiChildLayoutDelegate {
         );
         break;
     }
+    print('=======arrow:$arrowOffset');
+    print('=======contentOffset:$contentOffset');
     if (hasChild(_MenuLayoutId.content)) {
       positionChild(_MenuLayoutId.content, contentOffset);
     }
