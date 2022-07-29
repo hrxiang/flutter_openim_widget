@@ -329,6 +329,7 @@ class _MenuLayoutDelegate extends MultiChildLayoutDelegate {
 
     if (position == null) {
       // auto calculate position
+      // 修正弹起键盘菜单显示问题
       isTop = anchorBottomY > (size.height - keyboardHeight) / 2;
     } else {
       isTop = position == PreferredPosition.top;
