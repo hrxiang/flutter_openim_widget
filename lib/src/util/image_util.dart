@@ -359,7 +359,7 @@ class ImageUtil {
         height: height,
         fit: fit,
         memCacheWidth: _calculateCacheWidth(width),
-        // memCacheHeight: cacheHeight,
+        // memCacheHeight: _calculateCacheHeight(height),
         // placeholder: placeholder,
         progressIndicatorBuilder: (context, url, progress) => Container(
           width: 10.0,
@@ -379,5 +379,9 @@ class ImageUtil {
 
   static int? _calculateCacheWidth(double? width) {
     return (width == null ? 1.sw : (width < 1.sw ? width : 1.sw)).toInt();
+  }
+
+  static int? _calculateCacheHeight(double? height) {
+    return (height == null ? 1.sh : (height < 1.sh ? height : 1.sh)).toInt();
   }
 }

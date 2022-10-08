@@ -1,6 +1,6 @@
 name: flutter_openim_widget
 description: The public ui library is used with the openim demo, and you can directly use it for secondary development.
-version: 2.3.0
+version: 2.3.1
 homepage: https://github.com/hrxiang/flutter_openim_widget.git
 
 environment:
@@ -10,37 +10,37 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  font_awesome_flutter: ^10.0.0
-  rxdart: ^0.27.3
-  flutter_screenutil: ^5.5.3+2
-  flutter_slidable: ^1.3.0
-  cached_network_image: ^3.2.1
+  font_awesome_flutter: ^10.2.1
+  rxdart: ^0.27.5
+  flutter_screenutil: ^5.5.4
+  flutter_slidable: ^2.0.0
+  cached_network_image: ^3.2.2
   photo_view: ^0.14.0
   path_provider: ^2.0.11
-  flutter_image_compress: ^1.1.0
-  record: ^4.1.1
-  just_audio: ^0.9.20
-  lottie: ^1.3.0
-  permission_handler: ^9.2.0
-  extended_text_field: ^10.1.0
+  flutter_image_compress: ^1.1.3
+  record: ^4.4.1
+  just_audio: ^0.9.29
+  lottie: ^1.4.3
+  permission_handler: ^10.1.0
+  extended_text_field: ^10.1.1
 #  extended_image: ^6.2.1
 #  focus_detector: ^2.0.1
   visibility_detector: ^0.3.3
-  sprintf: ^6.0.0
-  flutter_inappwebview: ^5.4.3+7
+  sprintf: ^7.0.0
+  flutter_inappwebview: ^5.4.4+3
   animate_do: ^2.1.0
-  flutter_svg: ^1.1.0
+  flutter_svg: ^1.1.5
   qq_badge: ^0.0.2
   #  better_player: ^0.0.81
-  chewie: ^1.3.3
-  video_player: ^2.4.4
+  chewie: ^1.3.5
+  video_player: ^2.4.7
   flutter_cache_manager: ^3.3.0
   mime_type: ^1.0.0
   dio: ^4.0.6
   flutter_keyboard_visibility: ^5.3.0
-  emoji_picker_flutter: ^1.3.0
+  emoji_picker_flutter: ^1.4.0
   should_rebuild: ^1.0.1
-  flutter_openim_sdk: ^2.3.0
+  flutter_openim_sdk: ^2.3.4
 #  flutter_openim_sdk:
 #    path: ../flutter_openim_sdk
 #    git:
