@@ -24,7 +24,7 @@ dependencies:
   lottie: ^1.4.3
   permission_handler: ^10.1.0
   extended_text_field: ^10.1.1
-#  extended_image: ^6.2.1
+#  extended_image: ^6.3.1
 #  focus_detector: ^2.0.1
   visibility_detector: ^0.3.3
   sprintf: ^7.0.0
@@ -41,9 +41,9 @@ dependencies:
   flutter_keyboard_visibility: ^5.3.0
   emoji_picker_flutter: ^1.4.0
   should_rebuild: ^1.0.1
-  flutter_openim_sdk: ^2.3.4
-#  flutter_openim_sdk:
-#    path: ../flutter_openim_sdk
+#  flutter_openim_sdk: ^2.3.4
+  flutter_openim_sdk:
+    path: ../flutter_openim_sdk
 #    git:
 #      url: https://github.com/OpenIMSDK/Open-IM-SDK-Flutter.git
 
