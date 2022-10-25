@@ -1,12 +1,41 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:chewie/chewie.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_openim_widget/flutter_openim_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:video_player/video_player.dart';
+
+abstract class VideoControllerService {
+  Future<VideoPlayerController> getControllerForVideo(String videoUrl);
+}
+
+class CachedVideoControllerService extends VideoControllerService {
+  final BaseCacheManager _cacheManager;
+
+  CachedVideoControllerService(this._cacheManager);
+
+  @override
+  Future<VideoPlayerController> getControllerForVideo(String videoUrl) async {
+    final fileInfo = await _cacheManager.getFileFromCache(videoUrl);
+
+    if (fileInfo == null) {
+      print('[VideoControllerService]: No video in cache');
+
+      print('[VideoControllerService]: Saving video to cache');
+      unawaited(_cacheManager.downloadFile(videoUrl));
+
+      return VideoPlayerController.network(videoUrl);
+    } else {
+      print('[VideoControllerService]: Loading video from cache');
+      return VideoPlayerController.file(fileInfo.file);
+    }
+  }
+}
 
 class ChatVideoPlayerView extends StatefulWidget {
   final String? path;
@@ -37,6 +66,9 @@ class ChatVideoPlayerView extends StatefulWidget {
 class _ChatVideoPlayerViewState extends State<ChatVideoPlayerView> {
   late VideoPlayerController _videoPlayerController;
   ChewieController? _chewieController;
+  final _cachedVideoControllerService =
+      CachedVideoControllerService(DefaultCacheManager());
+  bool _isInitialized = false;
 
   _startDownload() async {
     var dir = await getTemporaryDirectory();
@@ -69,7 +101,7 @@ class _ChatVideoPlayerViewState extends State<ChatVideoPlayerView> {
     bool existFile = false;
     if (null != _path && _path!.isNotEmpty) {
       file = File(_path!);
-      existFile = file.existsSync();
+      existFile = await file.exists();
       if (!existFile) {
         file = null;
       }
@@ -81,11 +113,16 @@ class _ChatVideoPlayerViewState extends State<ChatVideoPlayerView> {
       //       Duration(seconds: 60),
       //     );
       // _videoPlayerController = VideoPlayerController.file(file);
-      _videoPlayerController = VideoPlayerController.network(_url!);
+
+      // _videoPlayerController = VideoPlayerController.network(_url!);
+      _videoPlayerController =
+          await _cachedVideoControllerService.getControllerForVideo(_url!);
     }
-    await Future.wait([
-      _videoPlayerController.initialize(),
-    ]);
+    // await Future.wait([
+    //   _videoPlayerController.initialize(),
+    // ]);
+    await _videoPlayerController.initialize();
+    _isInitialized = true;
     _createChewieController();
     setState(() {});
   }
@@ -95,11 +132,21 @@ class _ChatVideoPlayerViewState extends State<ChatVideoPlayerView> {
       videoPlayerController: _videoPlayerController,
       autoPlay: true,
       looping: false,
-      showControlsOnInitialize: false,
+      showControlsOnInitialize: true,
       optionsTranslation: OptionsTranslation(
         playbackSpeedButtonText: UILocalizations.playSpeed,
         cancelButtonText: UILocalizations.cancel,
       ),
+      additionalOptions: (context) => [
+        OptionItem(
+          onTap: () {
+            Navigator.pop(context);
+            _startDownload();
+          },
+          iconData: Icons.download,
+          title: UILocalizations.download,
+        ),
+      ],
       // showOptions: false,
       // Try playing around with some of these other options:
       // showControls: false,
@@ -109,9 +156,7 @@ class _ChatVideoPlayerViewState extends State<ChatVideoPlayerView> {
       //   backgroundColor: Colors.grey,
       //   bufferedColor: Colors.lightGreen,
       // ),
-      // placeholder: Container(
-      //   color: Colors.grey,
-      // ),
+      // placeholder: SizedBox(),
       // autoInitialize: true,
     );
   }
@@ -142,18 +187,9 @@ class _ChatVideoPlayerViewState extends State<ChatVideoPlayerView> {
               child: _chewieController != null &&
                       _chewieController!
                           .videoPlayerController.value.isInitialized
-                  ? Chewie(
-                      controller: _chewieController!,
-                    )
-                  : Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        CircularProgressIndicator(),
-                        SizedBox(height: 20),
-                        Text('Loading'),
-                      ],
-                    ),
-            )
+                  ? Chewie(controller: _chewieController!)
+                  : CircularProgressIndicator(),
+            ),
           ],
         ),
       );
@@ -164,9 +200,7 @@ class _ChatVideoPlayerViewState extends State<ChatVideoPlayerView> {
           if (null != widget.coverUrl)
             ImageUtil.networkImage(
               url: widget.coverUrl!,
-              clearMemoryCacheWhenDispose: true,
               loadProgress: false,
-              cacheWidth: (1.sw).toInt(),
             ),
           CircularProgressIndicator(),
         ],

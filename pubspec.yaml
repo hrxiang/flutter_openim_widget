@@ -53,6 +53,12 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
+#dependency_overrides:
+#  video_player:
+#    git:
+#      url: https://github.com/999eagle/plugins.git
+#      ref: feature/caching
+#      path: packages/video_player
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 

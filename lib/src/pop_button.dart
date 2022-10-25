@@ -43,6 +43,8 @@ class PopButton extends StatelessWidget {
   final EdgeInsetsGeometry? menuItemPadding;
   final TextStyle menuItemTextStyle;
   final double menuItemIconSize;
+  final Color dividingLineColor;
+  final double dividingLineWidth;
 
   PopButton({
     Key? key,
@@ -71,6 +73,8 @@ class PopButton extends StatelessWidget {
     ),
     this.menuItemIconSize = 18.0,
     this.menuItemPadding,
+    this.dividingLineColor = const Color(0xFFF0F0F0),
+    this.dividingLineWidth = 1.0,
   }) : super(key: key);
 
   @override
@@ -103,44 +107,41 @@ class PopButton extends StatelessWidget {
     }
   }
 
-  Widget _buildPopBgView({Widget? child}) => GestureDetector(
-        onPanDown: null == menuItemHeight
-            ? null
-            : (details) {
-                if (null != menuItemHeight) {
-                  _clickArea(details.localPosition.dy);
-                }
-              },
-        child: Container(
-          child: child,
-          padding: EdgeInsets.symmetric(vertical: 4),
-          decoration: BoxDecoration(
-            color: menuBgColor,
-            borderRadius: BorderRadius.circular(menuBgRadius),
-            boxShadow: [
-              BoxShadow(
-                color: menuBgShadowColor ?? Color(0xFF000000).withOpacity(0.5),
-                offset: menuBgShadowOffset ?? Offset(0, 2),
-                blurRadius: menuBgShadowBlurRadius ?? 6,
-                spreadRadius: menuBgShadowSpreadRadius ?? 0,
-              )
-            ],
-          ),
+  Widget _buildPopBgView({Widget? child}) => Container(
+        child: child,
+        // padding: EdgeInsets.symmetric(vertical: 4),
+        decoration: BoxDecoration(
+          color: menuBgColor,
+          borderRadius: BorderRadius.circular(menuBgRadius),
+          boxShadow: [
+            BoxShadow(
+              color: menuBgShadowColor ?? Color(0xFF000000).withOpacity(0.5),
+              offset: menuBgShadowOffset ?? Offset(0, 2),
+              blurRadius: menuBgShadowBlurRadius ?? 6,
+              spreadRadius: menuBgShadowSpreadRadius ?? 0,
+            )
+          ],
         ),
       );
 
   Widget _buildPopItemView(PopMenuInfo info) => GestureDetector(
-        onTap: null == menuItemHeight
-            ? () {
-                popCtrl?.hideMenu();
-                info.onTap?.call();
-              }
-            : null,
+        onTap: () {
+          popCtrl?.hideMenu();
+          info.onTap?.call();
+        },
         behavior: HitTestBehavior.translucent,
         child: Container(
           height: menuItemHeight,
           width: menuItemWidth,
           padding: menuItemPadding,
+          // decoration: BoxDecoration(
+          //   border: BorderDirectional(
+          //     bottom: BorderSide(
+          //       color: dividingLineColor,
+          //       width: dividingLineWidth,
+          //     ),
+          //   ),
+          // ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
