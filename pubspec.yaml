@@ -1,6 +1,6 @@
 name: flutter_openim_widget
 description: The public ui library is used with the openim demo, and you can directly use it for secondary development.
-version: 2.3.1
+version: 2.3.2
 homepage: https://github.com/hrxiang/flutter_openim_widget.git
 repository: https://github.com/hrxiang/flutter_openim_widget.git
 
@@ -41,9 +41,9 @@ dependencies:
   flutter_keyboard_visibility: ^5.3.0
   emoji_picker_flutter: ^1.4.0
   should_rebuild: ^1.0.1
-#  flutter_openim_sdk: ^2.3.4
-  flutter_openim_sdk:
-    path: ../flutter_openim_sdk
+  flutter_openim_sdk: ^2.3.4+2
+#  flutter_openim_sdk:
+#    path: ../flutter_openim_sdk
 #    git:
 #      url: https://github.com/OpenIMSDK/Open-IM-SDK-Flutter.git
 
