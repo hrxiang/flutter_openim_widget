@@ -44,18 +44,12 @@ typedef CustomMessageBuilder = Widget? Function(
 ///  chat item
 ///
 class ChatItemView extends StatefulWidget {
-  /// if current is group chat : false
-  /// if current is single chat : true
   /// true 单聊，false 群聊
   final bool isSingleChat;
 
-  /// When you need to customize the message style,
-  /// Whether to use a bubble container
-  /// 自定义消息item view时，是否使用默认的起泡背景
+  /// 自定义消息item view时，是否使用默认的气泡背景
   final bool isBubbleMsg;
 
-  /// Customize the display style of messages,
-  /// such as system messages or status messages such as withdrawal
   /// 自定义消息item view
   final CustomItemBuilder? customItemBuilder;
 
@@ -65,78 +59,63 @@ class ChatItemView extends StatefulWidget {
   /// listview index
   final int index;
 
-  /// Message background on the left side of the chat window
   /// 收到的消息的气泡的背景色
   final Color leftBubbleColor;
 
-  /// Message background on the right side of the chat window
   /// 发送的消息的气泡背景色
   final Color rightBubbleColor;
 
-  /// Click on the message to process voice playback, video playback, picture preview, etc.
+  /// 点击事件
   final Subject<int> clickSubject;
 
-  /// The status of message sending,
-  /// there are two kinds of success or failure, true success, false failure
   /// 消息发送状态：成功，失败，发送中
   final Subject<MsgStreamEv<bool>> msgSendStatusSubject;
 
-  /// The progress of sending messages, such as the progress of uploading pictures, videos, and files
   /// 消息的发送进度
   final Subject<MsgStreamEv<int>> msgSendProgressSubject;
 
   /// Download progress of pictures, videos, and files
   // final Subject<MsgStreamEv<int>> downloadProgressSubject;
 
-  /// Style of text content
   /// 文字消息的样式
   final TextStyle? textStyle;
 
+  /// 文字缩放系数
   final double textScaleFactor;
 
-  /// @ message style
   /// @消息的文字样式
   final TextStyle? atTextStyle;
 
   /// 消息时间的样式
   final TextStyle? timeStyle;
 
-  /// hint message style
   /// 提示消息的样式，如：时间，xx撤回了一条消息等
   final TextStyle? hintTextStyle;
 
-  /// Click on the avatar event on the left side of the chat window
+  /// 点击左头像
   final Function()? onTapLeftAvatar;
 
-  // LongPress on the avatar event on the left side of the chat window
+  /// 长按左头像
   final Function()? onLongPressLeftAvatar;
 
-  /// Click on the avatar event on the right side of the chat window
+  /// 点击右头像
   final Function()? onTapRightAvatar;
 
-  // LongPress on the avatar event on the right side of the chat window
+  /// 长按右头像
   final Function()? onLongPressRightAvatar;
 
-  /// Click the @ content
+  /// 点击@内容
   final ValueChanged<String>? onClickAtText;
 
-  /// Whether the current message item is visible,
-  /// used to process whether the message has been read event
   /// 当前消息是否处于界面可见位置
   final ItemVisibilityChange? visibilityChange;
 
-  /// all user info
-  /// key:userid，value:username
   /// @信息列表，key：用户id，value：用户名
   final Map<String, String> allAtMap;
 
-  // final double width;
-
-  /// long press menu list
   /// 长按消息起泡弹出的菜单列表
   final List<MenuInfo>? menus;
 
-  /// menu list style
   /// 菜单样式
   final MenuStyle? menuStyle;
 
@@ -149,56 +128,58 @@ class ChatItemView extends StatefulWidget {
   /// 头像大小
   final double? avatarSize;
 
-  ///
-  // final bool showTime;
+  /// 时间段
   final String? timeStr;
 
-  /// Click the copy button event on the menu
+  /// 每条消息时间
+  final String? messageTimeStr;
+
+  /// 复制
   final Function()? onTapCopyMenu;
 
-  /// Click the delete button event on the menu
+  /// 删除
   final Function()? onTapDelMenu;
 
-  /// Click the forward button event on the menu
+  /// 转发
   final Function()? onTapForwardMenu;
 
-  /// Click the reply button event on the menu
+  ///  回复
   final Function()? onTapReplyMenu;
 
-  /// Click the revoke button event on the menu
+  /// 撤回
   final Function()? onTapRevokeMenu;
 
-  ///
+  /// 多选
   final Function()? onTapMultiMenu;
 
-  ///
+  /// 翻译
   final Function()? onTapTranslationMenu;
 
-  ///
+  /// 添加表情
   final Function()? onTapAddEmojiMenu;
 
-  /// Click the copy button event on the menu
+  /// 显示复制菜单项
   final bool enabledCopyMenu;
 
-  /// Click the delete button event on the menu
+  /// 显示删除菜单项
   final bool enabledDelMenu;
 
-  /// Click the forward button event on the menu
+  /// 显示转发菜单项
   final bool enabledForwardMenu;
 
-  /// Click the reply button event on the menu
+  /// 显示回复菜单项
   final bool enabledReplyMenu;
 
-  /// Click the revoke button event on the menu
+  /// 显示撤回菜单项
   final bool enabledRevokeMenu;
 
-  ///
+  /// 显示多选菜单项
   final bool enabledMultiMenu;
 
-  ///
+  /// 显示翻译菜单项
   final bool enabledTranslationMenu;
 
-  ///
+  /// 显示添加表情菜单项
   final bool enabledAddEmojiMenu;
 
   /// 当前是否是多选模式
@@ -210,7 +191,7 @@ class ChatItemView extends StatefulWidget {
   /// 被选择的消息
   final List<Message> multiList;
 
-  ///
+  /// 点击被回复的消息
   final Function()? onTapQuoteMsg;
 
   final List<MatchPattern> patterns;
@@ -299,6 +280,7 @@ class ChatItemView extends StatefulWidget {
     this.textScaleFactor = 1.0,
     this.avatarSize,
     this.timeStr,
+    this.messageTimeStr,
     this.onTapCopyMenu,
     this.onTapDelMenu,
     this.onTapForwardMenu,
@@ -667,8 +649,8 @@ class _ChatItemViewState extends State<ChatItemView> {
           }
           break;
       }
-    } catch (e) {
-      print('--------message parse error----->e:$e');
+    } catch (e, s) {
+      print('--------message parse error----->e:$e  s:$s');
       child = _buildCommonItemView(
         child: ChatAtText(
           text: UILocalizations.unsupportedMessage,
@@ -709,7 +691,8 @@ class _ChatItemViewState extends State<ChatItemView> {
         onTapLeftAvatar: widget.onTapLeftAvatar,
         isSendFailed: widget.message.status == MessageStatus.failed,
         isSending: widget.message.status == MessageStatus.sending,
-        timeView: widget.timeStr == null ? null : _buildTimeView(),
+        timeView: _buildTimeView(widget.timeStr),
+        messageTimeView: _buildTimeView(widget.messageTimeStr),
         isBubbleBg: isBubbleBg,
         isHintMsg: isHintMsg,
         quoteView: _quoteView,
@@ -750,19 +733,21 @@ class _ChatItemViewState extends State<ChatItemView> {
         widget.message,
       );
 
-  Widget _buildTimeView() => Container(
-        padding: widget.timePadding ??
-            EdgeInsets.symmetric(
-              vertical: 4.h,
-              horizontal: 2.h,
-            ),
-        // height: 20.h,
-        decoration: widget.timeDecoration,
-        child: Text(
-          widget.timeStr!,
-          style: widget.timeStyle ?? _hintTextStyle,
-        ),
-      );
+  Widget? _buildTimeView([String? time]) => time == null && time == null
+      ? null
+      : Container(
+          padding: widget.timePadding ??
+              EdgeInsets.symmetric(
+                vertical: 4.h,
+                horizontal: 2.h,
+              ),
+          // height: 20.h,
+          decoration: widget.timeDecoration,
+          child: Text(
+            time!,
+            style: widget.timeStyle ?? _hintTextStyle,
+          ),
+        );
 
   List<MenuInfo> _menusItem() => [
         MenuInfo(

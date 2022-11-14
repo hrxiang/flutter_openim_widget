@@ -28,6 +28,7 @@ class ChatSingleLayout extends StatelessWidget {
   final bool isSendFailed;
   final bool isSending;
   final Widget? timeView;
+  final Widget? messageTimeView;
   final Widget? quoteView;
   final bool isBubbleBg;
   final bool isHintMsg;
@@ -74,6 +75,7 @@ class ChatSingleLayout extends StatelessWidget {
     this.isSendFailed = false,
     this.isSending = true,
     this.timeView,
+    this.messageTimeView,
     this.quoteView,
     this.isBubbleBg = true,
     this.isHintMsg = false,
@@ -144,7 +146,15 @@ class ChatSingleLayout extends StatelessWidget {
     if (isHintMsg) {
       return child;
     }
-    return isReceivedMsg ? _isFromWidget() : _isToWidget();
+    // return isReceivedMsg ? _isFromWidget() : _isToWidget();
+    return Column(
+      crossAxisAlignment:
+          isReceivedMsg ? CrossAxisAlignment.start : CrossAxisAlignment.end,
+      children: [
+        messageTimeView ?? SizedBox(),
+        isReceivedMsg ? _isFromWidget() : _isToWidget(),
+      ],
+    );
   }
 
   Widget _isFromWidget() => Row(
