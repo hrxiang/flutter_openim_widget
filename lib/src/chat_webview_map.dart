@@ -8,12 +8,11 @@ import 'package:flutter_openim_widget/flutter_openim_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sprintf/sprintf.dart';
 
-///
 /// 腾讯h5地图
 class ChatWebViewMap extends StatefulWidget {
   const ChatWebViewMap({
     Key? key,
-    this.mapAppKey = "TMNBZ-3CGC6-C6SSL-EJA3B-E2P5Q-V7F6Q",
+    this.mapAppKey = "",
     this.mapThumbnailSize = "1200*600",
     this.mapBackUrl = "http://callback",
   }) : super(key: key);
