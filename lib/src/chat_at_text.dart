@@ -26,6 +26,7 @@ class ChatAtText extends StatelessWidget {
   final Map<String, String> allAtMap;
   final List<MatchPattern> patterns;
   final ChatTextModel model;
+  final Function(String? text)? onVisibleTrulyText;
 
   // final TextAlign textAlign;
   const ChatAtText({
@@ -40,6 +41,7 @@ class ChatAtText extends StatelessWidget {
     this.maxLines,
     this.textScaleFactor = 1.0,
     this.model = ChatTextModel.match,
+    this.onVisibleTrulyText,
   }) : super(key: key);
 
   static var _textStyle = TextStyle(
@@ -59,6 +61,10 @@ class ChatAtText extends StatelessWidget {
       _matchModel(children);
     }
 
+    // 复制@消息直接使用不在重复解析
+    final textSpan = TextSpan(children: children);
+    onVisibleTrulyText?.call(textSpan.toPlainText());
+
     return Container(
       constraints: BoxConstraints(maxWidth: 0.5.sw),
       child: RichText(
@@ -66,7 +72,7 @@ class ChatAtText extends StatelessWidget {
         overflow: overflow,
         maxLines: maxLines,
         textScaleFactor: textScaleFactor,
-        text: TextSpan(children: children),
+        text: textSpan,
       ),
     );
   }
@@ -118,7 +124,6 @@ class ChatAtText extends StatelessWidget {
       RegExp(pattern),
       onMatch: (Match match) {
         var matchText = match[0]!;
-        var value = matchText;
         var inlineSpan;
         final mapping = _mapping[matchText] ??
             _mapping[_mapping.keys.firstWhere((element) {
@@ -129,13 +134,22 @@ class ChatAtText extends StatelessWidget {
             })];
         if (mapping != null) {
           if (mapping.type == PatternType.AT) {
-            String uid = matchText.replaceFirst("@", "").trim();
-            value = uid;
-            if (allAtMap.containsKey(uid)) {
-              matchText = '@${allAtMap[uid]!} ';
+            String userID = matchText.replaceFirst("@", "").trim();
+            if (allAtMap.containsKey(userID)) {
+              matchText = '@${allAtMap[userID]} ';
+              inlineSpan = TextSpan(
+                text: "$matchText",
+                style: mapping.style != null ? mapping.style : style,
+                recognizer: mapping.onTap == null
+                    ? null
+                    : (TapGestureRecognizer()
+                      ..onTap = () => mapping.onTap!(
+                          _getUrl(userID, mapping.type), mapping.type)),
+              );
+            } else {
+              inlineSpan = TextSpan(text: matchText, style: style);
             }
-          }
-          if (mapping.type == PatternType.EMOJI) {
+          } else if (mapping.type == PatternType.EMOJI) {
             inlineSpan = ImageSpan(
               ImageUtil.emojiImage(matchText),
               imageWidth: style.fontSize! * 1.4,
@@ -143,17 +157,17 @@ class ChatAtText extends StatelessWidget {
             );
           } else {
             inlineSpan = TextSpan(
-              text: "$matchText",
+              text: matchText,
               style: mapping.style != null ? mapping.style : style,
               recognizer: mapping.onTap == null
                   ? null
                   : (TapGestureRecognizer()
                     ..onTap = () => mapping.onTap!(
-                        _getUrl(value, mapping.type), mapping.type)),
+                        _getUrl(matchText, mapping.type), mapping.type)),
             );
           }
         } else {
-          inlineSpan = TextSpan(text: "$matchText", style: style);
+          inlineSpan = TextSpan(text: matchText, style: style);
         }
         children.add(inlineSpan);
         return '';
