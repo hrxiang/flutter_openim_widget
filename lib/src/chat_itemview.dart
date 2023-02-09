@@ -250,6 +250,8 @@ class ChatItemView extends StatefulWidget {
   /// 点击系统软键盘返回键关闭菜单
   final Subject<bool>? popPageCloseMenuSubject;
 
+  final Function(String? text)? onVisibleTrulyText;
+
   const ChatItemView({
     Key? key,
     required this.index,
@@ -324,6 +326,7 @@ class ChatItemView extends StatefulWidget {
     this.timeDecoration,
     this.timePadding,
     this.popPageCloseMenuSubject,
+    this.onVisibleTrulyText,
   }) : super(key: key);
 
   @override
@@ -447,6 +450,7 @@ class _ChatItemViewState extends State<ChatItemView> {
                 textStyle: widget.textStyle,
                 textScaleFactor: widget.textScaleFactor,
                 patterns: widget.patterns,
+                onVisibleTrulyText: widget.onVisibleTrulyText,
               ),
             );
           }
@@ -462,6 +466,7 @@ class _ChatItemViewState extends State<ChatItemView> {
                 textStyle: widget.textStyle,
                 textScaleFactor: widget.textScaleFactor,
                 patterns: widget.patterns,
+                onVisibleTrulyText: widget.onVisibleTrulyText,
               ),
             );
           }
