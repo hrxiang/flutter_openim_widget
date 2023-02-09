@@ -215,7 +215,8 @@ class MatchPattern {
 enum PatternType { AT, EMAIL, MOBILE, TEL, URL, EMOJI, CUSTOM }
 
 /// 空格@uid空格
-const regexAt = r"(\s@\S+\s)";
+const regexAt = r"(@\S+\s)";
+// const regexAt = r"(\s@\S+\s)";
 
 /// Email Regex - A predefined type for handling email matching
 const regexEmail = r"\b[\w\.-]+@[\w\.-]+\.\w{2,4}\b";
