@@ -19,14 +19,14 @@ class MenuInfo {
   });
 }
 
-class MenuStyle {
+class PopMenuStyle {
   final int crossAxisCount;
   final double mainAxisSpacing;
   final double crossAxisSpacing;
   final Color background;
   final double radius;
 
-  MenuStyle({
+  PopMenuStyle({
     required this.crossAxisCount,
     required this.mainAxisSpacing,
     required this.crossAxisSpacing,
@@ -34,7 +34,7 @@ class MenuStyle {
     required this.radius,
   });
 
-  const MenuStyle.base()
+  const PopMenuStyle.base()
       : crossAxisCount = 4,
         mainAxisSpacing = 10,
         crossAxisSpacing = 10,
@@ -45,13 +45,13 @@ class MenuStyle {
 class ChatLongPressMenu extends StatelessWidget {
   final CustomPopupMenuController controller;
   final List<MenuInfo> menus;
-  final MenuStyle menuStyle;
+  final PopMenuStyle menuStyle;
 
   const ChatLongPressMenu({
     Key? key,
     required this.controller,
     required this.menus,
-    this.menuStyle = const MenuStyle.base(),
+    this.menuStyle = const PopMenuStyle.base(),
   }) : super(key: key);
 
   @override
