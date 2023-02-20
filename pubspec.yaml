@@ -5,7 +5,7 @@ homepage: https://github.com/hrxiang/flutter_openim_widget.git
 repository: https://github.com/hrxiang/flutter_openim_widget.git
 
 environment:
-  sdk: ">=2.12.0 <3.0.0"
+  sdk: ">=2.17.0 <3.0.0"
   flutter: ">=1.20.0"
 
 dependencies:
@@ -24,6 +24,7 @@ dependencies:
   lottie: ^1.4.3
   permission_handler: ^10.1.0
   extended_text_field: ^11.0.0
+  extended_text: ^10.0.0
 #  extended_image: ^6.3.1
 #  focus_detector: ^2.0.1
   visibility_detector: ^0.3.3

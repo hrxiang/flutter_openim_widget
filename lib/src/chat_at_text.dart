@@ -1,3 +1,4 @@
+import 'package:extended_text/extended_text.dart';
 import 'package:extended_text_field/extended_text_field.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -74,6 +75,21 @@ class ChatAtText extends StatelessWidget {
         textScaleFactor: textScaleFactor,
         text: textSpan,
       ),
+      // child: GestureDetector(
+      //   onLongPress: () {},
+      //   child: SelectableText.rich(
+      //     textSpan,
+      //     enableInteractiveSelection: true,
+      //     onTap: () {},
+      //     onSelectionChanged: (selection, cause) {},
+      //     scrollPhysics: NeverScrollableScrollPhysics(),
+      //     showCursor: true,
+      //     style: Theme.of(context).textTheme.bodyText2,
+      //     toolbarOptions: ToolbarOptions(
+      //         copy: false, cut: false, paste: false, selectAll: false),
+      //     dragStartBehavior: DragStartBehavior.start,
+      //   ),
+      // ),
     );
   }
 

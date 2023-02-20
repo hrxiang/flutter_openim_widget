@@ -31,7 +31,7 @@ class ChatInputBoxView extends StatefulWidget {
     this.muteEndTime = 0,
     this.background,
     this.iconColor,
-    this.mutedIconColor = const Color(0xFFbdbdbd),
+    this.disabledColor = const Color(0xFFbdbdbd),
     this.isInBlacklist = false,
     this.speakIcon,
     this.emojiIcon,
@@ -40,6 +40,9 @@ class ChatInputBoxView extends StatefulWidget {
     this.buttonColor,
     this.buttonTextStyle,
     this.buttonRadius,
+    this.enabledEmojiButton = true,
+    this.enabledToolboxButton = true,
+    this.enabledVoiceButton = false,
   }) : super(key: key);
   final AtTextCallback? atCallback;
   final Map<String, String> allAtMap;
@@ -64,7 +67,7 @@ class ChatInputBoxView extends StatefulWidget {
   final bool isInBlacklist;
   final Color? background;
   final Color? iconColor;
-  final Color mutedIconColor;
+  final Color? disabledColor;
   final Color? buttonColor;
   final TextStyle? buttonTextStyle;
   final double? buttonRadius;
@@ -72,6 +75,9 @@ class ChatInputBoxView extends StatefulWidget {
   final Widget? keyboardIcon;
   final Widget? toolsIcon;
   final Widget? emojiIcon;
+  final bool enabledVoiceButton;
+  final bool enabledEmojiButton;
+  final bool enabledToolboxButton;
 
   @override
   _ChatInputBoxViewState createState() => _ChatInputBoxViewState();
@@ -364,11 +370,14 @@ class _ChatInputBoxViewState extends State<ChatInputBoxView>
   bool get _isUserMuted =>
       widget.muteEndTime * 1000 > DateTime.now().millisecondsSinceEpoch;
 
-  Color? get _color => _isMuted ? widget.mutedIconColor : widget.iconColor;
+  Color? get _color => _isMuted ? widget.disabledColor : widget.iconColor;
 
   Widget _speakBtn() => _buildBtn(
-        icon: widget.speakIcon ?? ImageUtil.speak(color: _color),
-        onTap: _isMuted
+        icon: widget.speakIcon ??
+            ImageUtil.speak(
+              color: widget.enabledVoiceButton ? _color : widget.disabledColor,
+            ),
+        onTap: _isMuted || !widget.enabledVoiceButton
             ? null
             : () {
                 setState(() {
@@ -411,9 +420,13 @@ class _ChatInputBoxViewState extends State<ChatInputBoxView>
       );
 
   Widget _toolsBtn() => _buildBtn(
-        icon: widget.toolsIcon ?? ImageUtil.tools(color: _color),
+        icon: widget.toolsIcon ??
+            ImageUtil.tools(
+              color:
+                  widget.enabledToolboxButton ? _color : widget.disabledColor,
+            ),
         padding: toolsButtonPadding,
-        onTap: _isMuted
+        onTap: _isMuted || !widget.enabledToolboxButton
             ? null
             : () {
                 setState(() {
@@ -432,8 +445,11 @@ class _ChatInputBoxViewState extends State<ChatInputBoxView>
 
   Widget _emojiBtn() => _buildBtn(
         padding: emojiButtonPadding,
-        icon: widget.emojiIcon ?? ImageUtil.emoji(color: _color),
-        onTap: _isMuted
+        icon: widget.emojiIcon ??
+            ImageUtil.emoji(
+              color: widget.enabledEmojiButton ? _color : widget.disabledColor,
+            ),
+        onTap: _isMuted || !widget.enabledEmojiButton
             ? null
             : () {
                 setState(() {

@@ -145,6 +145,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.4.0"
+  extended_text:
+    dependency: "direct main"
+    description:
+      name: extended_text
+      sha256: c0f92379321193aaf29d7d0a29ea61886a0dcf30ea455b03fb793ab518cd799a
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "10.0.0"
   extended_text_field:
     dependency: "direct main"
     description:
