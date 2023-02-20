@@ -42,9 +42,9 @@ dependencies:
   flutter_keyboard_visibility: ^5.3.0
   emoji_picker_flutter: ^1.4.0
   should_rebuild: ^1.0.1
-#  flutter_openim_sdk: ^2.3.5+1
-  flutter_openim_sdk:
-    path: ../flutter_openim_sdk
+  flutter_openim_sdk: 2.3.5+2
+#  flutter_openim_sdk:
+#    path: ../flutter_openim_sdk
 #    git:
 #      url: https://github.com/OpenIMSDK/Open-IM-SDK-Flutter.git
 
