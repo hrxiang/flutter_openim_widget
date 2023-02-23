@@ -25,6 +25,7 @@ dependencies:
   permission_handler: ^10.1.0
   extended_text_field: ^11.0.0
   extended_text: ^10.0.0
+  extended_image: ^7.0.2
 #  extended_image: ^6.3.1
 #  focus_detector: ^2.0.1
   visibility_detector: ^0.3.3
@@ -44,10 +45,10 @@ dependencies:
   should_rebuild: ^1.0.1
 #  flutter_openim_sdk: 2.3.5+2
   flutter_openim_sdk:
-#    path: ../flutter_openim_sdk
-    git:
-      url: https://github.com/OpenIMSDK/Open-IM-SDK-Flutter.git
-      ref: v2.3.5+2
+    path: ../flutter_openim_sdk
+#    git:
+#      url: https://github.com/OpenIMSDK/Open-IM-SDK-Flutter.git
+#      ref: v2.3.5+2
 
 
 

@@ -75,21 +75,6 @@ class ChatAtText extends StatelessWidget {
         textScaleFactor: textScaleFactor,
         text: textSpan,
       ),
-      // child: GestureDetector(
-      //   onLongPress: () {},
-      //   child: SelectableText.rich(
-      //     textSpan,
-      //     enableInteractiveSelection: true,
-      //     onTap: () {},
-      //     onSelectionChanged: (selection, cause) {},
-      //     scrollPhysics: NeverScrollableScrollPhysics(),
-      //     showCursor: true,
-      //     style: Theme.of(context).textTheme.bodyText2,
-      //     toolbarOptions: ToolbarOptions(
-      //         copy: false, cut: false, paste: false, selectAll: false),
-      //     dragStartBehavior: DragStartBehavior.start,
-      //   ),
-      // ),
     );
   }
 
