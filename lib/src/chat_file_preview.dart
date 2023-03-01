@@ -81,9 +81,7 @@ class _ChatFilePreviewState extends State<ChatFilePreview> {
                 width: 56.w,
                 height: 56.h,
               ),
-              SizedBox(
-                height: 40.h,
-              ),
+              32.verticalSpace,
               Text(
                 widget.name,
                 textAlign: TextAlign.center,
@@ -92,9 +90,7 @@ class _ChatFilePreviewState extends State<ChatFilePreview> {
                   color: Color(0xFF333333),
                 ),
               ),
-              SizedBox(
-                height: 34.h,
-              ),
+              6.verticalSpace,
               Text(
                 sprintf(
                   UILocalizations.fileSize,
@@ -116,7 +112,8 @@ class _ChatFilePreviewState extends State<ChatFilePreview> {
                           behavior: HitTestBehavior.translucent,
                           child: Container(
                             width: 50.w,
-                            height: 50.h,
+                            height: 50.w,
+                            alignment: Alignment.center,
                             child: Stack(
                               alignment: Alignment.center,
                               children: [
@@ -130,8 +127,8 @@ class _ChatFilePreviewState extends State<ChatFilePreview> {
                                   _start
                                       ? 'ic_download_continue'
                                       : 'ic_download_stop',
-                                  width: 23.w,
-                                  height: 23.h,
+                                  width: 18.h,
+                                  height: 18.h,
                                 )
                               ],
                             ),
