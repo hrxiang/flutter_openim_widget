@@ -358,7 +358,7 @@ class ImageUtil {
         width: width,
         height: height,
         fit: fit,
-        memCacheWidth: _calculateCacheWidth(width),
+        memCacheWidth: cacheWidth ?? _calculateCacheWidth(width),
         // memCacheHeight: _calculateCacheHeight(height),
         // placeholder: placeholder,
         progressIndicatorBuilder: (context, url, progress) => Container(

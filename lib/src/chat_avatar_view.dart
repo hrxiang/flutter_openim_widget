@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_openim_widget/flutter_openim_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -62,6 +64,16 @@ class ChatAvatarView extends StatelessWidget {
 
   bool _isIndexAvatar() => indexAvatarList.contains(url);
 
+  static int? _calculateCacheWidth(double? width) {
+    final maxW = 1.sw * .3;
+    return (width == null ? maxW : (width < maxW ? width : maxW)).toInt();
+  }
+
+  double get _minSize {
+    final maxW = 1.sw * .3;
+    return min(maxW, _size);
+  }
+
   @override
   Widget build(BuildContext context) {
     var child = InkWell(
@@ -116,19 +128,19 @@ class ChatAvatarView extends StatelessWidget {
   Widget _networkImage() => lowMemory
       ? ImageUtil.lowMemoryNetworkImage(
           url: url!,
-          width: _size,
-          height: _size,
+          width: _minSize,
+          height: _minSize,
           fit: BoxFit.cover,
           loadProgress: false,
-          cacheWidth: (1.sw * .3).toInt(),
+          cacheWidth: _calculateCacheWidth(_size),
         )
       : ImageUtil.networkImage(
           url: url!,
-          width: _size,
-          height: _size,
+          width: _minSize,
+          height: _minSize,
           fit: BoxFit.cover,
           loadProgress: false,
-          cacheWidth: (1.sw * .3).toInt(),
+          cacheWidth: _calculateCacheWidth(_size),
         );
 
   Widget _nineGridAvatar() => Container(
