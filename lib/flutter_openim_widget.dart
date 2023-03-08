@@ -43,6 +43,7 @@ export 'src/custom_chawie_controls.dart';
 export 'src/custom_focus_detector.dart';
 export 'src/custom_pop_up_menu.dart';
 export 'src/favorite_emoji_listview.dart';
+export 'src/overlay_widget.dart';
 export 'src/pop_button.dart';
 export 'src/timing_view.dart';
 export 'src/title_bar.dart';

@@ -82,13 +82,13 @@ class CustomChatListViewController<E> {
 /// [position] 真个界面上的position
 /// [data] 数据
 typedef CustomChatListViewItemBuilder<T> = Widget Function(
-    BuildContext context,
-    int index,
-    int position,
-    T data,
-    );
+  BuildContext context,
+  int index,
+  int position,
+  T data,
+);
 
-/// demo: https://github.com/hrxiang/chat_listview
+/// 使用实例: https://github.com/hrxiang/chat_listview
 class CustomChatListView extends StatefulWidget {
   const CustomChatListView({
     Key? key,
@@ -160,11 +160,11 @@ class _ChatListViewState extends State<CustomChatListView> {
 
   bool get _isBottom =>
       widget.scrollController!.offset ==
-          widget.scrollController!.position.maxScrollExtent;
+      widget.scrollController!.position.maxScrollExtent;
 
   bool get _isTop =>
       widget.scrollController!.offset ==
-          widget.scrollController!.position.minScrollExtent;
+      widget.scrollController!.position.minScrollExtent;
 
   void _onScrollToBottomLoadMore() {
     widget.onScrollToBottomLoad?.call().then((hasMore) {
@@ -185,12 +185,12 @@ class _ChatListViewState extends State<CustomChatListView> {
   }
 
   Widget _buildLoadMoreView() => Container(
-    alignment: Alignment.center,
-    height: 44,
-    child: CupertinoActivityIndicator(
-      color: widget.indicatorColor ?? Colors.blueAccent,
-    ),
-  );
+        alignment: Alignment.center,
+        height: 44,
+        child: CupertinoActivityIndicator(
+          color: widget.indicatorColor ?? Colors.blueAccent,
+        ),
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -205,7 +205,7 @@ class _ChatListViewState extends State<CustomChatListView> {
           SliverToBoxAdapter(child: _buildLoadMoreView()),
         SliverList(
           delegate: SliverChildBuilderDelegate(
-                (_, index) {
+            (_, index) {
               return widget.itemBuilder(
                 context,
                 index,
@@ -219,7 +219,7 @@ class _ChatListViewState extends State<CustomChatListView> {
         SliverList(
           key: centerKey,
           delegate: SliverChildBuilderDelegate(
-                (_, index) {
+            (_, index) {
               return widget.itemBuilder(
                 context,
                 index,
