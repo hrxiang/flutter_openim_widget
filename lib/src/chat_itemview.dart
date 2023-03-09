@@ -13,6 +13,11 @@ class MsgStreamEv<T> {
   final T value;
 
   MsgStreamEv({required this.msgId, required this.value});
+
+  @override
+  String toString() {
+    return 'MsgStreamEv{msgId: $msgId, value: $value}';
+  }
 }
 
 typedef CustomItemBuilder = Widget? Function(
