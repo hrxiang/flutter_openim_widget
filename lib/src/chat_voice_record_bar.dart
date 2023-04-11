@@ -11,12 +11,14 @@ class ChatVoiceRecordBar extends StatefulWidget {
     required this.onLongPressMoveUpdate,
     this.speakBarColor,
     this.speakTextStyle,
+    this.resetStatusStream,
   }) : super(key: key);
   final Function(LongPressStartDetails details) onLongPressStart;
   final Function(LongPressEndDetails details) onLongPressEnd;
   final Function(LongPressMoveUpdateDetails details) onLongPressMoveUpdate;
   final Color? speakBarColor;
   final TextStyle? speakTextStyle;
+  final Stream<bool>? resetStatusStream;
 
   @override
   _ChatVoiceRecordBarState createState() => _ChatVoiceRecordBarState();
@@ -24,6 +26,26 @@ class ChatVoiceRecordBar extends StatefulWidget {
 
 class _ChatVoiceRecordBarState extends State<ChatVoiceRecordBar> {
   bool _pressing = false;
+
+  @override
+  void initState() {
+    widget.resetStatusStream?.listen(_reset);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  _reset(rest) {
+    if (!mounted) return;
+    if (rest) {
+      setState(() {
+        _pressing = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
