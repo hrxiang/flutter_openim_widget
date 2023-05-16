@@ -1,4 +1,3 @@
-## flutter_openim_widget
 
 #### The public ui library is used with the openim demo, and you can directly use it for secondary development.
 
